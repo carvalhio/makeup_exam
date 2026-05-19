@@ -1,0 +1,36 @@
+<%= form_with(model: student) do |form| %>
+  <% if student.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(student.errors.count, "error") %> prohibited this student from being saved:</h2>
+
+      <ul>
+        <% student.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+  
+    <%= form.label :school_class_id, "Turma", style: "display: block" %>
+
+    <%= form.collection_select(
+          :school_class_id,
+          SchoolClass.all.order(:grade, :identifier),
+          :id,
+          ->(school_class) {
+            "#{school_class.grade} #{school_class.identifier} - #{school_class.shift}"
+          }
+        ) %>
+   </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

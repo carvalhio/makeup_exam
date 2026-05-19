@@ -1,0 +1,11 @@
+<div id="<%= dom_id student %>">
+  <p>
+    <strong>Nome:</strong>
+    <%= student.name %>
+  </p>
+
+  <p>
+    <strong>Turma:</strong>
+    <%= "#{student.school_class.grade} #{student.school_class.identifier} - #{student.school_class.shift}" %>
+  </p>
+</div>

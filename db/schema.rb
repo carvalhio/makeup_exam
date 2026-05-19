@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_18_201848) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_19_135545) do
   create_table "exam_request_subjects", force: :cascade do |t|
     t.string "exam_request_references"
     t.integer "subject_id", null: false
