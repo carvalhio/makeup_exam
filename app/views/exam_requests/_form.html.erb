@@ -24,7 +24,20 @@
         ) %>
   </div>
 
-  <div>
+<div>
+  <%= form.label :exam_period_id, "Período", style: "display: block" %>
+
+  <%= form.collection_select(
+        :exam_period_id,
+        ExamPeriod.all,
+        :id,
+        ->(period) {
+          "#{period.stage} - #{period.exam_type}"
+        }
+      ) %>
+</div>
+
+<br>
   <strong>Disciplinas</strong>
 
   <% Subject.all.order(:name).each do |subject| %>

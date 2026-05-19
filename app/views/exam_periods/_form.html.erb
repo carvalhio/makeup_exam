@@ -1,0 +1,27 @@
+<%= form_with(model: exam_period) do |form| %>
+  <% if exam_period.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(exam_period.errors.count, "error") %> prohibited this exam_period from being saved:</h2>
+
+      <ul>
+        <% exam_period.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :stage, style: "display: block" %>
+    <%= form.text_field :stage %>
+  </div>
+
+  <div>
+    <%= form.label :exam_type, style: "display: block" %>
+    <%= form.text_field :exam_type %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -13,6 +13,7 @@ class ExamRequestsController < ApplicationController
   # GET /exam_requests/new
   def new
     @exam_request = ExamRequest.new
+    
   end
 
   # GET /exam_requests/1/edit
@@ -22,6 +23,7 @@ class ExamRequestsController < ApplicationController
   # POST /exam_requests or /exam_requests.json
   def create
     @exam_request = ExamRequest.new(exam_request_params)
+   
 
     respond_to do |format|
       if @exam_request.save
@@ -65,6 +67,12 @@ class ExamRequestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def exam_request_params
-      params.require(:exam_request).permit(:student_id, :exam_date, :status, :reason, :reason_description, subject_ids:[])
-    end
+  params.require(:exam_request).permit(
+    :student_id,
+    :exam_period_id,
+    :reason,
+    :reason_description,
+    subject_ids: []
+  )
+end
 end

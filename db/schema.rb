@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_19_165830) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_19_183054) do
+  create_table "exam_periods", force: :cascade do |t|
+    t.string "stage"
+    t.string "exam_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active"
+  end
+
   create_table "exam_request_subjects", force: :cascade do |t|
     t.integer "exam_request_id", null: false
     t.integer "subject_id", null: false
@@ -26,6 +34,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_19_165830) do
     t.datetime "updated_at", null: false
     t.string "reason"
     t.text "reason_description"
+    t.integer "exam_period_id"
+    t.index ["exam_period_id"], name: "index_exam_requests_on_exam_period_id"
     t.index ["student_id"], name: "index_exam_requests_on_student_id"
   end
 
@@ -54,6 +64,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_19_165830) do
 
   add_foreign_key "exam_request_subjects", "exam_requests"
   add_foreign_key "exam_request_subjects", "subjects"
+  add_foreign_key "exam_requests", "exam_periods"
   add_foreign_key "exam_requests", "students"
   add_foreign_key "students", "school_classes"
 end

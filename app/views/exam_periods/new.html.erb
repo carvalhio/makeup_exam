@@ -1,0 +1,11 @@
+<% content_for :title, "New exam period" %>
+
+<h1>New exam period</h1>
+
+<%= render "form", exam_period: @exam_period %>
+
+<br>
+
+<div>
+  <%= link_to "Back to exam periods", exam_periods_path %>
+</div>

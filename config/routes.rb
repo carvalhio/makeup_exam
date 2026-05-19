@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :exam_periods
   root "home#index"
   get "reports/index"
   resources :exam_requests

@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Exam periods" %>
+
+<h1>Exam periods</h1>
+
+<div id="exam_periods">
+  <% @exam_periods.each do |exam_period| %>
+    <%= render exam_period %>
+    <p>
+      <%= link_to "Show this exam period", exam_period %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New exam period", new_exam_period_path %>
