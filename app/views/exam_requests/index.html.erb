@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Exam requests" %>
+
+<h1>Exam requests</h1>
+
+<div id="exam_requests">
+  <% @exam_requests.each do |exam_request| %>
+    <%= render exam_request %>
+    <p>
+      <%= link_to "Show this exam request", exam_request %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New exam request", new_exam_request_path %>

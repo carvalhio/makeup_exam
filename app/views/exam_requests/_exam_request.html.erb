@@ -1,0 +1,41 @@
+<div id="<%= dom_id exam_request %>">
+  <p>
+    <strong>Student:</strong>
+    <%= exam_request.student_id %>
+  </p>
+
+  <div id="<%= dom_id exam_request %>">
+
+  <p>
+    <strong>Aluno:</strong>
+    <%= exam_request.student.name %>
+  </p>
+
+  <p>
+    <strong>Turma:</strong>
+    <%= "#{exam_request.student.school_class.grade} #{exam_request.student.school_class.identifier} - #{exam_request.student.school_class.shift}" %>
+  </p>
+
+  <p>
+    <strong>Motivo:</strong>
+    <%= exam_request.reason %>
+  </p>
+
+  <p>
+    <strong>Descrição:</strong>
+    <%= exam_request.reason_description %>
+  </p>
+
+  <p>
+    <strong>Disciplinas:</strong>
+
+    <ul>
+      <% exam_request.subjects.each do |subject| %>
+        <li><%= subject.name %></li>
+      <% end %>
+    </ul>
+  </p>
+
+</div>
+
+</div>

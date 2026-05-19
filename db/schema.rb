@@ -10,21 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_19_135545) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_19_165830) do
   create_table "exam_request_subjects", force: :cascade do |t|
-    t.string "exam_request_references"
+    t.integer "exam_request_id", null: false
     t.integer "subject_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["exam_request_id"], name: "index_exam_request_subjects_on_exam_request_id"
     t.index ["subject_id"], name: "index_exam_request_subjects_on_subject_id"
   end
 
   create_table "exam_requests", force: :cascade do |t|
     t.integer "student_id", null: false
-    t.date "exam_date"
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "reason"
+    t.text "reason_description"
     t.index ["student_id"], name: "index_exam_requests_on_student_id"
   end
 
@@ -51,6 +52,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_19_135545) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "exam_request_subjects", "exam_requests"
   add_foreign_key "exam_request_subjects", "subjects"
   add_foreign_key "exam_requests", "students"
   add_foreign_key "students", "school_classes"

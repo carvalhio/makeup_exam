@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :exam_requests
   resources :students
   resources :school_classes
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
