@@ -1,0 +1,24 @@
+<h1>Relatório de Impressão</h1>
+
+<% @grouped_data.each do |school_class, subjects| %>
+
+  <hr>
+
+  <h2><%= school_class %></h2>
+
+  <table border="1" cellpadding="10">
+    <tr>
+      <th>Disciplina</th>
+      <th>Quantidade</th>
+    </tr>
+
+    <% subjects.each do |subject, quantity| %>
+      <tr>
+        <td><%= subject %></td>
+        <td><%= quantity %></td>
+      </tr>
+    <% end %>
+
+  </table>
+
+<% end %>
