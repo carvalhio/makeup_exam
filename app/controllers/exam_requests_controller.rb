@@ -3,7 +3,11 @@ class ExamRequestsController < ApplicationController
 
   # GET /exam_requests or /exam_requests.json
   def index
-    @exam_requests = ExamRequest.all
+    current_period = ExamPeriod.current
+
+    @exam_requests = ExamRequest.where(
+      exam_period: current_period
+    )
   end
 
   # GET /exam_requests/1 or /exam_requests/1.json
@@ -23,7 +27,7 @@ class ExamRequestsController < ApplicationController
   # POST /exam_requests or /exam_requests.json
   def create
     @exam_request = ExamRequest.new(exam_request_params)
-   
+    @exam_request.exam_period = ExamPeriod.current
 
     respond_to do |format|
       if @exam_request.save
@@ -58,6 +62,20 @@ class ExamRequestsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def stage
+  @stage = params[:stage]
+
+  @partial_period = ExamPeriod.find_by(
+    stage: @stage,
+    exam_type: "Parcial"
+  )
+
+  @global_period = ExamPeriod.find_by(
+    stage: @stage,
+    exam_type: "Global"
+  )
+end
 
   private
     # Use callbacks to share common setup or constraints between actions.

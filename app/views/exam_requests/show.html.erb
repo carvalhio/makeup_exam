@@ -18,20 +18,17 @@
         <td><%= @exam_request.student.name %></td>
       </tr>
 
-      <% if @exam_request.subject.present? %>
-        <tr>
-          <th>Disciplina</th>
-          <td><%= @exam_request.subjects.map(&:name).join(", ") %></td>
+      <% if @exam_request.subjects.any? %>
+    <tr>
+    <th>Disciplina</th>
+    <td><%= @exam_request.subjects.map(&:name).join(", ") %></td>
+  </tr>
+<% end %>
 
-        </tr>
-      <% end %>
-
-      <% if @exam_request.exam_period.present? %>
-        <tr>
-          <th>Período</th>
-          <td><%= exam_request.exam_period&.stage || "Não definido" %></td>
-        </tr>
-      <% end %>
+      <tr>
+       <th>Período</th>
+           <td><%= @exam_request.exam_period&.stage || "Não definido" %></td>
+       </tr>
 
       <tr>
         <th>Solicitado em</th>

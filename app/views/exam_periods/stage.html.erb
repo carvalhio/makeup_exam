@@ -1,0 +1,47 @@
+<h1><%= @stage %></h1>
+
+<hr>
+
+<h2>Parcial</h2>
+
+<% if @partial_period %>
+
+  <p>
+    <%= link_to "Nova Solicitação",
+      new_exam_request_path(exam_period_id: @partial_period.id) %>
+  </p>
+
+  <p>
+    <%= link_to "Ver Solicitações",
+      exam_requests_path(exam_period_id: @partial_period.id) %>
+  </p>
+
+  <p>
+    <%= link_to "Relatório",
+      reports_path(exam_period_id: @partial_period.id) %>
+  </p>
+
+<% end %>
+
+<hr>
+
+<h2>Global</h2>
+
+<% if @global_period %>
+
+  <p>
+    <%= link_to "Nova Solicitação",
+      new_exam_request_path(exam_period_id: @global_period.id) %>
+  </p>
+
+  <p>
+    <%= link_to "Ver Solicitações",
+      exam_requests_path(exam_period_id: @global_period.id) %>
+  </p>
+
+  <p>
+    <%= link_to "Relatório",
+      reports_path(exam_period_id: @global_period.id) %>
+  </p>
+
+<% end %>

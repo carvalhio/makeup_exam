@@ -65,6 +65,6 @@ class ExamPeriodsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def exam_period_params
-      params.require(:exam_period).permit(:stage, :exam_type)
+      params.require(:exam_period).permit(:stage, :exam_type, :active)
     end
 end
