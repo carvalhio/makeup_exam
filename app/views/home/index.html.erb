@@ -1,29 +1,48 @@
-<h1>Sistema de 2ª Chamada</h1>
+<div class="dashboard-container">
 
-<hr>
+  <header class="dashboard-header">
+    <h1>Sistema de 2ª Chamada</h1>
+    <p>Gerenciamento de solicitações, alunos e relatórios</p>
+  </header>
 
-<h2>Cadastros</h2>
+  <section class="dashboard-section">
+    <h2>Cadastros</h2>
 
-<ul>
-  <li>
-    <%= link_to "Turmas", school_classes_path %>
-  </li>
+    <div class="cards-grid">
+      
+      <%= link_to exam_requests_path, class: "dashboard-card" do %>
+        <div class="card-icon">📝</div>
+        <h3>Solicitações</h3>
+        <p>Controle das 2ª chamadas</p>
+      <% end %>
 
-  <li>
-    <%= link_to "Alunos", students_path %>
-  </li>
+      <%= link_to school_classes_path, class: "dashboard-card" do %>
+        <div class="card-icon">🏫</div>
+        <h3>Turmas</h3>
+        <p>Gerencie as turmas cadastradas</p>
+      <% end %>
 
-  <li>
-    <%= link_to "Solicitações de 2ª Chamada", exam_requests_path %>
-  </li>
-</ul>
+      <%= link_to students_path, class: "dashboard-card" do %>
+        <div class="card-icon">👨‍🎓</div>
+        <h3>Alunos</h3>
+        <p>Cadastro e consulta de alunos</p>
+      <% end %>
+      
+    </div>
+  </section>
 
-<hr>
+  <section class="dashboard-section">
+    <h2>Relatórios</h2>
 
-<h2>Relatórios</h2>
+    <div class="cards-grid">
 
-<ul>
-  <li>
-    <%= link_to "Relatório de Impressão", reports_path %>
-  </li>
-</ul>
+      <%= link_to reports_path, class: "dashboard-card" do %>
+        <div class="card-icon">📄</div>
+        <h3>Relatório de Impressão</h3>
+        <p>Visualize e imprima relatórios</p>
+      <% end %>
+
+    </div>
+  </section>
+
+</div>

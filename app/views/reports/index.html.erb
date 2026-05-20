@@ -1,24 +1,42 @@
-<h1>Relatório de Impressão</h1>
+<div class="reports-page">
 
-<% @grouped_data.each do |school_class, subjects| %>
+  <div class="report-header">
+    <h1>Relatório de Impressão</h1>
+    <p>Quantidade de provas por turma e disciplina</p>
+  </div>
 
-  <hr>
+  <% @grouped_data.each do |school_class, subjects| %>
 
-  <h2><%= school_class %></h2>
+    <section class="report-section">
 
-  <table border="1" cellpadding="10">
-    <tr>
-      <th>Disciplina</th>
-      <th>Quantidade</th>
-    </tr>
+      <h2><%= school_class %></h2>
 
-    <% subjects.each do |subject, quantity| %>
-      <tr>
-        <td><%= subject %></td>
-        <td><%= quantity %></td>
-      </tr>
-    <% end %>
+      <table class="report-table">
 
-  </table>
+        <thead>
+          <tr>
+            <th>Comp. Curricular</th>
+            <th>Quantidade</th>
+          </tr>
+        </thead>
 
-<% end %>
+        <tbody>
+          <% subjects.each do |subject, quantity| %>
+            <tr>
+              <td><%= subject %></td>
+              <td class="quantity"><%= quantity %></td>
+            </tr>
+          <% end %>
+        </tbody>
+
+      </table>
+
+    </section>
+
+
+  <% end %>
+<%= link_to "🏠 Início", root_path, class: "btn btn-home" %>
+</div>
+<button onclick="window.print()">
+  Imprimir
+</button>

@@ -1,16 +1,81 @@
-<p style="color: green"><%= notice %></p>
+<div class="exam-requests-page">
 
-<% content_for :title, "Exam requests" %>
-
-<h1>Exam requests</h1>
-
-<div id="exam_requests">
-  <% @exam_requests.each do |exam_request| %>
-    <%= render exam_request %>
-    <p>
-      <%= link_to "Show this exam request", exam_request %>
-    </p>
+  <% if notice.present? %>
+    <div class="notice">
+      <%= notice %>
+    </div>
   <% end %>
-</div>
 
-<%= link_to "New exam request", new_exam_request_path %>
+  <% content_for :title, "Exam requests" %>
+
+  <div class="page-header">
+    <h1>Solicitações de 2ª Chamada</h1>
+  </div>
+
+  <table class="requests-table">
+
+    <thead>
+      <tr>
+        <th>Aluno</th>
+        <th>Disciplina</th>
+        <th>Período</th>
+        <th>Solicitado em</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <% @exam_requests.each do |exam_request| %>
+
+        <tr>
+
+          <td>
+            <%= exam_request.student.name %>
+          </td>
+
+          <td>
+            <%= exam_request.subjects.map(&:name).join(", ") %>
+          </td>
+
+          <td>
+         <%= exam_request.exam_period&.stage || "Não definido" %>
+          </td>
+
+          <td>
+            <%= l(exam_request.created_at, format: :short) %>
+          </td>
+
+          <td class="actions-column">
+
+            <%= link_to "Ver",
+                exam_request,
+                class: "table-btn btn-view" %>
+
+            <%= link_to "Editar",
+                edit_exam_request_path(exam_request),
+                class: "table-btn btn-edit" %>
+
+          </td>
+
+        </tr>
+
+      <% end %>
+
+    </tbody>
+
+  </table>
+
+  <div class="bottom-actions">
+
+    <%= link_to "➕ Nova solicitação",
+        new_exam_request_path,
+        class: "btn btn-new" %>
+
+    <%= link_to "🏠 Início",
+        root_path,
+        class: "btn btn-home" %>
+
+  </div>
+
+</div>
