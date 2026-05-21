@@ -1,23 +1,129 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Makeup Exam" %></title>
+    <title>MakeupExam</title>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
-
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= yield %>
+
+    <header class="main-header">
+
+      <!-- LOGO -->
+      <div class="logo-area">
+        <%= link_to "Sistema de 2ª Chamada",
+            root_path,
+            class: "logo-link" %>
+      </div>
+
+      <!-- NAV -->
+      <nav class="main-nav">
+
+        <!-- DROPDOWN PRINCIPAL -->
+        <div class="dropdown">
+
+          <button class="dropdown-btn">
+            2ª Chamada ▼
+          </button>
+
+          <div class="dropdown-content">
+
+            <!-- 1ª ETAPA -->
+            <div class="submenu">
+
+              <div class="submenu-title">
+                1ª Etapa ▶
+              </div>
+
+              <div class="submenu-content">
+
+                <%= link_to "Parcial", "#" %>
+                <%= link_to "Global", "#" %>
+
+              </div>
+
+            </div>
+
+            <!-- 2ª ETAPA -->
+            <div class="submenu">
+
+              <div class="submenu-title">
+                2ª Etapa ▶
+              </div>
+
+              <div class="submenu-content">
+
+                <%= link_to "Parcial", "#" %>
+                <%= link_to "Global", "#" %>
+
+              </div>
+
+            </div>
+
+            <!-- 3ª ETAPA -->
+            <div class="submenu">
+
+              <div class="submenu-title">
+                3ª Etapa ▶
+              </div>
+
+              <div class="submenu-content">
+
+                <%= link_to "Parcial", "#" %>
+                <%= link_to "Global", "#" %>
+
+              </div>
+
+            </div>
+
+            <!-- 4ª ETAPA -->
+            <div class="submenu">
+
+              <div class="submenu-title">
+                4ª Etapa ▶
+              </div>
+
+              <div class="submenu-content">
+
+                <%= link_to "Parcial", "#" %>
+                <%= link_to "Global", "#" %>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- LINKS -->
+        <%= link_to "Turmas",
+            school_classes_path,
+            class: "nav-link" %>
+
+        <%= link_to "Alunos",
+            students_path,
+            class: "nav-link" %>
+
+        <%= link_to "Relatórios",
+            reports_path,
+            class: "nav-link" %>
+
+      </nav>
+
+    </header>
+
+    <!-- CONTEÚDO -->
+    <main class="main-content">
+      <%= yield %>
+    </main>
+
   </body>
 </html>

@@ -1,0 +1,189 @@
+/* =========================================
+   HEADER
+========================================= */
+
+.main-header {
+  background: #1f2937;
+  color: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 30px;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  position: relative;
+  z-index: 1000;
+}
+
+/* =========================================
+   LOGO
+========================================= */
+
+.logo-link {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* =========================================
+   NAV
+========================================= */
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* =========================================
+   NAV LINKS
+========================================= */
+
+.nav-link,
+.dropdown-btn {
+  color: white;
+  text-decoration: none;
+
+  background: transparent;
+  border: none;
+
+  cursor: pointer;
+
+  padding: 8px 12px;
+  border-radius: 6px;
+
+  font-size: 15px;
+
+  transition: 0.2s;
+}
+
+.nav-link:hover,
+.dropdown-btn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* =========================================
+   DROPDOWN
+========================================= */
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+
+  position: absolute;
+
+  top: 42px;
+  left: 0;
+
+  background: white;
+
+  min-width: 220px;
+
+  border-radius: 8px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+  overflow: visible;
+
+  z-index: 999;
+}
+
+/* MOSTRAR DROPDOWN */
+.dropdown:hover > .dropdown-content {
+  display: block;
+}
+
+/* =========================================
+   SUBMENU
+========================================= */
+
+.submenu {
+  position: relative;
+}
+
+.submenu-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 15px;
+
+  color: #111827;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  user-select: none;
+}
+
+/* HOVER SUBMENU */
+.submenu-title:hover {
+  background: #f3f4f6;
+}
+
+/* =========================================
+   SUBMENU CONTENT
+========================================= */
+
+.submenu-content {
+  display: none;
+
+  position: absolute;
+
+  top: 0;
+  left: calc(100% - 2px);
+
+  background: white;
+
+  min-width: 180px;
+
+  border-radius: 8px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+  overflow: visible;
+
+  z-index: 1000;
+}
+
+/* MOSTRAR SUBMENU */
+.submenu:hover > .submenu-content {
+  display: block;
+}
+
+/* =========================================
+   LINKS MENUS
+========================================= */
+
+.dropdown-content a,
+.submenu-content a {
+  display: block;
+
+  padding: 12px 15px;
+
+  color: #111827;
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+.dropdown-content a:hover,
+.submenu-content a:hover {
+  background: #f3f4f6;
+}
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
+.main-content {
+  padding: 20px 30px;
+}
