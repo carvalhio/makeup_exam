@@ -9,4 +9,8 @@ class SchoolClass < ApplicationRecord
     scope: [:grade, :shift],
     message: "já existe para essa série e turno"
   }
+
+  def full_name
+    "#{grade} #{identifier} - #{shift}"
+  end
 end

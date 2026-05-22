@@ -1,16 +1,73 @@
-<p style="color: green"><%= notice %></p>
+<div class="school-classes-page">
 
-<% content_for :title, "School classes" %>
-
-<h1>School classes</h1>
-
-<div id="school_classes">
-  <% @school_classes.each do |school_class| %>
-    <%= render school_class %>
-    <p>
-      <%= link_to "Show this school class", school_class %>
-    </p>
+  <% if notice.present? %>
+    <div class="notice">
+      <%= notice %>
+    </div>
   <% end %>
-</div>
 
-<%= link_to "New school class", new_school_class_path %>
+  <% content_for :title, "Turmas" %>
+
+  <div class="page-header">
+    <h1>Turmas</h1>
+  </div>
+
+  <table class="school-classes-table">
+
+    <thead>
+
+      <tr>
+        <th>ID</th>
+        <th>Turma</th>
+        <th>Ações</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <% @school_classes.each do |school_class| %>
+
+        <tr>
+
+          <td>
+            <%= school_class.id %>
+          </td>
+
+          <td>
+           <%= school_class.full_name %>
+          </td>
+
+          <td class="actions-column">
+
+            <%= link_to "Ver",
+                school_class,
+                class: "table-btn btn-view" %>
+
+            <%= link_to "Editar",
+                edit_school_class_path(school_class),
+                class: "table-btn btn-edit" %>
+
+          </td>
+
+        </tr>
+
+      <% end %>
+
+    </tbody>
+
+  </table>
+
+  <div class="bottom-actions">
+
+    <%= link_to "➕ Nova turma",
+        new_school_class_path,
+        class: "btn btn-new" %>
+
+    <%= link_to "🏠 Início",
+        root_path,
+        class: "btn btn-home" %>
+
+  </div>
+
+</div>
