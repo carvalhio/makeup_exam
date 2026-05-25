@@ -12,8 +12,8 @@
   </p>
 
   <p>
-    <%= link_to "Ver Solicitações",
-      exam_requests_path(exam_period_id: @partial_period.id) %>
+    <%= link_to "Abrir",
+    exam_period_path(@partial_period) %>
   </p>
 
   <p>
@@ -35,8 +35,8 @@
   </p>
 
   <p>
-    <%= link_to "Ver Solicitações",
-      exam_requests_path(exam_period_id: @global_period.id) %>
+    <%= link_to "Abrir",
+    exam_period_path(@global_period) %>
   </p>
 
   <p>

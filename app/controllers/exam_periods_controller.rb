@@ -8,6 +8,13 @@ class ExamPeriodsController < ApplicationController
 
   # GET /exam_periods/1 or /exam_periods/1.json
   def show
+    @exam_period = ExamPeriod.find(params[:id])
+    @exam_requests = ExamRequest.includes(
+      :student,
+      :subjects
+      ).where(
+      exam_period: @exam_period
+      )
   end
 
   # GET /exam_periods/new

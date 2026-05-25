@@ -18,7 +18,7 @@
 
       <!-- LOGO -->
       <div class="logo-area">
-        <%= link_to "Sistema de 2ª Chamada",
+        <%= link_to "carvalhio",
             root_path,
             class: "logo-link" %>
       </div>
@@ -29,75 +29,51 @@
         <!-- DROPDOWN PRINCIPAL -->
         <div class="dropdown">
 
-          <button class="dropdown-btn">
+          <button class="dropdown-btn"
+                  id="second-call-btn">
+
             2ª Chamada ▼
+
           </button>
 
-          <div class="dropdown-content">
+          <div class="dropdown-content"
+               id="second-call-menu">
 
-            <!-- 1ª ETAPA -->
-            <div class="submenu">
+            <% ["1ª Etapa", "2ª Etapa", "3ª Etapa", "4ª Etapa"].each do |stage| %>
 
-              <div class="submenu-title">
-                1ª Etapa ▶
-              </div>
+              <div class="submenu">
 
-              <div class="submenu-content">
+  <div class="submenu-title">
+    <%= stage %> ▶
+  </div>
 
-                <%= link_to "Parcial", "#" %>
-                <%= link_to "Global", "#" %>
+  <div class="submenu-content">
 
-              </div>
+    <% partial_period = ExamPeriod.find_by(
+         stage: stage,
+         exam_type: "Parcial"
+       ) %>
 
-            </div>
+    <% global_period = ExamPeriod.find_by(
+         stage: stage,
+         exam_type: "Global"
+       ) %>
 
-            <!-- 2ª ETAPA -->
-            <div class="submenu">
+    <% if partial_period %>
+      <%= link_to "Parcial",
+          exam_period_path(partial_period) %>
+    <% end %>
 
-              <div class="submenu-title">
-                2ª Etapa ▶
-              </div>
+    <% if global_period %>
+      <%= link_to "Global",
+          exam_period_path(global_period) %>
+    <% end %>
 
-              <div class="submenu-content">
+  </div>
 
-                <%= link_to "Parcial", "#" %>
-                <%= link_to "Global", "#" %>
+</div>
 
-              </div>
-
-            </div>
-
-            <!-- 3ª ETAPA -->
-            <div class="submenu">
-
-              <div class="submenu-title">
-                3ª Etapa ▶
-              </div>
-
-              <div class="submenu-content">
-
-                <%= link_to "Parcial", "#" %>
-                <%= link_to "Global", "#" %>
-
-              </div>
-
-            </div>
-
-            <!-- 4ª ETAPA -->
-            <div class="submenu">
-
-              <div class="submenu-title">
-                4ª Etapa ▶
-              </div>
-
-              <div class="submenu-content">
-
-                <%= link_to "Parcial", "#" %>
-                <%= link_to "Global", "#" %>
-
-              </div>
-
-            </div>
+            <% end %>
 
           </div>
 

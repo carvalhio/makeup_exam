@@ -1,10 +1,101 @@
-<p style="color: green"><%= notice %></p>
+veja agora, mas ainda não aparece:
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MakeupExam</title>
 
-<%= render @exam_period %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<div>
-  <%= link_to "Edit this exam period", edit_exam_period_path(@exam_period) %> |
-  <%= link_to "Back to exam periods", exam_periods_path %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-  <%= button_to "Destroy this exam period", @exam_period, method: :delete %>
-</div>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+
+    <header class="main-header">
+
+      <!-- LOGO -->
+      <div class="logo-area">
+        <%= link_to "carvalhio",
+            root_path,
+            class: "logo-link" %>
+      </div>
+
+      <!-- NAV -->
+      <!-- NAV -->
+<nav class="main-nav">
+
+  <!-- DROPDOWN PRINCIPAL -->
+  <div class="dropdown">
+
+    <button class="dropdown-btn"
+            id="second-call-btn">
+
+      2ª Chamada ▼
+
+    </button>
+
+    <div class="dropdown-content"
+         id="second-call-menu">
+
+      <% ["1ª Etapa", "2ª Etapa", "3ª Etapa", "4ª Etapa"].each do |stage| %>
+
+        <div class="submenu">
+
+          <div class="submenu-title">
+            <%= stage %> ▶
+          </div>
+
+          <div class="submenu-content">
+
+            <% ["Parcial", "Global"].each do |exam_type| %>
+
+              <% period = ExamPeriod.find_by(
+                   stage: stage,
+                   exam_type: exam_type
+                 ) %>
+
+              <% if period %>
+
+                <%= link_to exam_type,
+                    exam_period_path(period) %>
+
+              <% end %>
+
+            <% end %>
+
+          </div>
+
+        </div>
+
+      <% end %>
+
+    </div>
+
+  </div>
+
+  <!-- LINKS -->
+  <%= link_to "Turmas",
+      school_classes_path,
+      class: "nav-link" %>
+
+  <%= link_to "Relatórios",
+      reports_path,
+      class: "nav-link" %>
+
+</nav>
+
+       
+
+    </header>
+
+    <!-- CONTEÚDO -->
+    <main class="main-content">
+      <%= yield %>
+    </main>
+
+  </body>
+</html>
