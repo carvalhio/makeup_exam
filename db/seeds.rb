@@ -1,3 +1,16 @@
+stages = ["1ª Etapa", "2ª Etapa", "3ª Etapa", "4ª Etapa"]
+types  = ["Parcial", "Global"]
+
+stages.each do |stage|
+  types.each do |exam_type|
+    ExamPeriod.create!(
+      stage: stage,
+      exam_type: exam_type,
+      active: true
+    )
+  end
+end
+
 subjects = [
   { name: "Língua Portuguesa", code: "PORT" },
   { name: "Matemática", code: "MATE" },
@@ -22,4 +35,3 @@ subjects.each do |subject|
   end
 end
 
-puts "Disciplinas cadastradas com sucesso!"

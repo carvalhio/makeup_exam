@@ -11,55 +11,65 @@
     </div>
   <% end %>
 
-   <div>
+  <!-- ALUNO -->
+  <div>
     <%= form.label :student_id, "Aluno", style: "display: block" %>
 
     <%= form.collection_select(
-          :student_id,
-          Student.all.order(:name),
-          :id,
-          ->(student) {
-            "#{student.name} - #{student.school_class.grade} #{student.school_class.identifier}"
-          }
-        ) %>
+      :student_id,
+      Student.includes(:school_class).order(:name),
+      :id,
+      ->(student) {
+        "#{student.name} - #{student.school_class.grade} #{student.school_class.identifier}"
+      }
+    ) %>
   </div>
 
+  <br>
 
+  <!-- DISCIPLINAS -->
+  <div>
+    <strong>Disciplinas</strong>
 
-<br>
-  <strong>Disciplinas</strong>
+    <% Subject.order(:name).each do |subject| %>
+      <div>
+        <%= check_box_tag(
+          "exam_request[subject_ids][]",
+          subject.id,
+          @exam_request.subject_ids.include?(subject.id)
+        ) %>
 
-  <% Subject.all.order(:name).each do |subject| %>
-    <div>
-      <%= check_box_tag(
-            "exam_request[subject_ids][]",
-            subject.id,
-            @exam_request.subject_ids.include?(subject.id)
-          ) %>
+        <%= label_tag "exam_request_subject_ids_#{subject.id}", subject.name %>
+      </div>
+    <% end %>
+  </div>
 
-      <%= label_tag "exam_request_subject_ids_#{subject.id}", subject.name %>
-    </div>
-  <% end %>
-</div>
-<div>
-  <%= form.label :reason, "Motivo", style: "display: block" %>
+  <br>
 
-  <%= form.select :reason, [
-    "Atestado Médico",
-    "Falta Justificada",
-    "Viagem",
-    "Outro"
-  ] %>
-</div>
-<br>
-<div>
-  <%= form.label :reason_description, "Descrição complementar", style: "display: block" %>
+  <!-- MOTIVO -->
+  <div>
+    <%= form.label :reason, "Motivo", style: "display: block" %>
 
-  <%= form.text_area :reason_description %>
-</div>
-<br>
+    <%= form.select :reason, [
+      "Atestado Médico",
+      "Falta Justificada",
+      "Viagem",
+      "Outro"
+    ] %>
+  </div>
 
-<br>
+  <br>
+
+  <!-- DESCRIÇÃO -->
+  <div>
+    <%= form.label :reason_description, "Descrição complementar", style: "display: block" %>
+
+    <%= form.text_area :reason_description %>
+  </div>
+
+  <br>
+
+  <!-- SUBMIT -->
   <div>
     <%= form.submit %>
   </div>

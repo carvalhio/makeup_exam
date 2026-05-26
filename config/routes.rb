@@ -1,18 +1,21 @@
 Rails.application.routes.draw do
-  
-  resources :exam_periods
-
   root "home#index"
-  get "reports/index"
-  get "home/about"
 
-  resources :exam_requests
+  get "home/about"
+  get "reports/index"
+  get "reports", to: "reports#index"
+
   resources :students
   resources :school_classes
-  
+
+  resources :exam_periods, only: [:show] do
+    resources :exam_requests, only: [:index, :new, :create, :destroy]
+  end
+
+  get "stages/:stage", to: "exam_periods#stage", as: :stage
+
+  # Rails system routes
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  get "reports", to: "reports#index"
-  get "stages/:stage", to: "exam_periods#stage", as: :stage
 end

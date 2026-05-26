@@ -1,59 +1,52 @@
 class ExamRequestsController < ApplicationController
-  before_action :set_exam_request, only: %i[ show edit update destroy ]
+  before_action :set_exam_request, only: %i[show edit update destroy]
+  before_action :set_exam_period, only: %i[index new create]
+  before_action :load_exam_menu, if: :user_signed_in?
 
-  # GET /exam_requests or /exam_requests.json
+  # GET /exam_requests
   def index
-    current_period = ExamPeriod.current
-
-    @exam_requests = ExamRequest.where(
-      exam_period: current_period
-    )
+     @exam_requests = @exam_period.exam_requests.includes(:student, :subjects)
   end
 
-  # GET /exam_requests/1 or /exam_requests/1.json
+  # GET /exam_requests/1
   def show
   end
 
   # GET /exam_requests/new
   def new
-    @exam_request = ExamRequest.new
-    
+   @exam_request = @exam_period.exam_requests.new
   end
 
   # GET /exam_requests/1/edit
   def edit
   end
 
-  # POST /exam_requests or /exam_requests.json
+  # POST /exam_requests
   def create
-    @exam_request = ExamRequest.new(exam_request_params)
-    @exam_request.exam_period = ExamPeriod.current
+       @exam_request = @exam_period.exam_requests.new(exam_request_params)
 
-    respond_to do |format|
-      if @exam_request.save
-        format.html { redirect_to @exam_request, notice: "Exam request was successfully created." }
-        format.json { render :show, status: :created, location: @exam_request }
-      else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @exam_request.errors, status: :unprocessable_content }
-      end
+    if @exam_request.save
+      redirect_to exam_period_exam_requests_path(@exam_period),
+                  notice: "Solicitação criada com sucesso"
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /exam_requests/1 or /exam_requests/1.json
+  # PATCH/PUT /exam_requests/1
   def update
     respond_to do |format|
       if @exam_request.update(exam_request_params)
         format.html { redirect_to @exam_request, notice: "Exam request was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @exam_request }
       else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @exam_request.errors, status: :unprocessable_content }
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @exam_request.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /exam_requests/1 or /exam_requests/1.json
+  # DELETE /exam_requests/1
   def destroy
     @exam_request.destroy!
 
@@ -63,34 +56,45 @@ class ExamRequestsController < ApplicationController
     end
   end
 
+  # GET /exam_requests/stage
   def stage
-  @stage = params[:stage]
+    @stage = params[:stage]
 
-  @partial_period = ExamPeriod.find_by(
-    stage: @stage,
-    exam_type: "Parcial"
-  )
+    @partial_period = ExamPeriod.find_by(
+      stage: @stage,
+      exam_type: "Parcial"
+    )
 
-  @global_period = ExamPeriod.find_by(
-    stage: @stage,
-    exam_type: "Global"
-  )
-end
+    @global_period = ExamPeriod.find_by(
+      stage: @stage,
+      exam_type: "Global"
+    )
+  end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_exam_request
-      @exam_request = ExamRequest.find(params[:id])
-    end
+  def load_exam_menu
+     @exam_menu = ExamPeriod
+    .select(:id, :stage, :exam_type)
+    .order(:stage)
 
-    # Only allow a list of trusted parameters through.
-    def exam_request_params
-  params.require(:exam_request).permit(
-    :student_id,
-    :exam_period_id,
-    :reason,
-    :reason_description,
-    subject_ids: []
-  )
-end
+  @exam_menu_grouped = @exam_menu.group_by(&:stage)
+  end
+
+  def set_exam_request
+    @exam_request = ExamRequest.find(params[:id])
+  end
+
+  def set_exam_period
+     @exam_period = ExamPeriod.find(params[:exam_period_id])
+  end
+
+  def exam_request_params
+    params.require(:exam_request).permit(
+      :student_id,
+      :exam_period_id,
+      :reason,
+      :reason_description,
+      subject_ids: []
+    )
+  end
 end
