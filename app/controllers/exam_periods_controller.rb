@@ -9,12 +9,20 @@ class ExamPeriodsController < ApplicationController
   # GET /exam_periods/1 or /exam_periods/1.json
   def show
     @exam_period = ExamPeriod.find(params[:id])
-    @exam_requests = ExamRequest.includes(
-      :student,
-      :subjects
-      ).where(
-      exam_period: @exam_period
-      )
+
+    @exam_requests =
+      @exam_period.exam_requests
+                  .includes(student: :school_class)
+                  .includes(:subjects)
+
+    @requests_grouped =
+      @exam_requests.group_by do |request|
+
+        school_class = request.student.school_class
+
+        "#{school_class.grade} #{school_class.identifier}"
+
+      end
   end
 
   # GET /exam_periods/new

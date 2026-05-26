@@ -9,7 +9,15 @@ Rails.application.routes.draw do
   resources :school_classes
 
   resources :exam_periods, only: [:show] do
-    resources :exam_requests, only: [:index, :new, :create, :destroy]
+  resources :exam_requests, only: [
+    :index,
+    :show,
+    :new,
+    :create,
+    :edit,
+    :update,
+    :destroy
+  ]
   end
 
   get "stages/:stage", to: "exam_periods#stage", as: :stage

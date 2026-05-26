@@ -1,101 +1,101 @@
-veja agora, mas ainda não aparece:
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>MakeupExam</title>
+<h1>
+  2ª Chamada -
+  <%= @exam_period.stage %> -
+  <%= @exam_period.exam_type %>
+</h1>
 
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+<hr>
 
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<div style="margin: 20px 0;">
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <%= link_to "Nova Solicitação",
+      new_exam_period_exam_request_path(@exam_period),
+      class: "btn-new" %>
 
-  <body>
+</div>
 
-    <header class="main-header">
+<hr>
 
-      <!-- LOGO -->
-      <div class="logo-area">
-        <%= link_to "carvalhio",
-            root_path,
-            class: "logo-link" %>
-      </div>
+<h2>Solicitações</h2>
 
-      <!-- NAV -->
-      <!-- NAV -->
-<nav class="main-nav">
+<% if @exam_requests.any? %>
 
-  <!-- DROPDOWN PRINCIPAL -->
-  <div class="dropdown">
+  <% @requests_grouped.each do |school_class, requests| %>
 
-    <button class="dropdown-btn"
-            id="second-call-btn">
+    <div style="margin-bottom: 30px;">
 
-      2ª Chamada ▼
+      <h3>
+        <%= school_class %>
+      </h3>
 
-    </button>
+      <table border="1"
+             cellpadding="10"
+             cellspacing="0"
+             width="100%">
 
-    <div class="dropdown-content"
-         id="second-call-menu">
+        <thead>
 
-      <% ["1ª Etapa", "2ª Etapa", "3ª Etapa", "4ª Etapa"].each do |stage| %>
+          <tr>
+            <th>Aluno</th>
+            <th>Disciplinas</th>
+            <th>Motivo</th>
+            <th></th>
+          </tr>
 
-        <div class="submenu">
+        </thead>
 
-          <div class="submenu-title">
-            <%= stage %> ▶
-          </div>
+        <tbody>
 
-          <div class="submenu-content">
+          <% requests.each do |request| %>
 
-            <% ["Parcial", "Global"].each do |exam_type| %>
+            <tr>
 
-              <% period = ExamPeriod.find_by(
-                   stage: stage,
-                   exam_type: exam_type
-                 ) %>
+              <td>
+                <%= request.student.name %>
+              </td>
 
-              <% if period %>
+              <td>
 
-                <%= link_to exam_type,
-                    exam_period_path(period) %>
+                <%= request.subjects
+                           .map(&:name)
+                           .join(", ") %>
 
-              <% end %>
+              </td>
 
-            <% end %>
+              <td>
+                <%= request.reason %>
+              </td>
 
-          </div>
+              <td>
 
-        </div>
+                <%= button_to "Excluir",
+                    exam_period_exam_request_path(
+                      @exam_period,
+                      request
+                    ),
+                    method: :delete,
+                    data: {
+                      turbo_confirm: "Tem certeza?"
+                    } %>
 
-      <% end %>
+              </td>
+
+            </tr>
+
+          <% end %>
+
+        </tbody>
+
+      </table>
 
     </div>
 
-  </div>
+  <% end %>
 
-  <!-- LINKS -->
-  <%= link_to "Turmas",
-      school_classes_path,
-      class: "nav-link" %>
+<% else %>
 
-  <%= link_to "Relatórios",
-      reports_path,
-      class: "nav-link" %>
+  <p>
+    Nenhuma solicitação cadastrada neste período.
+  </p>
 
-</nav>
-
-       
-
-    </header>
-
-    <!-- CONTEÚDO -->
-    <main class="main-content">
-      <%= yield %>
-    </main>
-
-  </body>
-</html>
+<% end %>

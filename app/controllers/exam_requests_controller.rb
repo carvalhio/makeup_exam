@@ -1,7 +1,7 @@
 class ExamRequestsController < ApplicationController
   before_action :set_exam_request, only: %i[show edit update destroy]
-  before_action :set_exam_period, only: %i[index new create]
-  before_action :load_exam_menu, if: :user_signed_in?
+  before_action :load_exam_menu
+  before_action :set_exam_period
 
   # GET /exam_requests
   def index
@@ -85,7 +85,12 @@ class ExamRequestsController < ApplicationController
   end
 
   def set_exam_period
-     @exam_period = ExamPeriod.find(params[:exam_period_id])
+  @exam_period =
+    if params[:exam_period_id]
+      ExamPeriod.find(params[:exam_period_id])
+    elsif @exam_request.present?
+      @exam_request.exam_period
+    end
   end
 
   def exam_request_params
@@ -98,3 +103,4 @@ class ExamRequestsController < ApplicationController
     )
   end
 end
+
