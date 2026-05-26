@@ -37,7 +37,7 @@ class ExamRequestsController < ApplicationController
   def update
     respond_to do |format|
       if @exam_request.update(exam_request_params)
-        format.html { redirect_to @exam_request, notice: "Exam request was successfully updated.", status: :see_other }
+        format.html { redirect_to @exam_request, notice: "Atualizado com sucesso", status: :see_other }
         format.json { render :show, status: :ok, location: @exam_request }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,10 +51,14 @@ class ExamRequestsController < ApplicationController
     @exam_request.destroy!
 
     respond_to do |format|
-      format.html { redirect_to exam_requests_path, notice: "Exam request was successfully destroyed.", status: :see_other }
+      format.html { redirect_to exam_period_exam_requests_path(@exam_period), notice: "Deletado com sucesso!.", status: :see_other }
       format.json { head :no_content }
     end
   end
+
+
+
+
 
   # GET /exam_requests/stage
   def stage

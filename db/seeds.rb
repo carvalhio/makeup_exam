@@ -35,3 +35,63 @@ subjects.each do |subject|
   end
 end
 
+school_classes = [
+  ["1º ano", "A", "Manhã"],
+  ["1º ano", "B", "Manhã"],
+  ["1º ano", "C", "Manhã"],
+
+  ["2º ano", "A", "Manhã"],
+  ["2º ano", "B", "Manhã"],
+  ["2º ano", "C", "Manhã"],
+
+  ["3º ano", "A", "Manhã"],
+  ["3º ano", "B", "Manhã"],
+  ["3º ano", "C", "Tarde"],
+
+  ["4º ano", "A", "Manhã"],
+  ["4º ano", "B", "Manhã"],
+
+  ["5º ano", "A", "Manhã"],
+  ["5º ano", "B", "Manhã"],
+  ["5º ano", "C", "Tarde"],
+
+  ["6º ano", "A", "Manhã"],
+  ["6º ano", "B", "Manhã"],
+  ["6º ano", "C", "Tarde"],
+
+  ["7º ano", "A", "Manhã"],
+  ["7º ano", "B", "Manhã"],
+  ["7º ano", "C", "Tarde"],
+
+  ["8º ano", "A", "Manhã"],
+  ["8º ano", "B", "Manhã"],
+  ["8º ano", "C", "Manhã"],
+  ["8º ano", "D", "Tarde"],
+
+  ["9º ano", "A", "Manhã"],
+  ["9º ano", "B", "Manhã"],
+  ["9º ano", "C", "Manhã"],
+  ["9º ano", "D", "Tarde"],
+
+  ["1ª série", "A", "Manhã"],
+  ["1ª série", "B", "Manhã"],
+  ["1ª série", "C", "Manhã"],
+
+  ["2ª série", "A", "Manhã"],
+  ["2ª série", "B", "Manhã"],
+  ["2ª série", "C", "Manhã"],
+
+  ["3ª série", "A", "Manhã"],
+  ["3ª série", "B", "Manhã"]
+]
+
+school_classes.each do |grade, identifier, shift|
+  SchoolClass.find_or_create_by!(
+    grade: grade,
+    identifier: identifier,
+    shift: shift
+  )
+end
+
+puts "Turmas cadastradas com sucesso!"
+

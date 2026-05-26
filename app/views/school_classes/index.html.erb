@@ -1,73 +1,97 @@
-<div class="school-classes-page">
+<p style="color: green"><%= notice %></p>
 
-  <% if notice.present? %>
-    <div class="notice">
-      <%= notice %>
-    </div>
-  <% end %>
+<% content_for :title, "Turmas" %>
 
-  <% content_for :title, "Turmas" %>
 
-  <div class="page-header">
-    <h1>Turmas</h1>
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h1 class="mb-0">Turmas</h1>
+
+    <%= link_to "Nova Turma",
+        new_school_class_path,
+        class: "btn btn-primary btn-sm" %>
+
   </div>
 
-  <table class="school-classes-table">
+  <table class="table table-striped table-hover table-sm align-middle compact-table">
 
-    <thead>
+    <thead class="table-dark">
 
       <tr>
-        <th>ID</th>
         <th>Turma</th>
-        <th>Ações</th>
+        <th>Turno</th>
+        <th>Quantidade</th>
+        <th>...</th>
       </tr>
 
     </thead>
 
     <tbody>
 
-      <% @school_classes.each do |school_class| %>
+  <%
+    grouped_classes = {
+      "Anos Iniciais" => ["1º ano", "2º ano", "3º ano", "4º ano", "5º ano"],
+      "Anos Finais"   => ["6º ano", "7º ano", "8º ano", "9º ano"],
+      "Ensino Médio"  => ["1ª série", "2ª série", "3ª série"]
+    }
+  %>
 
-        <tr>
+  <% grouped_classes.each do |group_name, grades| %>
 
-          <td>
-            <%= school_class.id %>
-          </td>
+    <!-- TÍTULO DO GRUPO -->
+    <tr class="table-secondary">
 
-          <td>
-           <%= school_class.full_name %>
-          </td>
+      <td colspan="4" class="fw-bold text-uppercase">
+        <%= group_name %>
+      </td>
 
-          <td class="actions-column">
+    </tr>
 
-            <%= link_to "Ver",
-                school_class,
-                class: "table-btn btn-view" %>
+    <%
+      classes =
+        @school_classes
+          .select { |c| grades.include?(c.grade) }
+          .sort_by { |c| [grades.index(c.grade), c.identifier.to_s] }
+    %>
 
-            <%= link_to "Editar",
-                edit_school_class_path(school_class),
-                class: "table-btn btn-edit" %>
+    <% classes.each do |school_class| %>
 
-          </td>
+      <tr>
 
-        </tr>
+        <td>
+          <%= "#{school_class.grade} #{school_class.identifier}" %>
+        </td>
 
-      <% end %>
+        <td>
+          <%= school_class.shift %>
+        </td>
 
-    </tbody>
+        <td>
+          <%= school_class.students.count %>
+        </td>
+
+        <td class="text-nowrap">
+
+          <%= link_to "Ver",
+              school_class,
+              class: "btn btn-sm btn-outline-primary" %>
+
+          <%= link_to "Editar",
+              edit_school_class_path(school_class),
+              class: "btn btn-sm btn-outline-warning" %>
+
+        </td>
+
+      </tr>
+
+    <% end %>
+
+  <% end %>
+
+</tbody>
 
   </table>
-
-  <div class="bottom-actions">
-
-    <%= link_to "➕ Nova turma",
-        new_school_class_path,
-        class: "btn btn-new" %>
-
-    <%= link_to "🏠 Início",
-        root_path,
-        class: "btn btn-home" %>
-
-  </div>
 
 </div>

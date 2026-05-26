@@ -6,3 +6,17 @@
 /* =========================================
    APPLICATION WIDE STYLES
 ========================================= */
+.compact-table {
+  width: auto;
+}
+
+.compact-table th,
+.compact-table td {
+  padding: 0.25rem 0.5rem !important;
+  white-space: nowrap;
+}
+
+.compact-table .btn {
+  padding: 0.15rem 0.45rem;
+  font-size: 0.8rem;
+}
