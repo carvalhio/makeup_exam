@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
+  
   resources :exam_periods
+
   root "home#index"
   get "reports/index"
+  get "home/about"
+
   resources :exam_requests
   resources :students
   resources :school_classes

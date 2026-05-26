@@ -1,0 +1,87 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">CARVALHiO</a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            
+        <li>
+          <%= link_to "Início", root_path,
+          class: "nav-link #{'active' if current_page?(root_path)}" %>
+        </li>
+        
+        <li class="nav-item dropdown">
+
+  <a class="nav-link dropdown-toggle"
+     href="#"
+     role="button"
+     data-bs-toggle="dropdown"
+     aria-expanded="false">
+
+    2ª Chamada
+
+  </a>
+
+  <ul class="dropdown-menu">
+
+    <% ["1ª Etapa", "2ª Etapa", "3ª Etapa", "4ª Etapa"].each do |stage| %>
+
+      <% partial_period = ExamPeriod.find_by(
+           stage: stage,
+           exam_type: "Parcial"
+         ) %>
+
+      <% global_period = ExamPeriod.find_by(
+           stage: stage,
+           exam_type: "Global"
+         ) %>
+
+      <!-- TÍTULO ETAPA -->
+      <li class="dropdown-header">
+        <%= stage %>
+      </li>
+
+      <!-- PARCIAL -->
+      <% if partial_period %>
+        <li>
+          <%= link_to "Parcial",
+              exam_period_path(partial_period),
+              class: "dropdown-item" %>
+        </li>
+      <% end %>
+
+      <!-- GLOBAL -->
+      <% if global_period %>
+        <li>
+          <%= link_to "Global",
+              exam_period_path(global_period),
+              class: "dropdown-item" %>
+        </li>
+      <% end %>
+
+      <!-- DIVISÓRIA -->
+      <li>
+        <hr class="dropdown-divider">
+      </li>
+
+    <% end %>
+
+  </ul>
+
+  <li>
+    	<%= link_to "Configurações", exam_periods_path, class: "nav-link" %>
+  </li>
+
+</li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</nav>

@@ -1,16 +1,75 @@
 <p style="color: green"><%= notice %></p>
 
-<% content_for :title, "Exam periods" %>
+<% content_for :title, "Exam Periods" %>
 
-<h1>Exam periods</h1>
+<div class="container mt-4">
 
-<div id="exam_periods">
-  <% @exam_periods.each do |exam_period| %>
-    <%= render exam_period %>
-    <p>
-      <%= link_to "Show this exam period", exam_period %>
-    </p>
-  <% end %>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h1 class="mb-0">Etapas de Prova</h1>
+
+    <%= link_to "Nova Etapa",
+        new_exam_period_path,
+        class: "btn btn-primary" %>
+
+  </div>
+
+  <table class="table table-striped table-hover align-">
+
+    <thead class="table-dark">
+
+      <tr>
+        <th>Etapa</th>
+        <th>Tipo</th>
+        <th>Criado em</th>
+        <th>Ações</th>
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <% @exam_periods
+          .sort_by { |e|
+            [
+              e.stage.to_s,
+              e.exam_type == "Parcial" ? 0 : 1
+            ]
+          }
+          .each do |exam_period| %>
+
+        <tr>
+
+          <td>
+            <%= exam_period.stage %>
+          </td>
+
+          <td>
+            <%= exam_period.exam_type %>
+          </td>
+
+          <td>
+            <%= l(exam_period.created_at, format: :short) %>
+          </td>
+
+          <td>
+
+            <%= link_to "Ver",
+                exam_period,
+                class: "btn btn-sm btn-outline-primary" %>
+
+            <%= link_to "Editar",
+                edit_exam_period_path(exam_period),
+                class: "btn btn-sm btn-outline-warning" %>
+
+          </td>
+
+        </tr>
+
+      <% end %>
+
+    </tbody>
+
+  </table>
+
 </div>
-
-<%= link_to "New exam period", new_exam_period_path %>
