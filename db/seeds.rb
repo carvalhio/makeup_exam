@@ -1,15 +1,28 @@
-stages = ["1ª Etapa", "2ª Etapa", "3ª Etapa", "4ª Etapa"]
-types  = ["Parcial", "Global"]
+require "csv"
+
+# =========================================
+# EXAM PERIODS
+# =========================================
+
+stages = [ "1ª Etapa", "2ª Etapa", "3ª Etapa", "4ª Etapa" ]
+types  = [ "Parcial", "Global" ]
 
 stages.each do |stage|
   types.each do |exam_type|
-    ExamPeriod.create!(
+    ExamPeriod.find_or_create_by!(
       stage: stage,
-      exam_type: exam_type,
-      active: true
-    )
+      exam_type: exam_type
+    ) do |period|
+      period.active = true
+    end
   end
 end
+
+puts "Períodos cadastrados com sucesso!"
+
+# =========================================
+# SUBJECTS
+# =========================================
 
 subjects = [
   { name: "Língua Portuguesa", code: "PORT" },
@@ -30,68 +43,36 @@ subjects = [
 ]
 
 subjects.each do |subject|
-  Subject.find_or_create_by!(code: subject[:code]) do |s|
+  Subject.find_or_create_by!(
+    code: subject[:code]
+  ) do |s|
     s.name = subject[:name]
   end
 end
 
-school_classes = [
-  ["1º ano", "A", "Manhã"],
-  ["1º ano", "B", "Manhã"],
-  ["1º ano", "C", "Manhã"],
+puts "Disciplinas cadastradas com sucesso!"
 
-  ["2º ano", "A", "Manhã"],
-  ["2º ano", "B", "Manhã"],
-  ["2º ano", "C", "Manhã"],
+# =========================================
+# STUDENTS + SCHOOL CLASSES (CSV)
+# =========================================
 
-  ["3º ano", "A", "Manhã"],
-  ["3º ano", "B", "Manhã"],
-  ["3º ano", "C", "Tarde"],
+CSV.foreach(
+  Rails.root.join("db/students.csv"),
+  headers: true,
+  encoding: "ISO-8859-1:UTF-8",
+  col_sep: ";"
+) do |row|
+  school_class =
+    SchoolClass.find_or_create_by!(
+      grade: row["grade"]&.strip,
+      identifier: row["identifier"]&.strip,
+      shift: row["shift"]&.strip&.capitalize
+    )
 
-  ["4º ano", "A", "Manhã"],
-  ["4º ano", "B", "Manhã"],
-
-  ["5º ano", "A", "Manhã"],
-  ["5º ano", "B", "Manhã"],
-  ["5º ano", "C", "Tarde"],
-
-  ["6º ano", "A", "Manhã"],
-  ["6º ano", "B", "Manhã"],
-  ["6º ano", "C", "Tarde"],
-
-  ["7º ano", "A", "Manhã"],
-  ["7º ano", "B", "Manhã"],
-  ["7º ano", "C", "Tarde"],
-
-  ["8º ano", "A", "Manhã"],
-  ["8º ano", "B", "Manhã"],
-  ["8º ano", "C", "Manhã"],
-  ["8º ano", "D", "Tarde"],
-
-  ["9º ano", "A", "Manhã"],
-  ["9º ano", "B", "Manhã"],
-  ["9º ano", "C", "Manhã"],
-  ["9º ano", "D", "Tarde"],
-
-  ["1ª série", "A", "Manhã"],
-  ["1ª série", "B", "Manhã"],
-  ["1ª série", "C", "Manhã"],
-
-  ["2ª série", "A", "Manhã"],
-  ["2ª série", "B", "Manhã"],
-  ["2ª série", "C", "Manhã"],
-
-  ["3ª série", "A", "Manhã"],
-  ["3ª série", "B", "Manhã"]
-]
-
-school_classes.each do |grade, identifier, shift|
-  SchoolClass.find_or_create_by!(
-    grade: grade,
-    identifier: identifier,
-    shift: shift
+  Student.find_or_create_by!(
+    name: row["student_name"],
+    school_class: school_class
   )
 end
 
-puts "Turmas cadastradas com sucesso!"
-
+puts "Turmas e alunos importados com sucesso!"
