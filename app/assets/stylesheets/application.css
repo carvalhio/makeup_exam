@@ -3,6 +3,38 @@
  *= require_self
  */
 
+ /* =========================================
+   PADRÃO GLOBAL DO SISTEMA
+========================================= */
+
+/* FONTES GERAIS */
+body {
+  font-size: 14px;
+}
+
+
+/* BOTÕES */
+.btn {
+  font-size: 13px;
+  padding: 0.2rem 0.5rem;
+}
+
+/* INPUTS */
+.form-control,
+.form-select {
+  font-size: 13px;
+  padding: 0.25rem 0.5rem;
+}
+
+/* TITULOS */
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
 /* =========================================
    APPLICATION WIDE STYLES
 ========================================= */

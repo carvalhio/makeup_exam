@@ -41,7 +41,7 @@
   <% grouped_classes.each do |group_name, grades| %>
 
     <!-- TÍTULO DO GRUPO -->
-    <tr class="table-secondary">
+      <tr class="table-secondary">
 
       <td colspan="4" class="fw-bold text-uppercase">
         <%= group_name %>
@@ -58,7 +58,10 @@
 
     <% classes.each do |school_class| %>
 
-      <tr>
+       <tr
+    onclick="window.location='<%= school_class_path(school_class) %>'"
+    style="cursor: pointer;"
+  >
 
         <td>
           <%= "#{school_class.grade} #{school_class.identifier}" %>
@@ -71,19 +74,7 @@
         <td>
           <%= school_class.students.count %>
         </td>
-
-        <td class="text-nowrap">
-
-          <%= link_to "Ver",
-              school_class,
-              class: "btn btn-sm btn-outline-primary" %>
-
-          <%= link_to "Editar",
-              edit_school_class_path(school_class),
-              class: "btn btn-sm btn-outline-warning" %>
-
-        </td>
-
+        
       </tr>
 
     <% end %>

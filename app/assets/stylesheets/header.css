@@ -1,4 +1,21 @@
+.navbar {
+  min-height: 45px;
+}
+
 .navbar .nav-link,
 .navbar .navbar-brand {
-  color: white !important;
+  color: whitesmoke !important;
+  font-size: 14px;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+.navbar .btn {
+  font-size: 13px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+body {
+  font-family: "Inter", sans-serif;
 }
