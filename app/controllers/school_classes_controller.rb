@@ -8,6 +8,10 @@ class SchoolClassesController < ApplicationController
 
   # GET /school_classes/1 or /school_classes/1.json
   def show
+    @school_class = SchoolClass.find(params[:id])
+
+  @students =
+    @school_class.students.order(:name)
   end
 
   # GET /school_classes/new
