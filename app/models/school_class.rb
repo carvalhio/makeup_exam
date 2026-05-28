@@ -6,7 +6,7 @@ class SchoolClass < ApplicationRecord
   validates :shift, presence: true
 
   validates :identifier, uniqueness: {
-    scope: [:grade, :shift],
+    scope: [ :grade, :shift ],
     message: "já existe para essa série e turno"
   }
 

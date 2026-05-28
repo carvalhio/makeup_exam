@@ -12,18 +12,48 @@
   <% end %>
 
   <!-- ALUNO -->
-  <div>
-    <%= form.label :student_id, "Aluno", style: "display: block" %>
+  <div data-controller="exam-request">
 
-    <%= form.collection_select(
-      :student_id,
-      Student.includes(:school_class).order(:name),
-      :id,
-      ->(student) {
-        "#{student.name} - #{student.school_class.grade} #{student.school_class.identifier}"
+  <!-- TURMA -->
+  <div>
+
+    <%= label_tag :school_class_id, "Turma" %>
+
+    <%= select_tag(
+      :school_class_id,
+      options_from_collection_for_select(
+        SchoolClass.order(:grade, :identifier),
+        :id,
+        :full_name
+      ),
+      prompt: "Selecione uma turma",
+      data: {
+        exam_request_target: "schoolClass",
+        action: "change->exam-request#loadStudents"
       }
     ) %>
+
   </div>
+
+  <br>
+
+  <!-- ALUNO -->
+  <div>
+
+    <%= form.label :student_id, "Aluno" %>
+
+    <%= form.select(
+      :student_id,
+      [],
+      { prompt: "Selecione um aluno" },
+      data: {
+        exam_request_target: "student"
+      }
+    ) %>
+
+  </div>
+
+</div>
 
   <br>
 

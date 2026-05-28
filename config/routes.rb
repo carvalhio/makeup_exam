@@ -6,9 +6,11 @@ Rails.application.routes.draw do
   get "reports", to: "reports#index"
 
   resources :students
-  resources :school_classes
+  resources :school_classes do
+    resources :students, only: :index
+  end
 
-  resources :exam_periods, only: [:show] do
+  resources :exam_periods, only: [ :show ] do
   resources :exam_requests, only: [
     :index,
     :show,

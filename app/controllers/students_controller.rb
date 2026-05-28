@@ -3,9 +3,13 @@ class StudentsController < ApplicationController
 
   # GET /students or /students.json
   def index
-    @students = Student.all
-  end
+  @students =
+    Student.where(
+      school_class_id: params[:school_class_id]
+    ).order(:name)
 
+  render json: @students
+end
   # GET /students/1 or /students/1.json
   def show
   end
