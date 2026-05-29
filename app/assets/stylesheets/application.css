@@ -52,3 +52,32 @@ h2 {
   padding: 0.15rem 0.45rem;
   font-size: 0.8rem;
 }
+
+/* =========================================
+   REQUEST TABLE
+========================================= */
+.requests-table {
+  width: auto !important;
+  min-width: 700px;
+
+  font-size: 13px;
+
+  border-collapse: collapse;
+}
+
+.requests-table th,
+.requests-table td {
+  padding: 4px 8px !important;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.requests-table th {
+  background-color: #8c8d8f;
+  color: white;
+}
+
+.exam-group {
+  width: fit-content;
+  margin: 0 auto 20px auto;
+}

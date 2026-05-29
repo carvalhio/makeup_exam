@@ -1,7 +1,8 @@
 class ExamRequestsController < ApplicationController
+  before_action :set_exam_period
   before_action :set_exam_request, only: %i[show edit update destroy]
   before_action :load_exam_menu
-  before_action :set_exam_period
+
 
   # GET /exam_requests
   def index
@@ -26,8 +27,8 @@ class ExamRequestsController < ApplicationController
        @exam_request = @exam_period.exam_requests.new(exam_request_params)
 
     if @exam_request.save
-      redirect_to exam_period_exam_requests_path(@exam_period),
-                  notice: "Solicitação criada com sucesso"
+      redirect_to exam_period_path(@exam_period),
+            notice: "Inserido com sucesso!"
     else
       render :new, status: :unprocessable_entity
     end
@@ -46,19 +47,13 @@ class ExamRequestsController < ApplicationController
     end
   end
 
-  # DELETE /exam_requests/1
-  def destroy
-    @exam_request.destroy!
+# DELETE /exam_requests/1
+def destroy
+  @exam_request.destroy
 
-    respond_to do |format|
-      format.html { redirect_to exam_period_exam_requests_path(@exam_period), notice: "Deletado com sucesso!.", status: :see_other }
-      format.json { head :no_content }
-    end
-  end
-
-
-
-
+  redirect_to exam_period_path(@exam_period),
+              notice: "Deletado com sucesso!"
+end
 
   # GET /exam_requests/stage
   def stage
@@ -85,16 +80,11 @@ class ExamRequestsController < ApplicationController
   end
 
   def set_exam_request
-    @exam_request = ExamRequest.find(params[:id])
+    @exam_request = @exam_period.exam_requests.find(params[:id])
   end
 
   def set_exam_period
-  @exam_period =
-    if params[:exam_period_id]
-      ExamPeriod.find(params[:exam_period_id])
-    elsif @exam_request.present?
-      @exam_request.exam_period
-    end
+    @exam_period = ExamPeriod.find(params[:exam_period_id])
   end
 
   def exam_request_params
@@ -107,4 +97,3 @@ class ExamRequestsController < ApplicationController
     )
   end
 end
-
