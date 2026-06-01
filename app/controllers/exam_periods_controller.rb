@@ -8,21 +8,41 @@ class ExamPeriodsController < ApplicationController
 
   # GET /exam_periods/1 or /exam_periods/1.json
   def show
-    @exam_period = ExamPeriod.find(params[:id])
+  @exam_period = ExamPeriod.find(params[:id])
 
-    @exam_requests =
-      @exam_period.exam_requests
-                  .includes(student: :school_class)
-                  .includes(:subjects)
+  @exam_requests =
+    @exam_period.exam_requests
+                .includes(student: :school_class)
+                .includes(:subjects)
+                .sort_by do |request|
+      school_class = request.student.school_class
 
-    @requests_grouped =
-      @exam_requests.group_by do |request|
+      grade_order =
+        case school_class.grade
+        when "1º ano" then 1
+        when "2º ano" then 2
+        when "3º ano" then 3
+        when "4º ano" then 4
+        when "5º ano" then 5
+        when "6º ano" then 6
+        when "7º ano" then 7
+        when "8º ano" then 8
+        when "9º ano" then 9
+        when "1ª série" then 10
+        when "2ª série" then 11
+        when "3ª série" then 12
+        else 99
+        end
 
-        school_class = request.student.school_class
+      [ grade_order, school_class.identifier ]
+    end
 
-        "#{school_class.grade} #{school_class.identifier}"
+  @requests_grouped =
+    @exam_requests.group_by do |request|
+      school_class = request.student.school_class
 
-      end
+      "#{school_class.grade} #{school_class.identifier}"
+    end
   end
 
   # GET /exam_periods/new

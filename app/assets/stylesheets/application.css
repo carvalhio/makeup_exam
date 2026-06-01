@@ -25,6 +25,14 @@ body {
   font-size: 13px;
   padding: 0.25rem 0.5rem;
 }
+.form-check-label {
+  font-size: 13px;
+}
+
+.form-label {
+  font-size: 13px;
+  margin-bottom: 2px;
+}
 
 /* TITULOS */
 h1 {
@@ -36,33 +44,21 @@ h2 {
 }
 
 /* =========================================
-   APPLICATION WIDE STYLES
+   APPLICATION TABELAS
 ========================================= */
 .compact-table {
   width: auto;
 }
 
-.compact-table th,
-.compact-table td {
-  padding: 0.25rem 0.5rem !important;
-  white-space: nowrap;
-}
-
 .compact-table .btn {
   padding: 0.15rem 0.45rem;
-  font-size: 0.8rem;
 }
 
 /* =========================================
    REQUEST TABLE
 ========================================= */
 .requests-table {
-  width: auto !important;
-  min-width: 700px;
-
-  font-size: 13px;
-
-  border-collapse: collapse;
+  width: 100%;
 }
 
 .requests-table th,
@@ -78,6 +74,8 @@ h2 {
 }
 
 .exam-group {
-  width: fit-content;
-  margin: 0 auto 20px auto;
+  width: 100%;
+  margin-bottom: 20px;
 }
+
+
