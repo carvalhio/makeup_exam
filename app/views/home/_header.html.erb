@@ -1,106 +1,96 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-turbo="false">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
+
     <a class="navbar-brand" href="#">CARVALHiO</a>
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            
-        <li>
-          <%= link_to "Início", root_path,
-          class: "nav-link #{'active' if current_page?(root_path)}" %>
-        </li>                   
-        <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle"
-     href="#"
-     role="button"
-     data-bs-toggle="dropdown"
-     aria-expanded="false">
-    2ª Chamada
-  </a>
 
-  <ul class="dropdown-menu">
-
-    <% ["1ª Etapa", "2ª Etapa", "3ª Etapa", "4ª Etapa"].each do |stage| %>
-
-      <% partial_period = ExamPeriod.find_by(
-           stage: stage,
-           exam_type: "Parcial"
-         ) %>
-
-      <% global_period = ExamPeriod.find_by(
-           stage: stage,
-           exam_type: "Global"
-         ) %>
-
-      <!-- TÍTULO ETAPA -->
-      <li class="dropdown-header">
-        <%= stage %>
-      </li>
-
-      <!-- PARCIAL -->
-      <% if partial_period %>
-        <li>
-          <%= link_to "Parcial",
-              exam_period_path(partial_period),
-              class: "dropdown-item" %>
+        <!-- INÍCIO -->
+        <li class="nav-item">
+          <%= link_to "Início",
+              root_path,
+              class: "nav-link #{'active' if current_page?(root_path)}" %>
         </li>
-      <% end %>
 
-      <!-- GLOBAL -->
-      <% if global_period %>
-        <li>
-          <%= link_to "Global",
-              exam_period_path(global_period),
-              class: "dropdown-item" %>
+        <!-- DROPDOWN STIMULUS (SEM BOOTSTRAP JS) -->
+        <li class="nav-item position-relative" data-controller="dropdown">
+
+          <a class="nav-link" href="#"
+             data-action="click->dropdown#toggle">
+            2ª Chamada ▼
+          </a>
+
+          <!-- MENU CONTROLADO POR STIMULUS -->
+          <div data-dropdown-target="menu"
+               class="position-absolute bg-dark p-2"
+               style="display: none; min-width: 220px; z-index: 999;">
+
+            <% ["1ª Etapa", "2ª Etapa", "3ª Etapa", "4ª Etapa"].each do |stage| %>
+
+              <% partial_period = ExamPeriod.find_by(stage: stage, exam_type: "Parcial") %>
+              <% global_period   = ExamPeriod.find_by(stage: stage, exam_type: "Global") %>
+
+              <div class="text-white fw-bold mt-2">
+                <%= stage %>
+              </div>
+
+              <% if partial_period %>
+                <%= link_to "Parcial",
+                    exam_period_path(partial_period),
+                    class: "d-block text-white text-decoration-none ms-2" %>
+              <% end %>
+
+              <% if global_period %>
+                <%= link_to "Global",
+                    exam_period_path(global_period),
+                    class: "d-block text-white text-decoration-none ms-2" %>
+              <% end %>
+
+              <hr class="text-secondary my-2">
+
+            <% end %>
+
+          </div>
         </li>
-      <% end %>
 
-      <!-- DIVISÓRIA -->
-      <li>
-        <hr class="dropdown-divider">
-      </li>
+        <!-- LINKS SIMPLES -->
+        <li class="nav-item">
+          <%= link_to "Turmas", school_classes_path, class: "nav-link" %>
+        </li>
 
-    <% end %>
+        <li class="nav-item">
+          <%= link_to "Frequência", "#", class: "nav-link" %>
+        </li>
 
-  </ul>
+        <li class="nav-item">
+          <%= link_to "Cronograma", "#", class: "nav-link" %>
+        </li>
 
-  <li>
-    <%= link_to "Turmas",
-    school_classes_path,
-    class: "nav-link" %>
-  </li>
-
-  <li>
-    <%= link_to "Frequência",
-    school_classes_path,
-    class: "nav-link" %>
-  </li>
-
-  <li>
-    <%= link_to "Cronograma",
-    school_classes_path,
-    class: "nav-link" %>
-  </li>
-
-  </li>
       </ul>
+
+      <!-- SEARCH -->
       <form class="d-flex align-items-center m-0" role="search">
         <input class="form-control form-control-sm me-2"
-              type="search"
-              placeholder=""
-              aria-label="Search" />
+               type="search"
+               placeholder="Buscar"
+               aria-label="Search" />
 
-        <button class="btn btn-outline-success btn-sm"
-                type="submit">
-
+        <button class="btn btn-outline-success btn-sm" type="submit">
           Buscar
         </button>
       </form>
+
     </div>
   </div>
-
 </nav>
