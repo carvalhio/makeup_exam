@@ -2,4 +2,4 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "./dropdown"
-//import * as bootstrap from "bootstrap"
+import * as bootstrap from "bootstrap"

@@ -72,21 +72,9 @@ h2 {
   background-color: #8c8d8f;
   color: white;
 }
-.col-aluno {
-  width: 30%;
-}
-
-.col-subjects {
-  width: 45%;
-}
 
 .col-reason {
   width: 15%;
-}
-
-.col-actions {
-  width: 1%;
-  white-space: nowrap;
 }
 
 .exam-group {
@@ -94,4 +82,34 @@ h2 {
   margin-bottom: 20px;
 }
 
+/* =========================================
+   PRINT-MAP
+========================================= */
+.print-map-table {
+  width: auto;              /* <- muda aqui */
+  max-width: 850px;
+  margin: 0 0 20px 0;
+  table-layout: auto;      /* <- muda aqui também */
+  font-size: 13px;
+  border-collapse: collapse;
+}
 
+.print-map-table th:nth-child(1),
+.print-map-table td:nth-child(1) {
+  width: 110px;
+  white-space: nowrap;
+}
+
+.print-map-table th:nth-child(2),
+.print-map-table td:nth-child(2) {
+  min-width: 250px;
+  max-width: 350px;
+}
+
+.print-map-table th:nth-child(3),
+.print-map-table td:nth-child(3) {
+  width: 70px;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 600;
+}
