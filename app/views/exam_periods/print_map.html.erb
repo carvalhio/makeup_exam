@@ -1,0 +1,49 @@
+<h1>Mapa de Impressão de 2ª Chamada</h1>
+
+<p>
+  <strong>Período:</strong>
+  <%= @exam_period.name %>
+</p>
+
+<% ["Manhã", "Tarde"].each do |shift| %>
+
+  <% next unless @print_map[shift] %>
+
+  <hr>
+
+  <h2>
+    Aplicação no turno da <%= shift.downcase %>
+    <br>
+
+    <small class="text-muted fw-normal">
+      <% if shift == "Manhã" %>
+        (alunos matriculados no turno da tarde)
+      <% else %>
+        (alunos matriculados no turno da manhã)
+      <% end %>
+    </small>
+  </h2>
+
+  <table class="table table-sm table-striped">
+    <thead>
+      <tr>
+        <th>Turma</th>
+        <th>Disciplina</th>
+        <th>Quantidade</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @print_map[shift].each do |grade, subjects| %>
+        <% subjects.each do |subject, quantity| %>
+          <tr>
+            <td><%= grade %></td>
+            <td><%= subject %></td>
+            <td><%= quantity %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+<% end %>

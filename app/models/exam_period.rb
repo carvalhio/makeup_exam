@@ -4,4 +4,8 @@ class ExamPeriod < ApplicationRecord
   def self.current
     find_by(active: true)
   end
+
+  def name
+    "#{stage} - #{exam_type}"
+  end
 end

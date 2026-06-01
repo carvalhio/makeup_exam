@@ -82,6 +82,70 @@ class ExamPeriodsController < ApplicationController
     end
   end
 
+  def print_map
+  @exam_period = ExamPeriod.find(params[:id])
+
+  items = []
+
+  @exam_period.exam_requests
+              .includes(:subjects)
+              .includes(student: :school_class)
+              .find_each do |request|
+    school_class = request.student.school_class
+
+    application_shift =
+      case school_class.shift
+      when "Manhã"
+        "Tarde"
+      when "Tarde"
+        "Manhã"
+      else
+        school_class.shift
+      end
+
+    request.subjects.each do |subject|
+      items << {
+        shift: application_shift,
+        grade: school_class.grade,
+        subject: subject.name
+      }
+    end
+  end
+grade_order = {
+  "1º ano" => 1,
+  "2º ano" => 2,
+  "3º ano" => 3,
+  "4º ano" => 4,
+  "5º ano" => 5,
+  "6º ano" => 6,
+  "7º ano" => 7,
+  "8º ano" => 8,
+  "9º ano" => 9,
+  "1ª série" => 10,
+  "2ª série" => 11,
+  "3ª série" => 12
+}
+
+shift_order = {
+  "Manhã" => 1,
+  "Tarde" => 2
+}
+
+@print_map =
+  items.group_by { |i| i[:shift] }
+       .sort_by { |shift, _| shift_order[shift] || 999 }
+       .to_h
+       .transform_values do |shift_items|
+    shift_items.group_by { |i| i[:grade] }
+               .sort_by { |grade, _| grade_order[grade] || 999 }
+               .to_h
+               .transform_values do |grade_items|
+      grade_items.group_by { |i| i[:subject] }
+                 .transform_values(&:count)
+    end
+  end
+end
+
   # DELETE /exam_periods/1 or /exam_periods/1.json
   def destroy
     @exam_period.destroy!

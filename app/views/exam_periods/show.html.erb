@@ -10,8 +10,16 @@
 
   <%= link_to "Inserir novo aluno",
       new_exam_period_exam_request_path(@exam_period),
-      class: "btn-new" %>
+      class: "btn btn-primary btn-sm" %>
+  
+  <%= link_to "Gerar frequência",
+      new_exam_period_exam_request_path(@exam_period),
+      class: "btn btn-outline-primary btn-sm" %>
 
+  <%= link_to "Mapa de Impressão",
+    print_map_exam_period_path(@exam_period),
+    class: "btn btn-success btn-sm" %>
+    
 </div>
 
 <hr>
@@ -31,10 +39,10 @@
         <thead>
 
           <tr>
-            <th>Aluno</th>
-            <th>Comp. curricular</th>
-            <th>Motivo</th>
-            <th></th>
+            <th class="col-aluno">Aluno</th>
+            <th class="subjects">Comp. curricular</th>
+            <th class="reason">Motivo</th>
+            <th class="actions"></th>
           </tr>
 
         </thead>
@@ -61,19 +69,20 @@
                 <%= request.reason %>
               </td>
 
-              <td>
+              <td class="text-center col-actions">
 
-                <%= button_to "Excluir",
-                    exam_period_exam_request_path(
-                      @exam_period,
-                      request
-                    ),
-                    method: :delete,
-                    data: {
-                      turbo_confirm: "Tem certeza?"
-                    } %>
+              <%= button_to "Excluir",
+                  exam_period_exam_request_path(
+                    @exam_period,
+                    request
+                  ),
+                  method: :delete,
+                  data: {
+                    turbo_confirm: "Excluir #{request.student.name}(#{school_class})?"
+                  },
+                  class: "btn btn-danger btn-sm" %>
 
-              </td>
+            </td>
 
             </tr>
 
@@ -90,7 +99,7 @@
 <% else %>
 
   <p>
-    Nenhuma solicitação cadastrada neste período.
+    Nenhuma aluno cadastrado para este período!
   </p>
 
 <% end %>

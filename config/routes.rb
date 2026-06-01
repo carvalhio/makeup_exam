@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   end
 
   resources :exam_periods, only: [ :show ] do
+    member do
+      get :print_map
+    end
   resources :exam_requests, only: [
     :index,
     :show,

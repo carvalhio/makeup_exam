@@ -59,10 +59,10 @@ h2 {
 ========================================= */
 .requests-table {
   width: 100%;
+  table-layout: fixed;
 }
 
-.requests-table th,
-.requests-table td {
+.requests-table td:first-child {
   padding: 4px 8px !important;
   vertical-align: middle;
   white-space: nowrap;
@@ -71,6 +71,22 @@ h2 {
 .requests-table th {
   background-color: #8c8d8f;
   color: white;
+}
+.col-aluno {
+  width: 30%;
+}
+
+.col-subjects {
+  width: 45%;
+}
+
+.col-reason {
+  width: 15%;
+}
+
+.col-actions {
+  width: 1%;
+  white-space: nowrap;
 }
 
 .exam-group {
