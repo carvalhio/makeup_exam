@@ -156,12 +156,11 @@ end
                .includes(:subjects, student: :school_class)
 
     @morning_requests = requests.select do |request|
-    request.application_shift == "Manhã"
-  end
-
-  @afternoon_requests = requests.select do |request|
-    request.application_shift == "Tarde"
-  end
+      request.application_shift == "Manhã"
+    end
+     @afternoon_requests = requests.select do |request|
+       request.application_shift == "Tarde"
+    end
   end
   private
     # Use callbacks to share common setup or constraints between actions.
