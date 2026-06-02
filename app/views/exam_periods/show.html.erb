@@ -12,9 +12,9 @@
       new_exam_period_exam_request_path(@exam_period),
       class: "btn btn-primary btn-sm" %>
   
-  <%= link_to "Gerar frequência",
-      new_exam_period_exam_request_path(@exam_period),
-      class: "btn btn-outline-primary btn-sm" %>
+  <%= link_to "Lista de Frequência",
+            attendance_list_exam_period_path(@exam_period),
+            class: "btn btn-primary" %>
 
   <%= link_to "Mapa de Impressão",
     print_map_exam_period_path(@exam_period),

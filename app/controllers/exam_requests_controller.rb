@@ -91,6 +91,7 @@ end
     params.require(:exam_request).permit(
       :student_id,
       :exam_period_id,
+      :same_shift,
       :reason,
       :reason_description,
       subject_ids: []

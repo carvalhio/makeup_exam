@@ -88,29 +88,21 @@ class ExamPeriodsController < ApplicationController
   items = []
 
   @exam_period.exam_requests
-              .includes(:subjects)
-              .includes(student: :school_class)
-              .find_each do |request|
-    school_class = request.student.school_class
+            .includes(:subjects)
+            .includes(student: :school_class)
+            .find_each do |request|
+  school_class = request.student.school_class
 
-    application_shift =
-      case school_class.shift
-      when "Manhã"
-        "Tarde"
-      when "Tarde"
-        "Manhã"
-      else
-        school_class.shift
-      end
-
-    request.subjects.each do |subject|
-      items << {
-        shift: application_shift,
-        grade: school_class.grade,
-        subject: subject.name
-      }
-    end
+  application_shift = request.application_shift
+puts "ALUNO: #{request.student.name} | TURMA: #{school_class.shift} | APLICAÇÃO: #{application_shift} | SAME_SHIFT: #{request.same_shift}"
+  request.subjects.each do |subject|
+    items << {
+      shift: application_shift,
+      grade: school_class.grade,
+      subject: subject.name
+    }
   end
+end
 grade_order = {
   "1º ano" => 1,
   "2º ano" => 2,
@@ -156,6 +148,21 @@ end
     end
   end
 
+  def attendance_list
+  @exam_period = ExamPeriod.find(params[:id])
+
+  requests = @exam_period
+               .exam_requests
+               .includes(:subjects, student: :school_class)
+
+    @morning_requests = requests.select do |request|
+    request.application_shift == "Manhã"
+  end
+
+  @afternoon_requests = requests.select do |request|
+    request.application_shift == "Tarde"
+  end
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_exam_period

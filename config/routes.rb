@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :exam_periods, only: [ :show ] do
     member do
       get :print_map
+      get :attendance_list
     end
   resources :exam_requests, only: [
     :index,

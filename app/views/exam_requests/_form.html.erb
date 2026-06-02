@@ -146,6 +146,15 @@
         rows: 3,
         placeholder: "Informe detalhes adicionais, se necessário..." %>
 
+    <div class="form-check mb-3">
+    <%= form.check_box :same_shift,
+        class: "form-check-input" %>
+
+    <%= form.label :same_shift,
+        "Aluno realizará a prova no turno matriculado",
+        class: "form-check-label" %>
+</div>
+
   </div>
 </div>
 

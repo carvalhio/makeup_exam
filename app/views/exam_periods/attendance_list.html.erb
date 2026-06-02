@@ -1,0 +1,76 @@
+<h1>Lista de Frequência - 2ª Chamada</h1>
+
+<p>
+  <strong>Período:</strong>
+  <%= @exam_period.name %>
+</p>
+
+<h2>
+  Aplicação pela manhã
+  <br>
+  <small class="text-muted fw-normal">
+    (alunos matriculados no turno da tarde)
+  </small>
+</h2>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Turma</th>
+      <th>Aluno</th>
+      <th>Disciplinas</th>
+      <th>Assinatura</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @morning_requests.each do |request| %>
+      <tr>
+        <td><%= request.student.school_class.full_name %></td>
+        <td><%= request.student.name %></td>
+        <td>
+          <%= request.subjects
+                     .map { |subject| subject_abbreviation(subject.name) }
+                     .join(", ") %>
+        </td>
+        <td></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<hr>
+
+<h2>
+  Aplicação pela tarde
+  <br>
+  <small class="text-muted fw-normal">
+    (alunos matriculados no turno da manhã)
+  </small>
+</h2>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Turma</th>
+      <th>Aluno</th>
+      <th>Disciplinas</th>
+      <th>Assinatura</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @afternoon_requests.each do |request| %>
+      <tr>
+        <td><%= request.student.school_class.full_name %></td>
+        <td><%= request.student.name %></td>
+        <td>
+          <%= request.subjects
+                     .map { |subject| subject_abbreviation(subject.name) }
+                     .join(", ") %>
+        </td>
+        <td></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
