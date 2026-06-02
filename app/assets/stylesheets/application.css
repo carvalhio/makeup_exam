@@ -113,3 +113,11 @@ h2 {
   white-space: nowrap;
   font-weight: 600;
 }
+
+@media print {
+  .navbar,
+  .btn,
+  footer {
+    display: none !important;
+  }
+}

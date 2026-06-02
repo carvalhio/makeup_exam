@@ -4,6 +4,11 @@
   <strong>Período:</strong> <%= @exam_period.name %>
 </p>
 
+<%= button_tag "Imprimir",
+    type: "button",
+    onclick: "window.print()",
+    class: "btn btn-primary mb-3" %>
+
 <% ["Manhã", "Tarde"].each do |shift| %>
 
   <% next unless @print_map[shift] %>
@@ -27,7 +32,7 @@
       <thead>
         <tr>
           <th>Turma</th>
-          <th>Disciplina</th>
+          <th>Comp. curricular</th>
           <th>Qtd.</th>
         </tr>
       </thead>
