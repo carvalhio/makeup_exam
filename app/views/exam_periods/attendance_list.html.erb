@@ -1,76 +1,81 @@
-<h1>Lista de Frequência - 2ª Chamada</h1>
+<h1 class="mb-3">Lista de Frequência - 2ª Chamada</h1>
 
-<p>
-  <strong>Período:</strong>
-  <%= @exam_period.name %>
+<p class="text-muted mb-3">
+  <strong>Período:</strong> <%= @exam_period.name %>
 </p>
 
-<h2>
-  Aplicação pela manhã
-  <br>
-  <small class="text-muted fw-normal">
-    (alunos matriculados no turno da tarde)
-  </small>
-</h2>
+<%= button_tag "Imprimir",
+    type: "button",
+    onclick: "window.print()",
+    class: "btn btn-primary mb-3 no-print" %>
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Turma</th>
-      <th>Aluno</th>
-      <th>Disciplinas</th>
-      <th>Assinatura</th>
-    </tr>
-  </thead>
+<!-- MANHÃ -->
+<div class="mb-5">
 
-  <tbody>
-    <% @morning_requests.each do |request| %>
+  <h4 class="fw-bold">MANHÃ</h4>
+  <p class="text-muted">Alunos que farão prova pela manhã</p>
+
+  <table class="table table-bordered table-sm align-middle">
+    <thead>
       <tr>
-        <td><%= request.student.school_class.full_name %></td>
-        <td><%= request.student.name %></td>
-        <td>
-          <%= request.subjects
-                     .map { |subject| subject_abbreviation(subject.name) }
-                     .join(", ") %>
-        </td>
-        <td></td>
+        <th style="width: 20%;">Turma</th>
+        <th style="width: 40%;">Aluno</th>
+        <th style="width: 20%;">Disciplinas</th>
+        <th style="width: 20%; height: 60px;">Assinatura</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<hr>
+    <tbody>
+      <% @morning_requests.each do |request| %>
+        <tr>
 
-<h2>
-  Aplicação pela tarde
-  <br>
-  <small class="text-muted fw-normal">
-    (alunos matriculados no turno da manhã)
-  </small>
-</h2>
+          <td>
+  <%= "#{request.student.school_class.grade} #{request.student.school_class.identifier}" %>
+</td>
+          
+          <td><%= request.student.name %></td>
+          <td>
+            <%= request.subjects.map { |s| subject_abbreviation(s.name) }.join(", ") %>
+          </td>
+          <td style="height: 50px;"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Turma</th>
-      <th>Aluno</th>
-      <th>Disciplinas</th>
-      <th>Assinatura</th>
-    </tr>
-  </thead>
+</div>
 
-  <tbody>
-    <% @afternoon_requests.each do |request| %>
+<!-- TARDE -->
+<div class="mb-5">
+
+  <h4 class="fw-bold">TARDE</h4>
+  <p class="text-muted">Alunos que farão prova pela tarde</p>
+
+  <table class="table table-bordered table-sm align-middle">
+    <thead>
       <tr>
-        <td><%= request.student.school_class.full_name %></td>
-        <td><%= request.student.name %></td>
-        <td>
-          <%= request.subjects
-                     .map { |subject| subject_abbreviation(subject.name) }
-                     .join(", ") %>
-        </td>
-        <td></td>
+        <th style="width: 20%;">Turma</th>
+        <th style="width: 40%;">Aluno</th>
+        <th style="width: 20%;">Disciplinas</th>
+        <th style="width: 20%; height: 60px;">Assinatura</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @afternoon_requests.each do |request| %>
+        <tr>
+          <td>
+  <%= "#{request.student.school_class.grade} #{request.student.school_class.identifier}" %>
+</td>
+          <td><%= request.student.name %></td>
+          <td>
+
+            <%= request.subjects.map { |s| subject_abbreviation(s.name) }.join(", ") %>
+          </td>
+          <td style="height: 50px;"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>

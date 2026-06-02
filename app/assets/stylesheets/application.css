@@ -120,4 +120,21 @@ h2 {
   footer {
     display: none !important;
   }
+   .no-print {
+    display: none !important;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  td {
+    height: 40px;
+  }
+
+  th:last-child,
+  td:last-child {
+    width: 30%;
+  }
 }
+
