@@ -36,15 +36,26 @@ class ExamRequestsController < ApplicationController
 
   # PATCH/PUT /exam_requests/1
   def update
-    respond_to do |format|
-      if @exam_request.update(exam_request_params)
-        format.html { redirect_to @exam_request, notice: "Atualizado com sucesso", status: :see_other }
-        format.json { render :show, status: :ok, location: @exam_request }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @exam_request.errors, status: :unprocessable_entity }
+  respond_to do |format|
+    if @exam_request.update(exam_request_params)
+
+      format.html do
+        redirect_to exam_period_path(@exam_period),
+                    notice: "Solicitação atualizada com sucesso",
+                    status: :see_other
       end
+
+      format.json do
+        render :show,
+               status: :ok,
+               location: exam_period_exam_request_path(@exam_period, @exam_request)
+      end
+
+    else
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: @exam_request.errors, status: :unprocessable_entity }
     end
+  end
   end
 
 # DELETE /exam_requests/1

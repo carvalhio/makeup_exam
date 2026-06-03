@@ -34,12 +34,23 @@ export default class extends Controller {
         option.textContent = student.name
 
         if (student.has_request) {
-          option.disabled = true
-          option.textContent += " (já cadastrado)"
+         option.textContent += " (já cadastrado)"
         }
 
         this.studentTarget.appendChild(option)
       })
     })
+  }
+
+  checkExisting() {
+  const studentId = this.studentTarget.value
+
+  if (!studentId) return
+
+  const examPeriodId =
+    this.element.dataset.examRequestPeriodIdValue
+
+  window.location =
+    `/exam_periods/${examPeriodId}/exam_requests/find_or_redirect?student_id=${studentId}`
   }
 }
