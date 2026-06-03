@@ -28,15 +28,18 @@
     <tbody>
       <% @morning_requests.each do |request| %>
         <tr>
+          <td>
+            <%= "#{request.student.school_class.grade} #{request.student.school_class.identifier}" %>
+          </td>
 
           <td>
-  <%= "#{request.student.school_class.grade} #{request.student.school_class.identifier}" %>
-</td>
-          
-          <td><%= request.student.name %></td>
-          <td>
-            <%= request.subjects.map { |s| subject_abbreviation(s.name) }.join(", ") %>
+            <%= request.student.name %>
           </td>
+
+          <td>
+            <%= request.subjects.map(&:code).join(", ") %>
+          </td>
+
           <td style="height: 50px;"></td>
         </tr>
       <% end %>
@@ -65,13 +68,17 @@
       <% @afternoon_requests.each do |request| %>
         <tr>
           <td>
-  <%= "#{request.student.school_class.grade} #{request.student.school_class.identifier}" %>
-</td>
-          <td><%= request.student.name %></td>
-          <td>
-
-            <%= request.subjects.map { |s| subject_abbreviation(s.name) }.join(", ") %>
+            <%= "#{request.student.school_class.grade} #{request.student.school_class.identifier}" %>
           </td>
+
+          <td>
+            <%= request.student.name %>
+          </td>
+
+          <td>
+            <%= request.subjects.map(&:code).join(", ") %>
+          </td>
+
           <td style="height: 50px;"></td>
         </tr>
       <% end %>
