@@ -7,35 +7,39 @@ export default class extends Controller {
     "student"
   ]
 
-  async loadStudents() {
+  loadStudents() {
+  const schoolClassId = this.schoolClassTarget.value
 
-    const schoolClassId =
-      this.schoolClassTarget.value
+  if (!schoolClassId) {
+    this.studentTarget.innerHTML =
+      '<option value="">Selecione um aluno</option>'
+    return
+  }
 
-    if (!schoolClassId) {
-      return
-    }
+  const examPeriodId =
+  this.element.dataset.examRequestPeriodIdValue
 
-    const response =
-      await fetch(
-        `/school_classes/${schoolClassId}/students`
-      )
+  fetch(
+    `/school_classes/${schoolClassId}/students.json?exam_period_id=${examPeriodId}`
+  )
+    .then(response => response.json())
+    .then(students => {
+      this.studentTarget.innerHTML =
+        '<option value="">Selecione um aluno</option>'
 
-    const students =
-      await response.json()
+      students.forEach(student => {
+        const option = document.createElement("option")
 
-    this.studentTarget.innerHTML = ""
+        option.value = student.id
+        option.textContent = student.name
 
-    students.forEach((student) => {
+        if (student.has_request) {
+          option.disabled = true
+          option.textContent += " (já cadastrado)"
+        }
 
-      const option =
-        document.createElement("option")
-
-      option.value = student.id
-      option.textContent = student.name
-
-      this.studentTarget.appendChild(option)
-
+        this.studentTarget.appendChild(option)
+      })
     })
   }
 }

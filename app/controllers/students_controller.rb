@@ -3,13 +3,22 @@ class StudentsController < ApplicationController
 
   # GET /students or /students.json
   def index
-  @students =
+  students =
     Student.where(
       school_class_id: params[:school_class_id]
     ).order(:name)
 
-  render json: @students
-end
+  render json: students.map { |student|
+    {
+      id: student.id,
+      name: student.name,
+      has_request: ExamRequest.exists?(
+        exam_period_id: params[:exam_period_id],
+        student_id: student.id
+      )
+    }
+  }
+  end
   # GET /students/1 or /students/1.json
   def show
   end
@@ -56,7 +65,7 @@ end
     @student.destroy!
 
     respond_to do |format|
-      format.html { redirect_to students_path, notice: "Student was successfully destroyed.", status: :see_other }
+      format.html { redirect_to students_path, notice: "Deletadoo com sucesso!", status: :see_other }
       format.json { head :no_content }
     end
   end

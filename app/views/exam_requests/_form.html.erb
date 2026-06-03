@@ -21,7 +21,10 @@
 
   <% end %>
 
-  <div data-controller="exam-request">
+
+<div
+  data-controller="exam-request"
+  data-exam-request-period-id-value="<%= @exam_period.id %>">
 
     <!-- TURMA E ALUNO -->
     <div class="row mb-3 justify-content-start">
@@ -51,9 +54,8 @@
 
       <div class="col-md-4">
 
-        <%= form.label :student_id,
-            "Aluno",
-            class: "form-label fw-bold" %>
+    
+
 
         <%= form.select(
           :student_id,
@@ -127,7 +129,8 @@
         "Atestado Médico",
         "Falta Justificada",
         "Viagem",
-        "Outro"
+        "Outro",
+        "Progressão de Notas"
       ],
       {},
       class: "form-select"

@@ -70,6 +70,25 @@ end
     )
   end
 
+  def find_or_redirect
+  exam_request = ExamRequest.find_by(
+    exam_period_id: params[:exam_period_id],
+    student_id: params[:student_id]
+  )
+
+  if exam_request
+    redirect_to edit_exam_period_exam_request_path(
+      params[:exam_period_id],
+      exam_request
+    )
+  else
+    redirect_to new_exam_period_exam_request_path(
+      params[:exam_period_id],
+      student_id: params[:student_id]
+    )
+  end
+end
+
   private
   def load_exam_menu
      @exam_menu = ExamPeriod

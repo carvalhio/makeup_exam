@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get "reports", to: "reports#index"
 
   resources :students
+
   resources :school_classes do
     resources :students, only: :index
   end
@@ -15,15 +16,20 @@ Rails.application.routes.draw do
       get :print_map
       get :attendance_list
     end
-  resources :exam_requests, only: [
-    :index,
-    :show,
-    :new,
-    :create,
-    :edit,
-    :update,
-    :destroy
-  ]
+
+    resources :exam_requests, only: [
+      :index,
+      :show,
+      :new,
+      :create,
+      :edit,
+      :update,
+      :destroy
+    ] do
+      collection do
+        get :find_or_redirect
+      end
+    end
   end
 
   get "stages/:stage", to: "exam_periods#stage", as: :stage
