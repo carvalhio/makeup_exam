@@ -5,9 +5,11 @@ class ExamRequestsController < ApplicationController
 
 
   # GET /exam_requests
-  def index
-     @exam_requests = @exam_period.exam_requests.includes(:student, :subjects)
-  end
+  def new
+  @exam_request = @exam_period.exam_requests.new(
+    student_id: params[:student_id]
+  )
+end
 
   # GET /exam_requests/1
   def show
@@ -15,8 +17,11 @@ class ExamRequestsController < ApplicationController
 
   # GET /exam_requests/new
   def new
-   @exam_request = @exam_period.exam_requests.new
-  end
+  @exam_request =
+    @exam_period.exam_requests.new(
+      student_id: params[:student_id]
+    )
+end
 
   # GET /exam_requests/1/edit
   def edit

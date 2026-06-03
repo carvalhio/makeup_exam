@@ -1,3 +1,4 @@
+<div class="exam-period-container">
 <h1>
   2ª Chamada -
   <%= @exam_period.stage %> -
@@ -34,15 +35,14 @@
         <%= school_class %>
       </h5>
 
-     <table class="table table-bordered table-hover table-sm align-middle requests-table">
+     <table class="table table-bordered table-sm exam-table">
 
         <thead>
 
           <tr>
-            <th class="col-aluno">Aluno</th>
+            <th class="col-aluno col-md-4">Aluno</th>
             <th class="subjects">Comp. curricular</th>
             <th class="reason">Motivo</th>
-            <th class="actions"></th>
           </tr>
 
         </thead>
@@ -54,7 +54,12 @@
             <tr>
 
               <td>
-                <%= request.student.name %>
+                <%= link_to request.student.name,
+                    edit_exam_period_exam_request_path(
+                      @exam_period,
+                      request
+                    ),
+                    class: "text-decoration-none fw-semibold" %>
               </td>
 
               <td>
@@ -103,3 +108,4 @@
   </p>
 
 <% end %>
+</div>

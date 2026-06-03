@@ -138,3 +138,16 @@ h2 {
   }
 }
 
+.exam-table {
+  font-size: 0.8rem;
+}
+
+.exam-table td,
+.exam-table th {
+  padding: 0.20rem 0.35rem;
+  vertical-align: middle;
+}
+
+.exam-period-container {
+  max-width: 900px;
+}

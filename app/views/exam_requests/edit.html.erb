@@ -7,4 +7,19 @@
   <%= link_to "Voltar",
       exam_period_path(@exam_period),
       class: "btn btn-outline-secondary" %>
+
+  <%= button_to "Excluir Solicitação",
+      exam_period_exam_request_path(
+        @exam_period,
+        @exam_request
+      ),
+      method: :delete,
+      class: "btn btn-outline-danger btn-sm",
+      data: {
+        turbo_confirm: "Tem certeza que deseja excluir esta solicitação?"
+      } %>
+
 </div>
+
+<hr>
+
