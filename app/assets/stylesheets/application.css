@@ -90,7 +90,7 @@ h2 {
   max-width: 850px;
   margin: 0 0 20px 0;
   table-layout: auto;      /* <- muda aqui também */
-  font-size: 13px;
+  font-size: 11px;
   border-collapse: collapse;
 }
 
@@ -115,36 +115,28 @@ h2 {
 }
 
 @media print {
-  .navbar,
-  .btn,
-  footer {
-    display: none !important;
-  }
-   .no-print {
-    display: none !important;
+
+  .print-map-table,
+  .exam-table {
+    font-size: 10px;
   }
 
-  table {
-    font-size: 12px;
+  .print-map-table th,
+  .print-map-table td,
+  .exam-table th,
+  .exam-table td {
+    padding: 1px 4px !important;
+    line-height: 1;
   }
 
-  td {
-    height: 40px;
-  }
-
-  th:last-child,
-  td:last-child {
-    width: 30%;
-  }
 }
-
 .exam-table {
   font-size: 0.8rem;
 }
 
 .exam-table td,
 .exam-table th {
-  padding: 0.20rem 0.35rem;
+  padding: 0.15rem 0.3rem;
   vertical-align: middle;
 }
 

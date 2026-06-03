@@ -74,21 +74,7 @@
                 <%= request.reason %>
               </td>
 
-              <td class="text-center col-actions">
-
-              <%= button_to "Excluir",
-                  exam_period_exam_request_path(
-                    @exam_period,
-                    request
-                  ),
-                  method: :delete,
-                  data: {
-                    turbo_confirm: "Excluir #{request.student.name}(#{school_class})?"
-                  },
-                  class: "btn btn-danger btn-sm" %>
-
-            </td>
-
+              
             </tr>
 
           <% end %>
