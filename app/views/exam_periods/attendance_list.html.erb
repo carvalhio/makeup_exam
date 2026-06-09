@@ -15,16 +15,19 @@
 
 <% @morning_subjects.sort_by { |subject, _| subject.code }.each do |subject, items| %>
 
+<div class="subject-container">
+
   <h4 class="subject-header">
     <%= subject.name %>
   </h4>
+  
 
-  <table class="table table-bordered table-sm">
+  <table class="table table-bordered table-sm attendance-table">
     <thead>
       <tr>
-        <th style="width: 25%">Turma</th>
-        <th style="width: 45%">Aluno</th>
-        <th style="width: 30%">Assinatura</th>
+        <th style="width: 8%">Turma</th>
+        <th style="width: 40%">Aluno</th>
+        <th style="width: 52%">Assinatura</th>
       </tr>
     </thead>
 
@@ -48,7 +51,7 @@
 
     </tbody>
   </table>
-
+</div>
 <% end %>
 
 <hr class="my-5">
@@ -59,16 +62,18 @@
 
 <% @afternoon_subjects.sort_by { |subject, _| subject.code }.each do |subject, items| %>
 
+  <div class="subject-container">
+
   <h4 class="subject-header">
     <%= subject.name %>
   </h4>
 
-  <table class="table table-bordered table-sm">
+  <table class="table table-bordered table-sm attendance-table">
     <thead>
       <tr>
-        <th style="width: 25%">Turma</th>
-        <th style="width: 45%">Aluno</th>
-        <th style="width: 30%">Assinatura</th>
+        <th style="width: 8%">Turma</th>
+        <th style="width: 40%">Aluno</th>
+        <th style="width: 52%">Assinatura</th>
       </tr>
     </thead>
 
@@ -92,5 +97,6 @@
 
     </tbody>
   </table>
+</div>
 
 <% end %>

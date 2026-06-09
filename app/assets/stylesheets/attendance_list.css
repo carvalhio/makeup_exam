@@ -1,0 +1,68 @@
+/* =========================================
+   ATTENDANCE LIST
+========================================= */
+
+.subject-header {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  background-color: #d9d9d9;
+  border: 1px solid #000;
+  padding: 6px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.attendance-table {
+  width: 100%;
+  margin: 0 auto 10px auto;
+  font-size: 11px;
+}
+
+
+.attendance-table th {
+  background-color: #929496;
+  text-align: center;
+  font-weight: bold;
+}
+
+.attendance-table th,
+.attendance-table td {
+  border: 1px solid #8a8a8a;
+  padding: 4px;
+}
+
+.attendance-table tbody tr:nth-child(even) {
+  background-color: #d2e5fd;
+}
+
+.attendance-table tbody tr:hover {
+  background-color: #868484;
+}
+
+/* Impressão */
+
+@media print {
+
+  .no-print {
+    display: none !important;
+  }
+
+  .attendance-table {
+    font-size: 10px;
+  }
+
+  .subject-header {
+    margin-top: 5px;
+    padding: 4px;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+}
+
+.subject-container {
+  width: 750px;
+  margin: 0 auto 15px auto;
+}
