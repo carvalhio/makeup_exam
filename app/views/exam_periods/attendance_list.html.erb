@@ -10,79 +10,87 @@
     class: "btn btn-primary mb-3 no-print" %>
 
 <!-- MANHÃ -->
-<div class="mb-5">
 
-  <h4 class="fw-bold">MANHÃ</h4>
-  <p class="text-muted">Alunos que farão prova pela manhã</p>
+<h3 class="mt-4 mb-3">MANHÃ</h3>
 
-  <table class="table table-bordered table-sm align-middle">
+<% @morning_subjects.sort_by { |subject, _| subject.code }.each do |subject, items| %>
+
+  <h4 class="subject-header">
+    <%= subject.name %>
+  </h4>
+
+  <table class="table table-bordered table-sm">
     <thead>
       <tr>
-        <th style="width: 20%;">Turma</th>
-        <th style="width: 40%;">Aluno</th>
-        <th style="width: 20%;">Disciplinas</th>
-        <th style="width: 20%; height: 60px;">Assinatura</th>
+        <th style="width: 25%">Turma</th>
+        <th style="width: 45%">Aluno</th>
+        <th style="width: 30%">Assinatura</th>
       </tr>
     </thead>
 
     <tbody>
-      <% @morning_requests.each do |request| %>
+
+      <% items.each do |item| %>
+
         <tr>
           <td>
-            <%= "#{request.student.school_class.grade} #{request.student.school_class.identifier}" %>
+            <%= "#{item[:school_class].grade} #{item[:school_class].identifier}" %>
           </td>
 
           <td>
-            <%= request.student.name %>
+            <%= item[:student].name %>
           </td>
 
-          <td>
-            <%= request.subjects.map(&:code).join(", ") %>
-          </td>
-
-          <td style="height: 50px;"></td>
+          <td></td>
         </tr>
+
       <% end %>
+
     </tbody>
   </table>
 
-</div>
+<% end %>
+
+<hr class="my-5">
 
 <!-- TARDE -->
-<div class="mb-5">
 
-  <h4 class="fw-bold">TARDE</h4>
-  <p class="text-muted">Alunos que farão prova pela tarde</p>
+<h3 class="mt-4 mb-3">TARDE</h3>
 
-  <table class="table table-bordered table-sm exam-table">
+<% @afternoon_subjects.sort_by { |subject, _| subject.code }.each do |subject, items| %>
+
+  <h4 class="subject-header">
+    <%= subject.name %>
+  </h4>
+
+  <table class="table table-bordered table-sm">
     <thead>
       <tr>
-        <th style="width: 10%;">Turma</th>
-        <th style="width: 20%;">Aluno</th>
-        <th style="width: 10%;">Disciplinas</th>
-        <th style="width: 10%; height: 60px;">Assinatura</th>
+        <th style="width: 25%">Turma</th>
+        <th style="width: 45%">Aluno</th>
+        <th style="width: 30%">Assinatura</th>
       </tr>
     </thead>
 
     <tbody>
-      <% @afternoon_requests.each do |request| %>
+
+     <% items.each do |item| %>
+
         <tr>
           <td>
-            <%= "#{request.student.school_class.grade} #{request.student.school_class.identifier}" %>
+            <%= "#{item[:school_class].grade} #{item[:school_class].identifier}" %>
           </td>
 
           <td>
-            <%= request.student.name %>
+            <%= item[:student].name %>
           </td>
 
-          <td>
-            <%= request.subjects.map(&:code).join(", ") %>
-          </td>
-
-          <td style="height: 50px;"></td>
+          <td></td>
         </tr>
+
       <% end %>
+
     </tbody>
   </table>
 
-</div>
+<% end %>

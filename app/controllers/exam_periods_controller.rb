@@ -1,4 +1,22 @@
 class ExamPeriodsController < ApplicationController
+  # CENTRAL GRADE ORDER
+  def grade_order_value(grade)
+    case grade
+    when "1º ano" then 1
+    when "2º ano" then 2
+    when "3º ano" then 3
+    when "4º ano" then 4
+    when "5º ano" then 5
+    when "6º ano" then 6
+    when "7º ano" then 7
+    when "8º ano" then 8
+    when "9º ano" then 9
+    when "1ª série" then 10
+    when "2ª série" then 11
+    when "3ª série" then 12
+    else 99
+    end
+  end
   before_action :set_exam_period, only: %i[ show edit update destroy ]
 
   # GET /exam_periods
@@ -113,19 +131,56 @@ class ExamPeriodsController < ApplicationController
 
   # ATTENDANCE LIST
   def attendance_list
-    @exam_period = ExamPeriod.find(params[:id])
+  @exam_period = ExamPeriod.find(params[:id])
 
-    requests = @exam_period
-                 .exam_requests
-                 .includes(:subjects, student: :school_class)
+  requests = @exam_period
+               .exam_requests
+               .includes(:subjects, student: :school_class)
 
-    @morning_requests = requests
-      .select { |r| r.application_shift == "Manhã" }
-      .sort_by { |r| [ grade_order_value(r.student.school_class.grade), r.student.name ] }
+  morning_items = []
+  afternoon_items = []
 
-    @afternoon_requests = requests
-      .select { |r| r.application_shift == "Tarde" }
-      .sort_by { |r| [ grade_order_value(r.student.school_class.grade), r.student.name ] }
+  requests.each do |request|
+    request.subjects.each do |subject|
+      item = {
+        subject: subject,
+        student: request.student,
+        school_class: request.student.school_class
+      }
+
+      if request.application_shift == "Manhã"
+        morning_items << item
+      else
+        afternoon_items << item
+      end
+    end
+  end
+
+  @morning_subjects =
+  morning_items
+    .group_by { |item| item[:subject] }
+    .transform_values do |items|
+      items.sort_by do |item|
+        [
+          grade_order_value(item[:school_class].grade),
+          item[:school_class].identifier,
+          item[:student].name
+        ]
+      end
+    end
+
+@afternoon_subjects =
+  afternoon_items
+    .group_by { |item| item[:subject] }
+    .transform_values do |items|
+      items.sort_by do |item|
+        [
+          grade_order_value(item[:school_class].grade),
+          item[:school_class].identifier,
+          item[:student].name
+        ]
+      end
+    end
   end
 
   # DELETE /exam_periods/1
@@ -137,7 +192,6 @@ class ExamPeriodsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
   private
 
   def set_exam_period
@@ -146,24 +200,5 @@ class ExamPeriodsController < ApplicationController
 
   def exam_period_params
     params.require(:exam_period).permit(:stage, :exam_type, :active)
-  end
-
-  # CENTRAL GRADE ORDER
-  def grade_order_value(grade)
-    case grade
-    when "1º ano" then 1
-    when "2º ano" then 2
-    when "3º ano" then 3
-    when "4º ano" then 4
-    when "5º ano" then 5
-    when "6º ano" then 6
-    when "7º ano" then 7
-    when "8º ano" then 8
-    when "9º ano" then 9
-    when "1ª série" then 10
-    when "2ª série" then 11
-    when "3ª série" then 12
-    else 99
-    end
   end
 end

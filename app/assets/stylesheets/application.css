@@ -114,7 +114,6 @@ h2 {
   font-weight: 600;
 }
 
-
 @media print {
 
   .print-map-table,
@@ -146,43 +145,6 @@ h2 {
 }
 
 
-
-
-
-/* =========================================
-   DISCIPLINAS
-========================================= */
-
-.subjects-box {
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  background: #fafafa;
-}
-
-.subjects-columns {
-  display: grid;
-  column-count: 3;
-  column-gap: 12px;
-  grid-template-columns: repeat(3, max-content);
-}
-
-
-
-.subjects-columns .form-check {
-  break-inside: avoid;
-  margin-bottom: 2px !important;
-}
-
-.subjects-columns .form-check-label {
-  font-size: 12px;
-  line-height: 1.1;
-}
-
-.subjects-columns .form-check-input {
-  margin-top: 0.15rem;
-}
 /* =========================================
    EXAM REQUEST FORM
 ========================================= */
@@ -221,21 +183,38 @@ h2 {
 .subjects-box {
   border: 1px solid #dee2e6;
   border-radius: 4px;
-  padding: 10px 12px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
   background: #fafafa;
 }
 
 .subjects-columns {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 4px 12px;
+  column-count: 3;
+  column-gap: 12px;
+  grid-template-columns: repeat(3, max-content);
 }
 
 .subjects-columns .form-check {
-  margin-bottom: 0 !important;
+  break-inside: avoid;
+  margin-bottom: 2px !important;
 }
 
 .subjects-columns .form-check-label {
   font-size: 12px;
-  line-height: 1.2;
+  line-height: 1.1;
+}
+
+.subjects-columns .form-check-input {
+  margin-top: 0.15rem;
+}
+
+.subject-header {
+  text-align: center;
+  font-weight: bold;
+  background-color: #e9ecef;
+  border: 1px solid #000;
+  padding: 8px;
+  margin-top: 20px;
+  margin-bottom: 0;
 }
