@@ -114,6 +114,7 @@ h2 {
   font-weight: 600;
 }
 
+
 @media print {
 
   .print-map-table,
@@ -142,4 +143,99 @@ h2 {
 
 .exam-period-container {
   max-width: 900px;
+}
+
+
+
+
+
+/* =========================================
+   DISCIPLINAS
+========================================= */
+
+.subjects-box {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  background: #fafafa;
+}
+
+.subjects-columns {
+  display: grid;
+  column-count: 3;
+  column-gap: 12px;
+  grid-template-columns: repeat(3, max-content);
+}
+
+
+
+.subjects-columns .form-check {
+  break-inside: avoid;
+  margin-bottom: 2px !important;
+}
+
+.subjects-columns .form-check-label {
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.subjects-columns .form-check-input {
+  margin-top: 0.15rem;
+}
+/* =========================================
+   EXAM REQUEST FORM
+========================================= */
+
+.exam-request-form {
+  max-width: 1000px;
+}
+
+.exam-request-form .card-header {
+  background-color: #f8f9fa;
+  font-size: 13px;
+  padding: 8px 12px;
+}
+
+.same-shift-box {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.form-actions {
+  border-top: 1px solid #dee2e6;
+  padding-top: 12px;
+  margin-top: 16px;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* =========================================
+   DISCIPLINAS
+========================================= */
+
+.subjects-box {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 10px 12px;
+  background: #fafafa;
+}
+
+.subjects-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 4px 12px;
+}
+
+.subjects-columns .form-check {
+  margin-bottom: 0 !important;
+}
+
+.subjects-columns .form-check-label {
+  font-size: 12px;
+  line-height: 1.2;
 }

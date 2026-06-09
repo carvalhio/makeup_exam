@@ -1,3 +1,4 @@
+
 <% selected_class_id = exam_request.student&.school_class_id %>
 
 <% students =
@@ -7,13 +8,15 @@
               .pluck(:name, :id) :
        [] %>
 
+<div class="exam-request-form">
+
 <%= form_with(model: [@exam_period, exam_request]) do |form| %>
 
   <% if exam_request.errors.any? %>
 
     <div class="alert alert-danger">
 
-      <h6>
+      <h6 class="fw-bold mb-2">
         Foram encontrados
         <%= pluralize(exam_request.errors.count, "erro") %>:
       </h6>
@@ -34,135 +37,184 @@
     data-controller="exam-request"
     data-exam-request-period-id-value="<%= @exam_period.id %>">
 
-    <!-- TURMA E ALUNO -->
-    <div class="row mb-3 justify-content-start">
+    <!-- ====================================================== -->
+    <!-- DADOS DO ALUNO -->
+    <!-- ====================================================== -->
 
-      <div class="col-md-4">
+    <div class="card shadow-sm mb-3">
 
-        <%= label_tag :school_class_id,
-            "Turma",
-            class: "form-label fw-bold" %>
-
-        <%= select_tag(
-          :school_class_id,
-          options_from_collection_for_select(
-            SchoolClass.order(:grade, :identifier),
-            :id,
-            :full_name,
-            selected_class_id
-          ),
-          prompt: "Selecione uma turma",
-          class: "form-select",
-          data: {
-            exam_request_target: "schoolClass",
-            action: "change->exam-request#loadStudents"
-          }
-        ) %>
-
+      <div class="card-header fw-bold">
+        Dados do Aluno
       </div>
 
-      <div class="col-md-4">
+      <div class="card-body">
 
-        <%= form.select(
-          :student_id,
-          students,
-          { prompt: "Selecione um aluno" },
-          {
-            class: "form-select",
-            data: {
-              exam_request_target: "student",
-              action: "change->exam-request#checkExisting"
-            }
-          }
-        ) %>
+        <div class="row">
 
-      </div>
+          <!-- TURMA -->
+          <div class="col-md-4">
 
-    </div>
+            <%= label_tag :school_class_id,
+                "Turma",
+                class: "form-label fw-bold" %>
 
-  </div>
-
-  <!-- DISCIPLINAS -->
-  <div class="mb-2 mb-1">
-
-    <label class="form-label fw-bold">
-      Disciplinas
-    </label>
-
-    <div class="row">
-
-      <% Subject.order(:name).each do |subject| %>
-
-        <div class="col-md-4 mb-2">
-
-          <div class="form-check">
-
-            <%= check_box_tag(
-              "exam_request[subject_ids][]",
-              subject.id,
-              exam_request.subject_ids.include?(subject.id),
-              class: "form-check-input"
+            <%= select_tag(
+              :school_class_id,
+              options_from_collection_for_select(
+                SchoolClass.order(:grade, :identifier),
+                :id,
+                :full_name,
+                selected_class_id
+              ),
+              prompt: "Selecione uma turma",
+              class: "form-select",
+              data: {
+                exam_request_target: "schoolClass",
+                action: "change->exam-request#loadStudents"
+              }
             ) %>
 
-            <%= label_tag(
-              "exam_request_subject_ids_#{subject.id}",
-              subject.name,
-              class: "form-check-label"
+          </div>
+
+          <!-- ALUNO -->
+          <div class="col-md-6">
+
+            <%= form.label :student_id,
+                "Aluno",
+                class: "form-label fw-bold" %>
+
+            <%= form.select(
+              :student_id,
+              students,
+              { prompt: "Selecione um aluno" },
+              {
+                class: "form-select",
+                data: {
+                  exam_request_target: "student",
+                  action: "change->exam-request#checkExisting"
+                }
+              }
             ) %>
 
           </div>
 
         </div>
 
-      <% end %>
+        <div class="same-shift-box mt-3">
+
+          <div class="form-check">
+
+            <%= form.check_box :same_shift,
+                class: "form-check-input" %>
+
+            <%= form.label :same_shift,
+                "Aluno realizará a prova no turno matriculado",
+                class: "form-check-label" %>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
-  </div>
+    <!-- ====================================================== -->
+    <!-- DISCIPLINAS -->
+    <!-- ====================================================== -->
 
-  <!-- MOTIVO E DESCRIÇÃO -->
-  <div class="row mb-3">
+    <div class="card shadow-sm mb-3">
 
-    <div class="col-md-4">
+      <div class="card-header fw-bold">
+        Componentes Curriculares
+      </div>
 
-      <%= form.label :reason,
-          "Motivo",
-          class: "form-label fw-bold" %>
+      <div class="card-body">
 
-      <%= form.select(
-        :reason,
-        [
-          "Atestado Médico",
-          "Falta Justificada",
-          "Viagem",
-          "Outro",
-          "Progressão de Notas"
-        ],
-        {},
-        class: "form-select"
-      ) %>
+        <div class="subjects-box">
+
+          <div class="subjects-columns">
+
+            <% Subject.order(:name).each do |subject| %>
+
+              <div class="form-check">
+
+                <%= check_box_tag(
+                  "exam_request[subject_ids][]",
+                  subject.id,
+                  exam_request.subject_ids.include?(subject.id),
+                  class: "form-check-input"
+                ) %>
+
+                <%= label_tag(
+                  "exam_request_subject_ids_#{subject.id}",
+                  subject.name,
+                  class: "form-check-label"
+                ) %>
+
+              </div>
+
+            <% end %>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
-    <div class="col-md-8">
+    <!-- ====================================================== -->
+    <!-- JUSTIFICATIVA -->
+    <!-- ====================================================== -->
 
-      <%= form.label :reason_description,
-          "Descrição complementar",
-          class: "form-label fw-bold" %>
+    <div class="card shadow-sm mb-3">
 
-      <%= form.text_area :reason_description,
-          class: "form-control",
-          rows: 3,
-          placeholder: "Informe detalhes adicionais, se necessário..." %>
+      <div class="card-header fw-bold">
+        Justificativa
+      </div>
 
-      <div class="form-check mb-3">
+      <div class="card-body">
 
-        <%= form.check_box :same_shift,
-            class: "form-check-input" %>
+        <div class="row">
 
-        <%= form.label :same_shift,
-            "Aluno realizará a prova no turno matriculado",
-            class: "form-check-label" %>
+          <!-- MOTIVO -->
+          <div class="col-md-4">
+
+            <%= form.label :reason,
+                "Motivo",
+                class: "form-label fw-bold" %>
+
+            <%= form.select(
+              :reason,
+              [
+                "Atestado Médico",
+                "Falta Justificada",
+                "Viagem",
+                "Outro",
+                "Progressão de Notas"
+              ],
+              { prompt: "Selecione um motivo" },
+              class: "form-select"
+            ) %>
+
+          </div>
+
+          <!-- DESCRIÇÃO -->
+          <div class="col-md-8">
+
+            <%= form.label :reason_description,
+                "Descrição complementar",
+                class: "form-label fw-bold" %>
+
+            <%= form.text_area :reason_description,
+                class: "form-control",
+                rows: 3,
+                placeholder: "Informe detalhes adicionais, se necessário..." %>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -170,16 +222,21 @@
 
   </div>
 
+  <!-- ====================================================== -->
   <!-- BOTÕES -->
-  <div class="d-flex gap-2">
+  <!-- ====================================================== -->
 
-    <%= form.submit "Salvar Solicitação",
-        class: "btn btn-success btn-sm" %>
+  <div class="form-actions">
 
     <%= link_to "Cancelar",
         exam_period_path(@exam_period),
         class: "btn btn-outline-secondary" %>
 
+    <%= form.submit "Salvar Solicitação",
+        class: "btn btn-success" %>
+
   </div>
 
 <% end %>
+
+</div>
