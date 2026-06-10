@@ -13,15 +13,16 @@
 
 <h3 class="mt-4 mb-3">MANHÃ</h3>
 
-<% @morning_subjects.sort_by { |subject, _| subject.code }.each do |subject, items| %>
+<% @morning_subjects.sort_by { |subject, _|
+     subject.respond_to?(:code) ? subject.code : subject
+   }.each do |subject, items| %>
 
 <div class="subject-container">
 
   <h4 class="subject-header">
-    <%= subject.name %>
+    <%= subject.respond_to?(:name) ? subject.name : subject %>
   </h4>
   
-
   <table class="table table-bordered table-sm attendance-table">
     <thead>
       <tr>
@@ -60,13 +61,13 @@
 
 <h3 class="mt-4 mb-3">TARDE</h3>
 
-<% @afternoon_subjects.sort_by { |subject, _| subject.code }.each do |subject, items| %>
+<% @afternoon_subjects.sort_by { |subject, _|
+     subject.respond_to?(:code) ? subject.code : subject
+   }.each do |subject, items| %>
 
   <div class="subject-container">
 
-  <h4 class="subject-header">
-    <%= subject.name %>
-  </h4>
+  <%= subject.respond_to?(:name) ? subject.name : subject %>
 
   <table class="table table-bordered table-sm attendance-table">
     <thead>

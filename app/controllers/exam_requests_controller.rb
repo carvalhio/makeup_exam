@@ -9,31 +9,36 @@ class ExamRequestsController < ApplicationController
   @exam_request = @exam_period.exam_requests.new(
     student_id: params[:student_id]
   )
-end
+  end
 
   # GET /exam_requests/1
   def show
+    if @exam_period.exam_type == "Global"
+      @selected_global_areas =
+        selected_global_areas(@exam_request)
+    end
   end
-
-  # GET /exam_requests/new
-  def new
-  @exam_request =
-    @exam_period.exam_requests.new(
-      student_id: params[:student_id]
-    )
-end
 
   # GET /exam_requests/1/edit
   def edit
+    if @exam_period.exam_type == "Global"
+      @selected_global_areas =
+        selected_global_areas(@exam_request)
+    end
   end
 
   # POST /exam_requests
   def create
-       @exam_request = @exam_period.exam_requests.new(exam_request_params)
+    @exam_request =
+      @exam_period.exam_requests.new(exam_request_params)
+
+    if @exam_period.exam_type == "Global"
+      @exam_request.subject_ids = global_subject_ids
+    end
 
     if @exam_request.save
       redirect_to exam_period_path(@exam_period),
-            notice: "Inserido com sucesso!"
+                  notice: "Inserido com sucesso!"
     else
       render :new, status: :unprocessable_entity
     end
@@ -41,27 +46,39 @@ end
 
   # PATCH/PUT /exam_requests/1
   def update
+  attributes = exam_request_params
+
+  if @exam_period.exam_type == "Global"
+    attributes[:subject_ids] = global_subject_ids
+  end
+
   respond_to do |format|
-    if @exam_request.update(exam_request_params)
+    if @exam_request.update(attributes)
+      format.html {
+        redirect_to exam_period_path(@exam_period
+        ),
+        notice: "Atualizado com sucesso",
+        status: :see_other
+      }
 
-      format.html do
-        redirect_to exam_period_path(@exam_period),
-                    notice: "Solicitação atualizada com sucesso",
-                    status: :see_other
-      end
-
-      format.json do
+      format.json {
         render :show,
                status: :ok,
-               location: exam_period_exam_request_path(@exam_period, @exam_request)
-      end
-
+               location: @exam_request
+      }
     else
-      format.html { render :edit, status: :unprocessable_entity }
-      format.json { render json: @exam_request.errors, status: :unprocessable_entity }
+      format.html {
+        render :edit,
+               status: :unprocessable_entity
+      }
+
+      format.json {
+        render json: @exam_request.errors,
+               status: :unprocessable_entity
+      }
     end
   end
-  end
+end
 
 # DELETE /exam_requests/1
 def destroy
@@ -122,6 +139,92 @@ end
     @exam_period = ExamPeriod.find(params[:exam_period_id])
   end
 
+  def global_subject_ids
+    return [] unless params[:global_areas]
+
+    groups = {
+      "linguagens" => [
+        "Língua Portuguesa",
+        "Língua Inglesa",
+        "Língua Espanhola",
+        "Literatura",
+        "Arte"
+      ],
+
+      "natureza" => [
+        "Biologia",
+        "Física",
+        "Química"
+      ],
+
+      "matematica" => [
+        "Matemática"
+      ],
+
+      "humanas" => [
+        "História",
+        "Geografia",
+        "Filosofia",
+        "Sociologia"
+      ],
+
+      "redacao" => [
+        "Redação"
+      ],
+
+      "ed_fisica" => [
+        "Educação Física"
+      ]
+    }
+
+    selected_names =
+      params[:global_areas].flat_map do |area|
+        groups[area] || []
+      end
+
+      Subject.where(name: selected_names).pluck(:id)
+  end
+
+  def selected_global_areas(exam_request)
+  names = exam_request.subjects.pluck(:name)
+
+  areas = []
+
+  areas << "linguagens" if (
+    names & [
+      "Língua Portuguesa",
+      "Língua Inglesa",
+      "Língua Espanhola",
+      "Literatura",
+      "Arte"
+    ]
+  ).any?
+
+  areas << "natureza" if (
+    names & [
+      "Biologia",
+      "Física",
+      "Química"
+    ]
+  ).any?
+
+  areas << "matematica" if names.include?("Matemática")
+
+  areas << "humanas" if (
+    names & [
+      "História",
+      "Geografia",
+      "Filosofia",
+      "Sociologia"
+    ]
+  ).any?
+
+  areas << "redacao" if names.include?("Redação")
+
+  areas << "ed_fisica" if names.include?("Educação Física")
+
+  areas
+  end
   def exam_request_params
     params.require(:exam_request).permit(
       :student_id,

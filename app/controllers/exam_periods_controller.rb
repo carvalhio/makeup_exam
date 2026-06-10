@@ -141,46 +141,74 @@ class ExamPeriodsController < ApplicationController
   afternoon_items = []
 
   requests.each do |request|
-    request.subjects.each do |subject|
-      item = {
-        subject: subject,
-        student: request.student,
-        school_class: request.student.school_class
-      }
+    if @exam_period.exam_type == "Global"
 
-      if request.application_shift == "Manhã"
-        morning_items << item
-      else
-        afternoon_items << item
+      added_areas = []
+
+      request.subjects.each do |subject|
+        area = subject_area(subject.name)
+
+        next if added_areas.include?(area)
+
+        added_areas << area
+
+        item = {
+          subject: area,
+          student: request.student,
+          school_class: request.student.school_class
+        }
+
+        if request.application_shift == "Manhã"
+          morning_items << item
+        else
+          afternoon_items << item
+        end
       end
+
+    else
+
+      request.subjects.each do |subject|
+        item = {
+          subject: subject,
+          student: request.student,
+          school_class: request.student.school_class
+        }
+
+        if request.application_shift == "Manhã"
+          morning_items << item
+        else
+          afternoon_items << item
+        end
+      end
+
     end
   end
 
   @morning_subjects =
-  morning_items
-    .group_by { |item| item[:subject] }
-    .transform_values do |items|
-      items.sort_by do |item|
-        [
-          grade_order_value(item[:school_class].grade),
-          item[:school_class].identifier,
-          item[:student].name
-        ]
+    morning_items
+      .group_by { |item| item[:subject] }
+      .transform_values do |items|
+        items.sort_by do |item|
+          [
+            grade_order_value(item[:school_class].grade),
+            item[:school_class].identifier,
+            item[:student].name
+          ]
+        end
       end
-    end
 
-@afternoon_subjects =
-  afternoon_items
-    .group_by { |item| item[:subject] }
-    .transform_values do |items|
-      items.sort_by do |item|
-        [
-          grade_order_value(item[:school_class].grade),
-          item[:school_class].identifier,
-          item[:student].name
-        ]
+  @afternoon_subjects =
+    afternoon_items
+      .group_by { |item| item[:subject] }
+      .transform_values do |items|
+        items.sort_by do |item|
+          [
+            grade_order_value(item[:school_class].grade),
+            item[:school_class].identifier,
+            item[:student].name
+          ]
+        end
       end
-    end
   end
 
   # DELETE /exam_periods/1
@@ -200,5 +228,39 @@ class ExamPeriodsController < ApplicationController
 
   def exam_period_params
     params.require(:exam_period).permit(:stage, :exam_type, :active)
+  end
+
+  def subject_area(subject_name)
+    case subject_name
+    when "Língua Portuguesa",
+        "Língua Inglesa",
+        "Língua Espanhola",
+        "Literatura",
+        "Arte"
+      "Linguagens"
+
+    when "Biologia",
+        "Física",
+        "Química"
+      "Ciências da Natureza"
+
+    when "Matemática"
+      "Matemática"
+
+    when "História",
+        "Geografia",
+        "Filosofia",
+        "Sociologia"
+      "Ciências Humanas"
+
+    when "Redação"
+      "Redação"
+
+    when "Educação Física"
+      "Educação Física"
+
+    else
+      subject_name
+    end
   end
 end

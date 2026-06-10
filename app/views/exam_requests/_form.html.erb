@@ -123,44 +123,105 @@
     <!-- DISCIPLINAS -->
     <!-- ====================================================== -->
 
-    <div class="card shadow-sm mb-3">
+    <!-- DISCIPLINAS / ÁREAS -->
+<div class="subjects-box">
 
-      <div class="card-header fw-bold">
-        Componentes Curriculares
-      </div>
+  <% if @exam_period.exam_type == "Parcial" %>
 
-      <div class="card-body">
+    <label class="form-label fw-bold mb-2">
+      Disciplinas
+    </label>
 
-        <div class="subjects-box">
+    <div class="subjects-columns">
 
-          <div class="subjects-columns">
+      <% Subject.order(:name).each do |subject| %>
 
-            <% Subject.order(:name).each do |subject| %>
+        <div class="form-check">
 
-              <div class="form-check">
+          <%= check_box_tag(
+            "exam_request[subject_ids][]",
+            subject.id,
+            exam_request.subject_ids.include?(subject.id),
+            class: "form-check-input"
+          ) %>
 
-                <%= check_box_tag(
-                  "exam_request[subject_ids][]",
-                  subject.id,
-                  exam_request.subject_ids.include?(subject.id),
-                  class: "form-check-input"
-                ) %>
-
-                <%= label_tag(
-                  "exam_request_subject_ids_#{subject.id}",
-                  subject.name,
-                  class: "form-check-label"
-                ) %>
-
-              </div>
-
-            <% end %>
-
-          </div>
+          <%= label_tag(
+            "exam_request_subject_ids_#{subject.id}",
+            subject.name,
+            class: "form-check-label"
+          ) %>
 
         </div>
 
+      <% end %>
+
+    </div>
+
+  <% else %>
+
+    <label class="form-label fw-bold mb-2">
+      Áreas da Global
+    </label>
+
+    <div class="subjects-columns">
+
+      <div class="form-check">
+        <%= check_box_tag(
+          "global_areas[]",
+          "linguagens",
+          @selected_global_areas&.include?("linguagens")
+        ) %>
+        <%= label_tag nil, "Linguagens, Códigos e suas Tecnologias" %>
       </div>
+
+      <div class="form-check">
+        <%= check_box_tag(
+        "global_areas[]",
+        "natureza",
+        @selected_global_areas&.include?("natureza")
+      ) %>
+        <%= label_tag nil, "Ciências da Natureza e suas Tecnologias" %>
+      </div>
+
+      <div class="form-check">
+      <%= check_box_tag(
+      "global_areas[]",
+      "matematica",
+      @selected_global_areas&.include?("matematica")
+      ) %>
+        <%= label_tag nil, "Matemática e suas Tecnologias" %>
+      </div>
+
+      <div class="form-check">
+        <%= check_box_tag(
+          "global_areas[]",
+          "humanas",
+          @selected_global_areas&.include?("humanas")
+        ) %>
+        <%= label_tag nil, "Ciências Humanas e suas Tecnologias" %>
+      </div>
+
+      <div class="form-check">
+        <%= check_box_tag(
+          "global_areas[]",
+          "redacao",
+          @selected_global_areas&.include?("redacao")
+        ) %>
+        <%= label_tag nil, "Redação" %>
+      </div>
+
+      <div class="form-check">
+        <%= check_box_tag(
+          "global_areas[]",
+          "ed_fisica",
+          @selected_global_areas&.include?("ed_fisica")
+        ) %>
+        <%= label_tag nil, "Educação Física" %>
+      </div>
+
+    </div>
+
+  <% end %>
 
     </div>
 

@@ -63,18 +63,12 @@
               </td>
 
               <td>
-
-                <%= request.subjects
-                           .map(&:name)
-                           .join(", ") %>
-
+                <%= request.display_subjects %>
               </td>
-
+              
               <td>
                 <%= request.reason %>
-              </td>
-
-              
+              </td>             
             </tr>
 
           <% end %>
