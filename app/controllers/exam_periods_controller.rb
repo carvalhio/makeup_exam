@@ -180,7 +180,6 @@ class ExamPeriodsController < ApplicationController
           afternoon_items << item
         end
       end
-
     end
   end
 
@@ -209,6 +208,23 @@ class ExamPeriodsController < ApplicationController
           ]
         end
       end
+
+  respond_to do |format|
+    format.html
+
+    format.pdf do
+      render pdf: "lista_frequencia",
+         template: "exam_periods/attendance_list",
+         formats: [ :html ],
+         layout: "pdf",
+         margin: {
+           top: 5,
+           bottom: 5,
+           left: 5,
+           right: 5
+         }
+      end
+    end
   end
 
   # DELETE /exam_periods/1

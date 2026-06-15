@@ -2,67 +2,117 @@
    ATTENDANCE LIST
 ========================================= */
 
+/* Cabeçalho da disciplina */
 .subject-header {
+  text-transform: uppercase;
   text-align: center;
   font-weight: bold;
   font-size: 14px;
   background-color: #d9d9d9;
-  border: 1px solid #000;
-  padding: 6px;
+  padding: 1px;
   margin-top: 10px;
   margin-bottom: 0;
+ 
 }
 
+/* Tabela principal */
 .attendance-table {
+  text-transform: uppercase;
   width: 100%;
   margin: 0 auto 10px auto;
-  font-size: 11px;
+  font-size: 14px;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
 }
 
-
+/* Cabeçalho da tabela */
 .attendance-table th {
+  text-transform: uppercase;
   background-color: #929496;
   text-align: center;
   font-weight: bold;
+  
+}
+.attendance-table thead th {
+  border-top: none !important;
 }
 
+/* Células da tabela */
 .attendance-table th,
 .attendance-table td {
-  border: 1px solid #8a8a8a;
-  padding: 4px;
+  font-size: 15px;
+  border: 1px solid #020202;
+  padding: 2px 2px;
 }
 
+/* Linhas alternadas */
 .attendance-table tbody tr:nth-child(even) {
   background-color: #d2e5fd;
 }
 
+/* Efeito ao passar o mouse */
 .attendance-table tbody tr:hover {
   background-color: #868484;
 }
 
-/* Impressão */
+/* =========================================
+   IMPRESSÃO / PDF
+========================================= */
 
 @media print {
 
+  /* Margens da folha */
+  @page {
+    margin: 0.3cm;
+  }
+
+  /* Elementos não exibidos no PDF */
   .no-print {
     display: none !important;
   }
 
+  /* Ajustes da tabela para impressão */
   .attendance-table {
     font-size: 10px;
   }
 
+  /* Ajustes do cabeçalho da disciplina para impressão */
   .subject-header {
     margin-top: 5px;
-    padding: 4px;
+    padding: 2px;
   }
 
+  /* Repete o cabeçalho da tabela em novas páginas */
   thead {
     display: table-header-group;
   }
 }
 
+/* Container de cada disciplina */
 .subject-container {
-  width: 750px;
-  margin: 0 auto 15px auto;
+  width: 100%;
+  margin: 0 0 15px 0;
+}
+
+/* Cabeçalho do relatório */
+.report-header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.report-header h2 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.report-header h3 {
+  font-size: 14px;
+  margin: 2px 0;
+  font-weight: normal;
+}
+
+.report-header p {
+  margin: 0;
+  font-size: 12px;
 }

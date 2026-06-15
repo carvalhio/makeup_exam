@@ -1,13 +1,26 @@
-<h1 class="mb-3">Lista de Frequência - 2ª Chamada</h1>
+<div class="report-header">
 
-<p class="text-muted mb-3">
-  <strong>Período:</strong> <%= @exam_period.name %>
-</p>
+  <h2>LISTA DE FREQUÊNCIA</h2>
 
-<%= button_tag "Imprimir",
-    type: "button",
-    onclick: "window.print()",
-    class: "btn btn-primary mb-3 no-print" %>
+  <h3>2ª CHAMADA</h3>
+
+  <p>
+    <strong><%= @exam_period.name %></strong>
+  </p>
+
+</div>
+
+ 
+  <% unless request.format.pdf? %>
+
+  <%= link_to "Download",
+      attendance_list_exam_period_path(
+        @exam_period,
+        format: :pdf
+      ),
+      class: "btn btn-success mb-3" %>
+
+  <% end %>
 
 <!-- MANHÃ -->
 
@@ -23,7 +36,7 @@
     <%= subject.respond_to?(:name) ? subject.name : subject %>
   </h4>
   
-  <table class="table table-bordered table-sm attendance-table">
+  <table class="attendance-table">
     <thead>
       <tr>
         <th style="width: 8%">Turma</th>
@@ -67,9 +80,11 @@
 
   <div class="subject-container">
 
+  <h4 class="subject-header">
   <%= subject.respond_to?(:name) ? subject.name : subject %>
+</h4>
 
-  <table class="table table-bordered table-sm attendance-table">
+  <table class="attendance-table">
     <thead>
       <tr>
         <th style="width: 8%">Turma</th>

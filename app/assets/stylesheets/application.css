@@ -114,22 +114,6 @@ h2 {
   font-weight: 600;
 }
 
-@media print {
-
-  .print-map-table,
-  .exam-table {
-    font-size: 10px;
-  }
-
-  .print-map-table th,
-  .print-map-table td,
-  .exam-table th,
-  .exam-table td {
-    padding: 1px 4px !important;
-    line-height: 1;
-  }
-
-}
 .exam-table {
   font-size: 0.8rem;
 }
@@ -160,8 +144,8 @@ h2 {
 }
 
 .same-shift-box {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background: #f3dda1;
+  border: 1px solid #f8b806;
   border-radius: 4px;
   padding: 8px 12px;
 }
