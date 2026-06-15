@@ -4,7 +4,7 @@ source "https://rubygems.org"
 gem "wicked_pdf"
 gem "wkhtmltopdf-binary"
 
-gem "rails", "~> 7.2.3"
+gem "rails", "~> 8.1.3"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Use sqlite3 as the database for Active Record
