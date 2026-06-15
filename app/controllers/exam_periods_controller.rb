@@ -100,12 +100,34 @@ class ExamPeriodsController < ApplicationController
 
       puts "ALUNO: #{request.student.name} | TURMA: #{school_class.shift} | APLICAÇÃO: #{application_shift} | SAME_SHIFT: #{request.same_shift}"
 
-      request.subjects.each do |subject|
-        items << {
-          shift: application_shift,
-          grade: school_class.grade,
-          subject: subject.name
-        }
+      if @exam_period.exam_type == "Global"
+
+  added_areas = []
+
+  request.subjects.each do |subject|
+    area = subject_area(subject.name)
+
+    next if added_areas.include?(area)
+
+    added_areas << area
+
+    items << {
+      shift: application_shift,
+      grade: school_class.grade,
+      subject: area
+    }
+  end
+
+      else
+
+  request.subjects.each do |subject|
+    items << {
+      shift: application_shift,
+      grade: school_class.grade,
+      subject: subject.name
+    }
+  end
+
       end
     end
 
