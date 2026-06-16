@@ -42,7 +42,8 @@
 .attendance-table td {
   font-size: 15px;
   border: 1px solid #020202;
-  padding: 2px 2px;
+  padding: 1px 2px;
+  white-space: nowrap;
 }
 
 /* Linhas alternadas */
