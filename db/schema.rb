@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_06_02_171941) do
+ActiveRecord::Schema[7.2].define(version: 2026_06_16_175145) do
   create_table "exam_periods", force: :cascade do |t|
     t.string "stage"
     t.string "exam_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "active"
+    t.integer "year"
   end
 
   create_table "exam_request_subjects", force: :cascade do |t|
@@ -36,6 +37,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_06_02_171941) do
     t.text "reason_description"
     t.integer "exam_period_id"
     t.boolean "same_shift", default: false, null: false
+    t.date "application_date"
     t.index ["exam_period_id"], name: "index_exam_requests_on_exam_period_id"
     t.index ["student_id"], name: "index_exam_requests_on_student_id"
   end

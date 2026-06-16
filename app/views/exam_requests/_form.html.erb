@@ -37,6 +37,15 @@
     data-controller="exam-request"
     data-exam-request-period-id-value="<%= @exam_period.id %>">
 
+    <div class="row mb-3">
+
+  <div class="col-md-3">
+
+   <%= form.date_field :application_date, class: "form-control", data: { exam_request_target: "applicationDate" } %>
+
+  </div>
+
+</div>
     <!-- ====================================================== -->
     <!-- DADOS DO ALUNO -->
     <!-- ====================================================== -->

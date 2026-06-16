@@ -8,4 +8,9 @@ class ExamPeriod < ApplicationRecord
   def name
     "#{stage} - #{exam_type}"
   end
+
+  validates :stage,
+          uniqueness: {
+            scope: [ :exam_type, :year ]
+          }
 end

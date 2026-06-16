@@ -4,7 +4,8 @@ export default class extends Controller {
 
   static targets = [
     "schoolClass",
-    "student"
+    "student",
+    "applicationDate"
   ]
 
   loadStudents() {
@@ -50,7 +51,10 @@ export default class extends Controller {
   const examPeriodId =
     this.element.dataset.examRequestPeriodIdValue
 
+  const applicationDate =
+    this.applicationDateTarget.value
+
   window.location =
-    `/exam_periods/${examPeriodId}/exam_requests/find_or_redirect?student_id=${studentId}`
+    `/exam_periods/${examPeriodId}/exam_requests/find_or_redirect?student_id=${studentId}&application_date=${applicationDate}`
   }
 }

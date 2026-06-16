@@ -4,11 +4,20 @@ class ExamRequestsController < ApplicationController
   before_action :load_exam_menu
 
 
-  # GET /exam_requests
-  def new
-  @exam_request = @exam_period.exam_requests.new(
-    student_id: params[:student_id]
-  )
+ # GET /exam_requests
+ def new
+  last_date =
+    @exam_period
+      .exam_requests
+      .where.not(application_date: nil)
+      .order(application_date: :desc)
+      .pick(:application_date)
+
+  @exam_request =
+    @exam_period.exam_requests.new(
+      student_id: params[:student_id],
+      application_date: params[:application_date].presence || last_date
+    )
   end
 
   # GET /exam_requests/1
@@ -115,10 +124,12 @@ end
       exam_request
     )
   else
-    redirect_to new_exam_period_exam_request_path(
+      redirect_to new_exam_period_exam_request_path(
       params[:exam_period_id],
-      student_id: params[:student_id]
+      student_id: params[:student_id],
+      application_date: params[:application_date]
     )
+
   end
 end
 
@@ -229,6 +240,7 @@ end
     params.require(:exam_request).permit(
       :student_id,
       :exam_period_id,
+      :application_date,
       :same_shift,
       :reason,
       :reason_description,
