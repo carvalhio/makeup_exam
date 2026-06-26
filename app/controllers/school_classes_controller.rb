@@ -61,6 +61,17 @@ class SchoolClassesController < ApplicationController
     end
   end
 
+  def attendance_sheet
+    @school_class = SchoolClass.find(params[:id])
+    @students = @school_class.students.order(:name)
+  end
+
+  def attendance_sheets
+    @school_classes =
+      SchoolClass.includes(:students)
+               .order(:grade, :identifier, :shift)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_school_class

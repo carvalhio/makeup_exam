@@ -20,9 +20,9 @@
 
     <div class="d-flex gap-2">
       
-      <%= link_to "Gerar frequência para testes",
-        new_school_class_path,
-        class: "btn btn-primary btn-sm" %>
+      <%= link_to "Frequência",
+    attendance_sheet_school_class_path(@school_class),
+    class: "btn btn-outline-primary btn-sm" %>
 
       <%= link_to "Voltar",
           school_classes_path,

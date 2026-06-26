@@ -1,0 +1,9 @@
+<button onclick="window.print()" class="btn btn-primary no-print">
+  Imprimir todas
+</button>
+
+<% @school_classes.each do |school_class| %>
+  <%= render "attendance_sheet",
+      school_class: school_class,
+      students: school_class.students.order(:name) %>
+<% end %>

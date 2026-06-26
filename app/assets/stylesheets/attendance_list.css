@@ -87,6 +87,13 @@
   thead {
     display: table-header-group;
   }
+  .subject-container {
+    page-break-after: always;
+  }
+
+  .subject-container:last-child {
+    page-break-after: auto;
+  }
 }
 
 /* Container de cada disciplina */

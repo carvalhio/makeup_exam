@@ -1,0 +1,54 @@
+<div class="subject-container">
+
+  <h4 class="subject-header">
+    <%= school_class.full_name %>
+  </h4>
+
+  <div class="mb-2">
+    <strong>Lista de frequência para teste:</strong>
+    ( &nbsp;&nbsp; ) PARCIAL
+    ( &nbsp;&nbsp; ) GLOBAL
+  </div>
+
+  <div class="mb-2">
+    <strong>Comp. curricular / Área do conhecimento:</strong>
+    ________________________________________________
+  </div>
+
+  <div class="mb-2">
+    <strong>Fiscal responsável:</strong>
+    ________________________________________________
+  </div>
+
+  <div class="mb-2">
+    <strong>Data:</strong>
+    ____ / ____ / ______
+  </div>
+
+  <table class="table table-bordered table-sm attendance-table">
+    <thead>
+      <tr>
+        <th style="width: 8%">Nº</th>
+        <th style="width: 52%">Aluno(a)</th>
+        <th style="width: 40%">Assinatura</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% students.each_with_index do |student, index| %>
+        <tr>
+          <td><%= format("%02d", index + 1) %></td>
+          <td><%= student.name %></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="mt-2 p-2 border">
+    <strong>Observações / considerações:</strong>
+    <span class="text-muted">uso exclusivo do fiscal</span>
+    <div style="height: 60px;"></div>
+  </div>
+
+</div>

@@ -8,14 +8,22 @@ Rails.application.routes.draw do
   resources :students
 
   resources :school_classes do
-    resources :students, only: :index
+  member do
+    get :attendance_sheet
   end
 
-  resources :exam_periods, only: [ :show ] do
+  collection do
+    get :attendance_sheets
+  end
+
+  resources :students, only: :index
+end
+
+resources :exam_periods, only: [ :show ] do
     member do
       get :print_map
       get :attendance_list
-    end
+   end
 
     resources :exam_requests, only: [
       :index,
@@ -25,7 +33,7 @@ Rails.application.routes.draw do
       :edit,
       :update,
       :destroy
-    ] do
+  ]  do
       collection do
         get :find_or_redirect
       end
