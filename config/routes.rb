@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  get "aee/index"
   root "home#index"
 
   get "home/about"
   get "reports/index"
   get "reports", to: "reports#index"
+  get "aee", to: "aee#index", as: :aee
 
   resources :students
 

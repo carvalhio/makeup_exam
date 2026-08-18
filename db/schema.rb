@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_06_16_175145) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_18_130808) do
   create_table "exam_periods", force: :cascade do |t|
     t.string "stage"
     t.string "exam_type"
@@ -55,6 +55,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_06_16_175145) do
     t.integer "school_class_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "aee", default: false, null: false
     t.index ["school_class_id"], name: "index_students_on_school_class_id"
   end
 

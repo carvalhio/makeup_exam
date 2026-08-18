@@ -1,0 +1,23 @@
+<h1>AEE</h1>
+
+<h2>Alunos AEE</h2>
+
+<% if @students.any? %>
+  <% students_by_class = @students.group_by(&:school_class) %>
+
+  <% students_by_class.each do |school_class, students| %>
+    <h3>
+      <%= school_class.full_name %>
+    </h3>
+
+    <ul>
+      <% students.each do |student| %>
+        <li>
+          <%= student.name %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% else %>
+  <p>Nenhum aluno está cadastrado como AEE.</p>
+<% end %>

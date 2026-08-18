@@ -49,16 +49,34 @@ class StudentsController < ApplicationController
 
   # PATCH/PUT /students/1 or /students/1.json
   def update
-    respond_to do |format|
-      if @student.update(student_params)
-        format.html { redirect_to @student, notice: "Student was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @student }
-      else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @student.errors, status: :unprocessable_content }
-      end
+  respond_to do |format|
+    @student.assign_attributes(student_params)
+
+    if @student.save
+      format.html {
+        redirect_to @student,
+        notice: "Student was successfully updated.",
+        status: :see_other
+      }
+
+      format.json {
+        render :show,
+        status: :ok,
+        location: @student
+      }
+    else
+      format.html {
+        render :edit,
+        status: :unprocessable_content
+      }
+
+      format.json {
+        render json: @student.errors,
+        status: :unprocessable_content
+      }
     end
   end
+end
 
   # DELETE /students/1 or /students/1.json
   def destroy
@@ -78,6 +96,6 @@ class StudentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def student_params
-      params.require(:student).permit(:name, :school_class_id)
+      params.require(:student).permit(:name, :school_class_id, :aee)
     end
 end
