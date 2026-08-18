@@ -2,89 +2,86 @@
 
 <% content_for :title, "Turmas" %>
 
+<div class="container mt-3">
 
-<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-2">
 
-  <div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="mb-0">Turmas</h1>
 
-    <h1 class="mb-0">Turmas</h1>
-
+  <div class="d-flex gap-2">
     <%= link_to "Nova Turma",
         new_school_class_path,
         class: "btn btn-primary btn-sm" %>
 
-    <%= link_to "gerar frequência para testes",
+    <%= link_to "Lista de frequência",
         new_school_class_path,
         class: "btn btn-primary btn-sm" %>
-
   </div>
-
-  <table class="table table-striped table-hover table-sm align-middle compact-table">
-
+</div>
+  <table class="table table-striped table-hover table-sm school-classes-table">
     <thead class="table-dark">
-
       <tr>
         <th>Turma</th>
         <th>Turno</th>
         <th>Quantidade</th>
         <th>...</th>
       </tr>
-
     </thead>
 
     <tbody>
 
-  <%
-    grouped_classes = {
-      "Anos Iniciais" => ["1º ano", "2º ano", "3º ano", "4º ano", "5º ano"],
-      "Anos Finais"   => ["6º ano", "7º ano", "8º ano", "9º ano"],
-      "Ensino Médio"  => ["1ª série", "2ª série", "3ª série"]
-    }
-  %>
+      <%
+        grouped_classes = {
+          "Anos Iniciais" => ["1º ano", "2º ano", "3º ano", "4º ano", "5º ano"],
+          "Anos Finais"   => ["6º ano", "7º ano", "8º ano", "9º ano"],
+          "Ensino Médio"  => ["1ª série", "2ª série", "3ª série"]
+        }
+      %>
 
-  <% grouped_classes.each do |group_name, grades| %>
+      <% grouped_classes.each do |group_name, grades| %>
 
-    <!-- TÍTULO DO GRUPO -->
-      <tr class="table-secondary">
+        <tr class="table-secondary">
+          <td colspan="4" class="fw-bold text-uppercase class-group">
+            <%= group_name %>
+          </td>
+        </tr>
 
-      <td colspan="4" class="fw-bold text-uppercase">
-        <%= group_name %>
-      </td>
+        <%
+          classes =
+            @school_classes
+              .select { |c| grades.include?(c.grade) }
+              .sort_by { |c| [grades.index(c.grade), c.identifier.to_s] }
+        %>
 
-    </tr>
+        <% classes.each do |school_class| %>
 
-    <%
-      classes =
-        @school_classes
-          .select { |c| grades.include?(c.grade) }
-          .sort_by { |c| [grades.index(c.grade), c.identifier.to_s] }
-    %>
+          <tr
+            onclick="window.location='<%= school_class_path(school_class) %>'"
+            style="cursor: pointer;"
+          >
 
-    <% classes.each do |school_class| %>
+            <td>
+              <%= "#{school_class.grade} #{school_class.identifier}" %>
+            </td>
 
-       <tr
-    onclick="window.location='<%= school_class_path(school_class) %>'"
-    style="cursor: pointer;"
-  >
+            <td>
+              <%= school_class.shift %>
+            </td>
 
-        <td>
-          <%= "#{school_class.grade} #{school_class.identifier}" %>
-        </td>
+            <td>
+              <%= school_class.students.count %>
+            </td>
 
-        <td>
-          <%= school_class.shift %>
-        </td>
+            <td></td>
 
-        <td>
-          <%= school_class.students.count %>
-        </td>
-        
-      </tr>
+          </tr>
 
-    <% end %>
+        <% end %>
 
-  <% end %>
+      <% end %>
 
-</tbody>
-</table>
+    </tbody>
+
+  </table>
+
 </div>

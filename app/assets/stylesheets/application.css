@@ -202,3 +202,22 @@ h2 {
   margin-top: 20px;
   margin-bottom: 0;
 }
+
+/* =========================================
+   TURMAS
+========================================= */
+
+.school-classes-table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.school-classes-table th,
+.school-classes-table td {
+  padding: 4px 8px;
+  vertical-align: middle;
+}
+
+.school-classes-table .class-group {
+  padding: 5px 8px;
+}
