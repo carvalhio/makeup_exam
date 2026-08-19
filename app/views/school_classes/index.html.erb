@@ -13,9 +13,13 @@
         new_school_class_path,
         class: "btn btn-primary btn-sm" %>
 
-    <%= link_to "Lista de frequência",
-        new_school_class_path,
-        class: "btn btn-primary btn-sm" %>
+    <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        data-bs-toggle="modal"
+        data-bs-target="#frequencyModal">
+        Lista de frequência
+    </button>
   </div>
 </div>
   <table class="table table-striped table-hover table-sm school-classes-table">
@@ -84,4 +88,145 @@
 
   </table>
 
+  <!-- Modal - Lista de Frequência -->
+<div
+  class="modal fade"
+  id="frequencyModal"
+  tabindex="-1"
+  aria-labelledby="frequencyModalLabel"
+  aria-hidden="true">
+
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="frequencyModalLabel">
+          Lista de frequência
+        </h5>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fechar">
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row g-3">
+
+          <!-- Tipo de prova -->
+          <div class="col-md-6">
+            <label class="form-label fw-bold">
+              Tipo de prova
+            </label>
+
+            <select class="form-select" name="exam_type">
+              <option value="">Selecione...</option>
+              <option value="Parcial">Parcial</option>
+              <option value="Global">Global</option>
+            </select>
+          </div>
+
+          <!-- Data -->
+          <div class="col-md-6">
+            <label class="form-label fw-bold">
+              Data da aplicação
+            </label>
+
+            <input
+              type="date"
+              class="form-control"
+              name="application_date">
+          </div>
+
+          <!-- Componente -->
+          <div class="col-md-12">
+            <label class="form-label fw-bold">
+              Componente curricular
+            </label>
+
+            <input
+              type="text"
+              class="form-control"
+              name="subject_name"
+              placeholder="Digite o componente curricular">
+          </div>
+
+          <!-- Fiscal -->
+          <div class="col-md-12">
+            <label class="form-label fw-bold">
+              Fiscal responsável
+            </label>
+
+            <input
+              type="text"
+              class="form-control"
+              name="invigilator"
+              placeholder="Digite o nome do fiscal">
+          </div>
+
+          <!-- Turmas -->
+          <div class="col-md-12">
+
+            <label class="form-label fw-bold">
+              Turmas
+            </label>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="class_selection"
+                id="allClasses"
+                value="all"
+                checked>
+
+              <label class="form-check-label" for="allClasses">
+                Todas as turmas
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="class_selection"
+                id="selectedClasses"
+                value="selected">
+
+              <label class="form-check-label" for="selectedClasses">
+                Selecionar turmas
+              </label>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          data-bs-dismiss="modal">
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary btn-sm">
+          Gerar lista de frequência
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
 </div>

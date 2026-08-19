@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_08_18_130808) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_19_170826) do
   create_table "exam_periods", force: :cascade do |t|
     t.string "stage"
     t.string "exam_type"
@@ -66,9 +66,30 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_18_130808) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "test_application_school_classes", force: :cascade do |t|
+    t.integer "test_application_id", null: false
+    t.integer "school_class_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["school_class_id"], name: "index_test_application_school_classes_on_school_class_id"
+    t.index ["test_application_id", "school_class_id"], name: "index_test_applications_on_application_and_class", unique: true
+    t.index ["test_application_id"], name: "index_test_application_school_classes_on_test_application_id"
+  end
+
+  create_table "test_applications", force: :cascade do |t|
+    t.string "exam_type", null: false
+    t.date "application_date", null: false
+    t.string "subject_name", null: false
+    t.string "invigilator"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "exam_request_subjects", "exam_requests"
   add_foreign_key "exam_request_subjects", "subjects"
   add_foreign_key "exam_requests", "exam_periods"
   add_foreign_key "exam_requests", "students"
   add_foreign_key "students", "school_classes"
+  add_foreign_key "test_application_school_classes", "school_classes"
+  add_foreign_key "test_application_school_classes", "test_applications"
 end
