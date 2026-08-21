@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   resources :students, only: :index
 end
 
+resources :test_applications, only: [ :show, :new, :create ]
+
 resources :exam_periods, only: [ :show ] do
     member do
       get :print_map

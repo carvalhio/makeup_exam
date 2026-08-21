@@ -1,0 +1,31 @@
+<h1>Lista de frequência</h1>
+
+<p>
+  Tipo:
+  <%= @test_application.exam_type %>
+</p>
+
+<p>
+  Data:
+  <%= @test_application.application_date.strftime("%d/%m/%Y") %>
+</p>
+
+<p>
+  Componente:
+  <%= @test_application.subject_name %>
+</p>
+
+<p>
+  Fiscal:
+  <%= @test_application.invigilator.presence || "Não informado" %>
+</p>
+
+<h3>Turmas</h3>
+
+<ul>
+  <% @test_application.school_classes.each do |school_class| %>
+    <li>
+      <%= school_class.full_name %>
+    </li>
+  <% end %>
+</ul>

@@ -2,4 +2,5 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "./dropdown"
+import "./frequency_modal"
 // import * as bootstrap from "bootstrap"
