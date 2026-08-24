@@ -1,31 +1,120 @@
-<h1>Lista de frequência</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
 
-<p>
-  Tipo:
-  <%= @test_application.exam_type %>
-</p>
+  <h1>
+    Lista de frequência
+  </h1>
 
-<p>
-  Data:
-  <%= @test_application.application_date.strftime("%d/%m/%Y") %>
-</p>
+  <%= link_to "Baixar PDF",
+      pdf_test_application_path(@test_application),
+      class: "btn btn-primary btn-sm" %>
 
-<p>
-  Componente:
-  <%= @test_application.subject_name %>
-</p>
+</div>
+<div class="frequency-print">
 
-<p>
-  Fiscal:
-  <%= @test_application.invigilator.presence || "Não informado" %>
-</p>
+  <% @test_application.school_classes.each_with_index do |school_class, index| %>
 
-<h3>Turmas</h3>
+    <% student_count = school_class.students.count %>
 
-<ul>
-  <% @test_application.school_classes.each do |school_class| %>
-    <li>
-      <%= school_class.full_name %>
-    </li>
+    <% frequency_size =
+      if student_count <= 30
+        "frequency-normal"
+      elsif student_count <= 40
+        "frequency-compact"
+      elsif student_count <= 50
+        "frequency-small"
+      else
+        "frequency-tiny"
+      end
+    %>
+
+    <section class="frequency-page <%= frequency_size %>">
+
+      <div class="frequency-header">
+
+        <h1>
+          Lista de frequência - <%= "#{school_class.grade} #{school_class.identifier}" %>
+        </h1>
+
+        <div class="frequency-info">
+
+          <div>
+            <strong>Data:</strong>
+            <%= @test_application.application_date.strftime("%d/%m/%Y") %>
+          </div>
+
+          <div>
+            <strong>Componente curricular:</strong>
+            <%= @test_application.subject_name %>
+          </div>
+
+          <div>
+            <strong>Fiscal responsável:</strong>
+            <%= @test_application.invigilator.presence || "____________________________________" %>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <table class="frequency-table">
+
+        <thead>
+          <tr>
+            <th class="number-column">Nº</th>
+            <th>Aluno</th>
+            <th class="signature-column">Assinatura</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <% school_class.students.order(:name).each_with_index do |student, student_index| %>
+
+            <tr>
+
+              <td class="number-column">
+                <%= format("%02d", student_index + 1) %>
+              </td>
+
+              <td>
+                <%= student.name %>
+              </td>
+
+              <td class="signature-column"></td>
+
+            </tr>
+
+          <% end %>
+
+        </tbody>
+
+      </table>
+
+
+      <div class="frequency-observations">
+
+        <strong>Observações:</strong>
+
+        <div class="observation-line"></div>
+        <div class="observation-line"></div>
+
+      </div>
+
+
+      <div class="frequency-footer">
+        <span>
+          <%= school_class.shift %>
+        </span>
+      </div>
+
+    </section>
+
+
+    <% unless index == @test_application.school_classes.length - 1 %>
+      <div class="page-break"></div>
+    <% end %>
+
   <% end %>
-</ul>
+
+</div>

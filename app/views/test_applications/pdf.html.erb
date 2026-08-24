@@ -1,0 +1,102 @@
+<div class="frequency-pdf">
+
+  <% @test_application.school_classes.each_with_index do |school_class, index| %>
+
+    <div class="frequency-page">
+
+      <div class="frequency-header">
+
+        <h1>
+          Lista de frequência -
+          <%= "#{school_class.grade} #{school_class.identifier}" %>
+        </h1>
+
+        <div class="frequency-info">
+
+          <strong>Data:</strong>
+          <%= @test_application.application_date.strftime("%d/%m/%Y") %>
+
+          &nbsp;&nbsp;&nbsp;
+
+          <strong>Componente curricular:</strong>
+          <%= @test_application.subject_name.presence || "________________________" %>
+
+        </div>
+
+        <div class="frequency-info fiscal-line">
+
+                <strong>Fiscal responsável:</strong>
+
+                <% if @test_application.invigilator.present? %>
+                    <%= @test_application.invigilator %>
+                <% else %>
+                    <span class="fiscal-signature-line"></span>
+                <% end %>
+
+        </div>
+
+      </div>
+
+
+      <table class="frequency-table">
+
+        <thead>
+          <tr>
+            <th class="number-column">Nº</th>
+            <th>Aluno</th>
+            <th class="signature-column">Assinatura</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <% school_class.students.order(:name).each_with_index do |student, student_index| %>
+
+            <tr>
+
+              <td class="number-column">
+                <%= student_index + 1 %>
+              </td>
+
+              <td>
+                <%= student.name %>
+              </td>
+
+              <td class="signature-column"></td>
+
+            </tr>
+
+          <% end %>
+
+        </tbody>
+
+      </table>
+
+
+      <div class="frequency-observations">
+
+        <strong>Observações:</strong>
+
+        <div class="observation-line"></div>
+
+        <div class="observation-line"></div>
+
+      </div>
+
+
+      <div class="frequency-footer">
+
+        <%= school_class.shift %>
+
+      </div>
+
+    </div>
+
+
+    <% unless index == @test_application.school_classes.length - 1 %>
+      <div style="page-break-after: always;"></div>
+    <% end %>
+
+  <% end %>
+
+</div>
