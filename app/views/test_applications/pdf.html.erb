@@ -2,37 +2,32 @@
   <% @test_application.school_classes.each_with_index do |school_class, index| %>
     <div class="frequency-page">
 
-     <div class="frequency-header" style="text-align: center; margin-bottom: 15px;">
-
-  <h1 style="font-size: 18px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 5px;">
-    Lista de frequência - <%= "#{school_class.grade} #{school_class.identifier}" %>
-  </h1>
-
-  <div style="text-align: left; font-size: 13px; line-height: 1.8; margin-top: 10px;">
-    
-    <div class="frequency-info">
-      <strong>Data:</strong> <%= @test_application.application_date.strftime("%d/%m/%Y") %>
-      <span style="margin-left: 30px;">
-        <strong>Componente curricular:</strong> <%= @test_application.subject_name.presence || "________________________" %>
-      </span>
-    </div>
-
-    <div class="frequency-info fiscal-line" style="margin-top: 8px; display: flex; align-items: flex-end;">
-      <strong style="white-space: nowrap; margin-right: 8px;">Fiscal responsável:</strong>
-      
-      <% if @test_application.invigilator.present? %>
-        <span><%= @test_application.invigilator %></span>
-        <span style="flex-grow: 1; border-bottom: 1px solid #000; margin-left: 10px; margin-bottom: 3px;"></span>
-      <% else %>
-        <!-- LINHA PARA ASSINATURA QUANDO NÃO TEM NOME -->
-        <span style="flex-grow: 1; border-bottom: 1px solid #000; margin-bottom: 3px; height: 16px;"></span>
-      <% end %>
-      
-      <span style="font-size: 9px; color: #666; margin-left: 8px; white-space: nowrap; font-style: italic;">(assinatura)</span>
-    </div>
-
-  </div>
-</div>
+      <!-- CABEÇALHO COM TÍTULO CENTRALIZADO E LOGO -->
+      <div class="frequency-header" style="border-bottom: 1px solid #2e2d2d; padding-bottom: 8px; margin-bottom: 15px; width: 100%; position: relative; text-align: center;">
+        <div style="position: absolute; top: 0; right: 0;">
+          <img src="<%= wicked_pdf_asset_base64('logo.png') %>" style="width: 75px; height: auto;" />
+        </div>
+        <h1 style="font-size: 12px; font-weight: bold; text-transform: uppercase; margin: 0 0 10px 0; text-align: center;">
+          Lista de frequência para testes - <%= "#{school_class.grade} #{school_class.identifier}" %>
+        </h1>
+        <div style="font-size: 13px; line-height: 1.8; text-align: left; margin-top: 10px;">
+          <div class="frequency-info">
+            <strong>Data:</strong> <%= @test_application.application_date.strftime("%d/%m/%Y") %>
+            <span style="margin-left: 30px;">
+              <strong>Componente curricular:</strong> <%= @test_application.subject_name.presence || "________________________" %>
+            </span>
+          </div>
+          <div class="frequency-info fiscal-line" style="margin-top: 8px;">
+            <strong>Fiscal responsável:</strong>
+            <% if @test_application.invigilator.present? %>
+              <span><%= @test_application.invigilator %></span>
+              <span style="display: inline-block; border-bottom: 1px solid #000; width: 250px; margin-left: 10px; margin-bottom: -2px;"></span>
+            <% else %>
+              <span style="display: inline-block; border-bottom: 1px solid #000; width: 320px; margin-bottom: -2px; height: 16px;"></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
 
       <table class="frequency-table">
         <thead>
@@ -53,23 +48,25 @@
         </tbody>
       </table>
 
-      <!-- BLOCO FINAL - AGORA 1 TABELA SÓ, BORDA CONTÍNUA E COLADA -->
-      <div style="margin-top: 15px;">
-        <table class="frequency-table fiscal-box" style="width: 100%; border-collapse: collapse;">
+      <!-- RODAPÉ NORMAL - LOGO ABAIXO DA TABELA -->
+      <div style="margin-top: 20px; background: #fff;">
+        <table style="width: 100%; border-collapse: collapse;">
           <tr>
-            <th>ESPAÇO DESTINADO AOS FISCAIS</th>
+            <th style="border: 1px dashed #0a0a0a !important; padding: 2px 6px; text-align: center; font-size: 9px; color: #777 !important; background: #fff !important; font-style: italic; text-transform: uppercase;">
+              ESPAÇO DESTINADO AOS FISCAIS
+            </th>
           </tr>
           <tr>
-            <td class="fiscal-space"></td>
+            <td style="border-left: 1px dashed #bbb !important; border-right: 1px dashed #bbb !important; border-top: 1px dashed #bbb !important; border-bottom: 1px solid #000 !important; height: 6px; background: #fff !important;"></td>
           </tr>
           <tr>
-            <th style="text-align: left !important; font-size: 12px !important; color: #000 !important; background: #fff !important; font-style: normal !important; border: 1px solid #000 !important;">
+            <th style="text-align: left; font-size: 12px; color: #000; background: #fff !important; border: 1px solid #000; padding: 5px;">
               OBSERVAÇÕES / CONSIDERAÇÕES
             </th>
           </tr>
-          <tr><td style="border: 1px solid #000; height: 30px;"></td></tr>
-          <tr><td style="border: 1px solid #000; height: 30px;"></td></tr>
-          <tr><td style="border: 1px solid #000; height: 30px;"></td></tr>
+          <tr><td style="border: 1px solid #000; height: 22px; background: #fff !important;"></td></tr>
+          <tr><td style="border: 1px solid #000; height: 22px; background: #fff !important;"></td></tr>
+          <tr><td style="border: 1px solid #000; height: 22px; background: #fff !important;"></td></tr>
         </table>
       </div>
 
