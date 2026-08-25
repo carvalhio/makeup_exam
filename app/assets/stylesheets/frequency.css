@@ -1,0 +1,25 @@
+.frequency-table tbody tr:nth-child(even) {
+  background-color: #d2e5fd; /* mesmo azul da attendance_list */
+}
+.fiscal-box th {
+  border: 1px dashed #bbb !important;
+  text-align: center !important;
+  font-size: 9px !important;
+  font-weight: normal !important;
+  color: #777 !important;
+  background: #fafafa !important;
+  font-style: italic;
+  padding: 2px;
+  text-transform: uppercase;
+}
+.fiscal-box td.fiscal-space {
+  border-left: 1px dashed #bbb !important;
+  border-right: 1px dashed #bbb !important;
+  border-top: 1px dashed #bbb !important;
+  border-bottom: 1px solid #000 !important;
+  height: 6px; /* AQUI você controla a distância */
+  padding: 0;
+  line-height: 0;
+  background: #fcfcfc !important;
+}
+

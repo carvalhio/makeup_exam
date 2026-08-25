@@ -1,45 +1,40 @@
 <div class="frequency-pdf">
-
   <% @test_application.school_classes.each_with_index do |school_class, index| %>
-
     <div class="frequency-page">
 
-      <div class="frequency-header">
+     <div class="frequency-header" style="text-align: center; margin-bottom: 15px;">
 
-        <h1>
-          Lista de frequência -
-          <%= "#{school_class.grade} #{school_class.identifier}" %>
-        </h1>
+  <h1 style="font-size: 18px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 5px;">
+    Lista de frequência - <%= "#{school_class.grade} #{school_class.identifier}" %>
+  </h1>
 
-        <div class="frequency-info">
+  <div style="text-align: left; font-size: 13px; line-height: 1.8; margin-top: 10px;">
+    
+    <div class="frequency-info">
+      <strong>Data:</strong> <%= @test_application.application_date.strftime("%d/%m/%Y") %>
+      <span style="margin-left: 30px;">
+        <strong>Componente curricular:</strong> <%= @test_application.subject_name.presence || "________________________" %>
+      </span>
+    </div>
 
-          <strong>Data:</strong>
-          <%= @test_application.application_date.strftime("%d/%m/%Y") %>
+    <div class="frequency-info fiscal-line" style="margin-top: 8px; display: flex; align-items: flex-end;">
+      <strong style="white-space: nowrap; margin-right: 8px;">Fiscal responsável:</strong>
+      
+      <% if @test_application.invigilator.present? %>
+        <span><%= @test_application.invigilator %></span>
+        <span style="flex-grow: 1; border-bottom: 1px solid #000; margin-left: 10px; margin-bottom: 3px;"></span>
+      <% else %>
+        <!-- LINHA PARA ASSINATURA QUANDO NÃO TEM NOME -->
+        <span style="flex-grow: 1; border-bottom: 1px solid #000; margin-bottom: 3px; height: 16px;"></span>
+      <% end %>
+      
+      <span style="font-size: 9px; color: #666; margin-left: 8px; white-space: nowrap; font-style: italic;">(assinatura)</span>
+    </div>
 
-          &nbsp;&nbsp;&nbsp;
-
-          <strong>Componente curricular:</strong>
-          <%= @test_application.subject_name.presence || "________________________" %>
-
-        </div>
-
-        <div class="frequency-info fiscal-line">
-
-                <strong>Fiscal responsável:</strong>
-
-                <% if @test_application.invigilator.present? %>
-                    <%= @test_application.invigilator %>
-                <% else %>
-                    <span class="fiscal-signature-line"></span>
-                <% end %>
-
-        </div>
-
-      </div>
-
+  </div>
+</div>
 
       <table class="frequency-table">
-
         <thead>
           <tr>
             <th class="number-column">Nº</th>
@@ -47,56 +42,40 @@
             <th class="signature-column">Assinatura</th>
           </tr>
         </thead>
-
         <tbody>
-
           <% school_class.students.order(:name).each_with_index do |student, student_index| %>
-
             <tr>
-
-              <td class="number-column">
-                <%= student_index + 1 %>
-              </td>
-
-              <td>
-                <%= student.name %>
-              </td>
-
+              <td class="number-column"><%= student_index + 1 %></td>
+              <td><%= student.name %></td>
               <td class="signature-column"></td>
-
             </tr>
-
           <% end %>
-
         </tbody>
-
       </table>
 
-
-      <div class="frequency-observations">
-
-        <strong>Observações:</strong>
-
-        <div class="observation-line"></div>
-
-        <div class="observation-line"></div>
-
-      </div>
-
-
-      <div class="frequency-footer">
-
-        <%= school_class.shift %>
-
+      <!-- BLOCO FINAL - AGORA 1 TABELA SÓ, BORDA CONTÍNUA E COLADA -->
+      <div style="margin-top: 15px;">
+        <table class="frequency-table fiscal-box" style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <th>ESPAÇO DESTINADO AOS FISCAIS</th>
+          </tr>
+          <tr>
+            <td class="fiscal-space"></td>
+          </tr>
+          <tr>
+            <th style="text-align: left !important; font-size: 12px !important; color: #000 !important; background: #fff !important; font-style: normal !important; border: 1px solid #000 !important;">
+              OBSERVAÇÕES / CONSIDERAÇÕES
+            </th>
+          </tr>
+          <tr><td style="border: 1px solid #000; height: 30px;"></td></tr>
+          <tr><td style="border: 1px solid #000; height: 30px;"></td></tr>
+          <tr><td style="border: 1px solid #000; height: 30px;"></td></tr>
+        </table>
       </div>
 
     </div>
-
-
     <% unless index == @test_application.school_classes.length - 1 %>
       <div style="page-break-after: always;"></div>
     <% end %>
-
   <% end %>
-
 </div>
