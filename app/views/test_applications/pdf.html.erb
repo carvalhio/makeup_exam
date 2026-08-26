@@ -2,54 +2,63 @@
   <% @test_application.school_classes.each_with_index do |school_class, index| %>
     <div class="frequency-page">
 
-      <!-- CABEÇALHO COM TÍTULO CENTRALIZADO E LOGO -->
-      <div class="frequency-header" style="border-bottom: 1px solid #2e2d2d; padding-bottom: 8px; margin-bottom: 15px; width: 100%; position: relative; text-align: center;">
+      <!-- CABEÇALHO SEM LINHA -->
+      <div class="frequency-header" style="padding-bottom: 8px; margin-bottom: 10px; width: 100%; position: relative; text-align: center; border: none;">
+        
         <div style="position: absolute; top: 0; right: 0;">
           <img src="<%= wicked_pdf_asset_base64('logo.png') %>" style="width: 75px; height: auto;" />
         </div>
+
         <h1 style="font-size: 12px; font-weight: bold; text-transform: uppercase; margin: 0 0 10px 0; text-align: center;">
           Lista de frequência para testes - <%= "#{school_class.grade} #{school_class.identifier}" %>
         </h1>
-        <div style="font-size: 13px; line-height: 1.8; text-align: left; margin-top: 10px;">
-          <div class="frequency-info">
+
+        <div style="font-size: 13px; line-height: 1.6; text-align: left; margin-top: 8px;">
+          <div>
             <strong>Data:</strong> <%= @test_application.application_date.strftime("%d/%m/%Y") %>
             <span style="margin-left: 30px;">
               <strong>Componente curricular:</strong> <%= @test_application.subject_name.presence || "________________________" %>
             </span>
           </div>
-          <div class="frequency-info fiscal-line" style="margin-top: 8px;">
-            <strong>Fiscal responsável:</strong>
+
+          <!-- LINHA DO FISCAL VOLTOU -->
+          <div style="margin-top: 6px;">
+            <strong style="white-space: nowrap; margin-right: 8px;">Fiscal responsável:</strong>
             <% if @test_application.invigilator.present? %>
               <span><%= @test_application.invigilator %></span>
-              <span style="display: inline-block; border-bottom: 1px solid #000; width: 250px; margin-left: 10px; margin-bottom: -2px;"></span>
+              <span style="display: inline-block; border-bottom: 1px solid #000; width: 280px; margin-left: 10px;"></span>
             <% else %>
-              <span style="display: inline-block; border-bottom: 1px solid #000; width: 320px; margin-bottom: -2px; height: 16px;"></span>
+              <span style="display: inline-block; border-bottom: 1px solid #000; width: 350px;"></span>
             <% end %>
           </div>
         </div>
       </div>
 
-      <table class="frequency-table">
+      <table class="frequency-table" style="table-layout: fixed; width: 100%; border-collapse: collapse;">
+        <colgroup>
+          <col style="width: 26px;">
+          <col>
+          <col style="width: 40%;">
+        </colgroup>
         <thead>
-          <tr>
-            <th class="number-column">Nº</th>
-            <th>Aluno</th>
-            <th class="signature-column">Assinatura</th>
+          <tr style="height: 21px;">
+            <th style="width: 26px; text-align: center; padding: 2px 1px !important; line-height: 1.15 !important; font-size: 11.5px;">Nº</th>
+            <th style="text-align: left; padding: 2px 5px !important; line-height: 1.15 !important; font-size: 11.5px;">Aluno</th>
+            <th style="width: 40%; text-align: center; padding: 2px 1px !important; line-height: 1.15 !important; font-size: 11.5px;">Assinatura</th>
           </tr>
         </thead>
         <tbody>
           <% school_class.students.order(:name).each_with_index do |student, student_index| %>
-            <tr>
-              <td class="number-column"><%= student_index + 1 %></td>
-              <td><%= student.name %></td>
-              <td class="signature-column"></td>
+            <tr style="height: 19px;">
+              <td style="width: 26px; text-align: center; padding: 2px 1px !important; line-height: 1.15 !important; font-size: 11.5px; height: 19px;"><%= student_index + 1 %></td>
+              <td style="padding: 2px 5px !important; line-height: 1.15 !important; font-size: 11.5px; height: 19px; letter-spacing: 1.2px !important; font-family: Arial, Helvetica, sans-serif !important;"><%= student.name %></td>
+              <td style="padding: 2px 5px !important; height: 19px;"></td>
             </tr>
           <% end %>
         </tbody>
       </table>
 
-      <!-- RODAPÉ NORMAL - LOGO ABAIXO DA TABELA -->
-      <div style="margin-top: 20px; background: #fff;">
+      <div style="margin-top: 15px;">
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
             <th style="border: 1px dashed #0a0a0a !important; padding: 2px 6px; text-align: center; font-size: 9px; color: #777 !important; background: #fff !important; font-style: italic; text-transform: uppercase;">
@@ -60,19 +69,19 @@
             <td style="border-left: 1px dashed #bbb !important; border-right: 1px dashed #bbb !important; border-top: 1px dashed #bbb !important; border-bottom: 1px solid #000 !important; height: 6px; background: #fff !important;"></td>
           </tr>
           <tr>
-            <th style="text-align: left; font-size: 12px; color: #000; background: #fff !important; border: 1px solid #000; padding: 5px;">
-              OBSERVAÇÕES / CONSIDERAÇÕES
-            </th>
+            <th style="text-align: left; font-size: 12px; background: #fff !important; border: 1px solid #000; padding: 5px;">OBSERVAÇÕES / CONSIDERAÇÕES</th>
           </tr>
-          <tr><td style="border: 1px solid #000; height: 22px; background: #fff !important;"></td></tr>
-          <tr><td style="border: 1px solid #000; height: 22px; background: #fff !important;"></td></tr>
-          <tr><td style="border: 1px solid #000; height: 22px; background: #fff !important;"></td></tr>
+          <tr><td style="border: 1px solid #000; height: 20px; background: #fff !important;"></td></tr>
+          <tr><td style="border: 1px solid #000; height: 20px; background: #fff !important;"></td></tr>
+          <tr><td style="border: 1px solid #000; height: 20px; background: #fff !important;"></td></tr>
         </table>
       </div>
 
     </div>
+    
     <% unless index == @test_application.school_classes.length - 1 %>
       <div style="page-break-after: always;"></div>
     <% end %>
+
   <% end %>
 </div>

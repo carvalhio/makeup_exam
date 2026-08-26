@@ -1,89 +1,76 @@
 <p style="color: green"><%= notice %></p>
 
-<div class="container mt-4">
+<style>
+  .school-class-wrapper {
+    max-width: 800px; /* TAMANHO DA FOLHA - diminui se quiser 700px */
+    margin: 0 auto; /* CENTRALIZA */
+  }
+  .school-class-wrapper .table {
+    font-size: 13px;
+  }
+  .school-class-wrapper .table th,
+  .school-class-wrapper .table td {
+    padding: 1px 4px !important;
+  }
+</style>
+
+<div class="school-class-wrapper mt-4">
 
   <!-- CABEÇALHO -->
   <div class="d-flex justify-content-between align-items-center mb-3">
 
     <div>
-
-      <h1 class="mb-1">
-        <%= @school_class.grade %>
-        <%= @school_class.identifier %>
+      <h1 class="mb-1" style="font-size: 22px;">
+        <%= @school_class.grade %> <%= @school_class.identifier %>
       </h1>
-
-      <p class="text-muted mb-0">
+      <p class="text-muted mb-0 small">
         <%= @school_class.shift %>
       </p>
-
     </div>
 
     <div class="d-flex gap-2">
-      
+      <!-- BOTÃO NOVO GERAR FREQUENCIA -->
+      <%= link_to "Gerar Frequência",
+          new_test_application_path(school_class_id: @school_class.id),
+          class: "btn btn-success btn-sm" %>
+
       <%= link_to "lista de frequência",
-    attendance_sheet_school_class_path(@school_class),
-    class: "btn btn-outline-primary btn-sm" %>
+          attendance_sheet_school_class_path(@school_class),
+          class: "btn btn-outline-primary btn-sm" %>
 
       <%= link_to "Voltar",
           school_classes_path,
           class: "btn btn-primary btn-sm" %>
-
     </div>
 
   </div>
 
   <!-- TABELA -->
   <div class="card shadow-sm">
-
     <div class="card-body p-0">
-
       <table class="table table-hover table-sm align-middle mb-0 small">
-
         <thead class="table-dark">
-
           <tr>
             <th>Aluno</th>
           </tr>
-
         </thead>
-
         <tbody>
-
           <% if @students.any? %>
-
             <% @students.each do |student| %>
-
-              <tr
-                onclick="window.location='<%= student_path(student) %>'"
-                style="cursor: pointer;"
-              >
-
-                <td>
-                  <%= student.name %>
-                </td>
-
+              <tr onclick="window.location='<%= student_path(student) %>'" style="cursor: pointer;">
+                <td><%= student.name %></td>
               </tr>
-
             <% end %>
-
           <% else %>
-
             <tr>
-
               <td class="text-center text-muted py-4">
                 Nenhum aluno cadastrado.
               </td>
-
             </tr>
-
           <% end %>
-
         </tbody>
-
       </table>
-
     </div>
-
   </div>
 
 </div>

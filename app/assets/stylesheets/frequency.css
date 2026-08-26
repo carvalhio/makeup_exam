@@ -1,27 +1,5 @@
-.frequency-page {
-  position: relative;
-  background: #fff !important;
-  min-height: auto; /* tira o 980px */
-  padding-bottom: 0;
-}
-
-/* TIRA ESSE BLOCO TODO - não precisa mais */
-.footer-observacoes {
-  position: relative;
-  width: 100%;
-  background: #fff !important;
-  margin-top: 15px;
-}
-
-.frequency-table tbody tr:nth-child(even) { background-color: #d2e5fd !important; }
-.frequency-table tbody tr:nth-child(odd) { background-color: #fff !important; }
-.frequency-table thead th {
-  font-size: 14px !important;
-  padding: 8px 4px !important;
-  background: #fff !important;
-  color: #000 !important;
-  border: 1px solid #000 !important;
-}
-.fiscal-box th, .fiscal-box td.fiscal-space {
-  background: #fff !important;
-}
+.frequency-pdf { background: #fff !important; }
+.frequency-table { width: 100%; border-collapse: collapse; }
+.frequency-table th { background: #fff !important; border: 1px solid #000 !important; }
+.frequency-table td { border: 1px solid #000; }
+.frequency-table tbody tr:nth-child(even) { background: #d2e5fd !important; }
