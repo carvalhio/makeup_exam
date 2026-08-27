@@ -54,10 +54,12 @@ class StudentsController < ApplicationController
 
     if @student.save
       format.html {
-        redirect_to @student,
-        notice: "Student was successfully updated.",
+        redirect_to school_class_path(@student.school_class_id),
+        notice: "Aluno atualizado com sucesso!",
         status: :see_other
       }
+
+      format.turbo_stream # <--- ESSA LINHA NOVA FAZ O POP-UP SEM SAIR DA PÁGINA
 
       format.json {
         render :show,
