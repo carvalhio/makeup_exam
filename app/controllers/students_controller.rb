@@ -53,13 +53,17 @@ class StudentsController < ApplicationController
     @student.assign_attributes(student_params)
 
     if @student.save
+      # pega a posição do aluno na ordem alfabética
+      students_ordered = @student.school_class.students.order(:name).to_a
+      @student_index = students_ordered.index(@student) + 1
+
       format.html {
         redirect_to school_class_path(@student.school_class_id),
         notice: "Aluno atualizado com sucesso!",
         status: :see_other
       }
 
-      format.turbo_stream # <--- ESSA LINHA NOVA FAZ O POP-UP SEM SAIR DA PÁGINA
+      format.turbo_stream # usa o update.turbo_stream.erb
 
       format.json {
         render :show,
@@ -77,8 +81,8 @@ class StudentsController < ApplicationController
         status: :unprocessable_content
       }
     end
+    end
   end
-end
 
   # DELETE /students/1 or /students/1.json
   def destroy

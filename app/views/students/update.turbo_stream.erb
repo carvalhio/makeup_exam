@@ -1,6 +1,10 @@
 <%= turbo_stream.replace "student_row_#{@student.id}" do %>
   <tr id="student_row_<%= @student.id %>" data-bs-toggle="modal" data-bs-target="#editStudentModal<%= @student.id %>" style="cursor: pointer;">
-    <td><%= @student.name %> <% if @student.aee %><span class="badge bg-warning text-dark ms-2" style="font-size: 10px;">AEE</span><% end %></td>
+    <td class="text-center"><%= @student_index %></td>
+    <td>
+      <%= @student.name %>
+      <% if @student.aee %><span class="badge bg-warning text-dark ms-1" style="font-size: 9px;">AEE</span><% end %>
+    </td>
   </tr>
 <% end %>
 

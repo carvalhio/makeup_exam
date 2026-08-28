@@ -10,7 +10,7 @@
   }
   .school-class-wrapper .table th,
   .school-class-wrapper .table td {
-    padding: 6px 10px !important;
+    padding: 1px 10px !important;
   }
 </style>
 
@@ -39,21 +39,23 @@
   <div class="card shadow-sm">
     <div class="card-body p-0">
       <table class="table table-hover table-sm align-middle mb-0 small">
-        <thead class="table-dark">
+       <thead class="table-dark">
           <tr>
+            <th style="width: 20px;" class="text-center">Nº</th>
             <th>Aluno</th>
           </tr>
         </thead>
         <tbody>
           <% if @students.any? %>
-            <% @students.each do |student| %>
+            <% @students.order(:name).each_with_index do |student, index| %>
               <tr id="student_row_<%= student.id %>" data-bs-toggle="modal" data-bs-target="#editStudentModal<%= student.id %>" style="cursor: pointer;">
-                <td><%= student.name %></td>
+                <td class="text-center"><%= index + 1 %></td>
+                <td><%= student.name %> <% if student.aee %><span class="badge bg-warning text-dark ms-1" style="font-size: 9px;">AEE</span><% end %></td>
               </tr>
             <% end %>
           <% else %>
             <tr>
-              <td class="text-center text-muted py-4">Nenhum aluno cadastrado.</td>
+              <td colspan="2" class="text-center text-muted py-4">Nenhum aluno cadastrado.</td>
             </tr>
           <% end %>
         </tbody>
