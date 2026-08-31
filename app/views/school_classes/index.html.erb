@@ -156,13 +156,32 @@
                         </div>
                       <% end %>
                     </div>
-                  <% end %>
+                   
+                  <% end %>      
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        
+        <div class="mb-3">
+              <div class="form-check">
 
+                <%= form.check_box :include_aee,
+                    class: "form-check-input" %>
+
+                <%= form.label :include_aee,
+                    "Incluir alunos AEE",
+                    class: "form-check-label fw-bold" %>
+
+              </div>
+
+              <small class="text-muted">
+                alunos que fazem testes adaptados
+              </small>
+
+
+        </div>
+        
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
           <%= form.submit "Gerar lista de frequência", class: "btn btn-primary btn-sm" %>

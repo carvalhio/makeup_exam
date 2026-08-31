@@ -33,7 +33,7 @@
               <span style="display: inline-block; border-bottom: 1px solid #000; width: 75%; margin-left: 8px; margin-bottom: -2px;"></span>
             <% end %>
           </div>
-
+          
         </div>
       </div>
 
@@ -51,14 +51,29 @@
           </tr>
         </thead>
         <tbody>
-          <% school_class.students.order(:name).each_with_index do |student, student_index| %>
-            <tr style="height: 19px;">
-              <td style="width: 26px; text-align: center; padding: 2px 1px !important; line-height: 1.15 !important; font-size: 12.5px; height: 19px;"><%= student_index + 1 %></td>
-              <td style="padding: 2px 5px !important; line-height: 1.15 !important; font-size: 12.5px; height: 19px; letter-spacing: 1.2px !important; font-family: Tahoma, Geneva, sans-serif !important;"><%= student.name %></td>
-              <td style="padding: 2px 5px !important; height: 19px;"></td>
-            </tr>
-          <% end %>
-        </tbody>
+<%
+students = if @test_application.include_aee
+  school_class.students
+else
+  school_class.students.where(aee: false)
+end
+%>
+
+<% students.order(:name).each_with_index do |student, student_index| %>
+  <tr>
+    <td style="text-align: center; padding: 2px 1px; font-size: 12px;">
+      <%= student_index + 1 %>
+    </td>
+
+    <td style="padding: 2px 5px; font-size: 12px;">
+      <%= student.name %>
+    </td>
+
+    <td style="padding: 2px 1px; font-size: 12px;">
+    </td>
+  </tr>
+<% end %>
+  </tbody>
       </table>
 
       <div style="margin-top: 4px; page-break-inside: avoid;">

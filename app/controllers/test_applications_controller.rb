@@ -71,7 +71,8 @@ class TestApplicationsController < ApplicationController
       :exam_type,
       :application_date,
       :subject_name,
-      :invigilator
+      :invigilator,
+      :include_aee
     )
   end
 end

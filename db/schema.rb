@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_08_19_170826) do
+ActiveRecord::Schema[7.2].define(version: 2026_08_31_183320) do
   create_table "exam_periods", force: :cascade do |t|
     t.string "stage"
     t.string "exam_type"
@@ -83,6 +83,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_19_170826) do
     t.string "invigilator"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "include_aee", default: true, null: false
   end
 
   add_foreign_key "exam_request_subjects", "exam_requests"
