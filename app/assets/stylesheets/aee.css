@@ -1,0 +1,53 @@
+/* =========================================
+   AEE
+========================================= */
+
+.aee-container {
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.aee-group {
+  margin-bottom: 25px;
+}
+
+.aee-group-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.aee-shift-title {
+  font-size: 13px;
+  font-weight: bold;
+  margin: 10px 0 4px;
+  padding: 4px 8px;
+  background-color: #e9ecef;
+}
+
+.aee-table {
+  width: 100%;
+  font-size: 13px;
+  margin-bottom: 10px;
+  table-layout: auto; /* deixa o navegador calcular pelo conteúdo */
+}
+
+.aee-table th,
+.aee-table td {
+  padding: 4px 8px;
+  vertical-align: middle;
+}
+
+.aee-table th:first-child,
+.aee-table td:first-child {
+  width: 1%; /* encolhe pro mínimo necessário */
+  white-space: nowrap;
+  padding-right: 25px; /* distância curta controlada entre Turma e Aluno */
+}
+
+.aee-table th:last-child,
+.aee-table td:last-child {
+  width: auto;
+}

@@ -1,23 +1,169 @@
-<h1>AEE</h1>
+<p style="color: green"><%= notice %></p>
 
-<h2>Alunos AEE</h2>
+<% content_for :title, "AEE" %>
 
-<% if @students.any? %>
-  <% students_by_class = @students.group_by(&:school_class) %>
+<div class="aee-container">
 
-  <% students_by_class.each do |school_class, students| %>
-    <h3>
-      <%= school_class.full_name %>
-    </h3>
+  <h1>AEE</h1>
 
-    <ul>
-      <% students.each do |student| %>
-        <li>
-          <%= student.name %>
-        </li>
-      <% end %>
-    </ul>
+  <% if @students.any? %>
+
+    <%
+      groups = {
+        "Ensino Fundamental - Anos Iniciais — 1º ao 5º ano" => [
+          "1º ano", "2º ano", "3º ano", "4º ano", "5º ano"
+        ],
+
+        "Esino Fundamental - Anos Finais — 6º ao 8º ano" => [
+          "6º ano", "7º ano", "8º ano"
+        ],
+
+        "9º ano ao Ensino Médio" => [
+          "9º ano", "1ª série", "2ª série", "3ª série"
+        ]
+      }
+
+      grouped_student_ids = []
+      shift_order = { "manhã" => 1, "tarde" => 2 }
+    %>
+
+    <% groups.each do |group_name, grades| %>
+
+      <%
+        group_students = @students.select do |student|
+          student.school_class.present? && grades.include?(student.school_class.grade)
+        end
+
+        grouped_student_ids.concat(group_students.map(&:id))
+      %>
+
+      <% next if group_students.empty? %>
+
+      <div class="aee-group">
+
+        <div class="aee-group-title">
+          <%= group_name %>
+        </div>
+
+        <%
+          shifts =
+            group_students.group_by { |student| student.school_class.shift }
+                          .sort_by { |shift, _| [shift_order[shift.to_s.downcase] || 99, shift.to_s] }
+        %>
+
+        <% shifts.each do |shift, shift_students| %>
+
+          <div class="aee-shift-title">
+            <%= shift.to_s.capitalize %>
+          </div>
+
+          <%
+            students_by_class =
+              shift_students.group_by(&:school_class).sort_by do |school_class, _|
+                [
+                  grades.index(school_class.grade),
+                  school_class.identifier.to_s
+                ]
+              end
+          %>
+
+          <table class="table table-striped table-hover table-sm aee-table">
+            
+            <thead class="table-dark">
+              <tr>
+                <th>Turma</th>
+                <th>Aluno(a)</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              <% students_by_class.each do |school_class, students| %>
+
+                <% students.sort_by(&:name).each do |student| %>
+
+                  <tr>
+                    <td>
+                      <%= "#{school_class.grade} #{school_class.identifier}" %>
+                    </td>
+
+                    <td>
+                      <%= student.name %>
+                    </td>
+                  </tr>
+
+                <% end %>
+
+              <% end %>
+
+            </tbody>
+
+          </table>
+
+        <% end %>
+
+      </div>
+
+    <% end %>
+
+    <%
+      other_students = @students.reject do |student|
+        grouped_student_ids.include?(student.id)
+      end
+    %>
+
+    <% if other_students.any? %>
+      <div class="aee-group">
+
+        <div class="aee-group-title">
+          Outras turmas
+        </div>
+
+        <% other_students.group_by { |student| student.school_class&.shift || "Sem turno" }.sort_by { |shift, _| [shift_order[shift.to_s.downcase] || 99, shift.to_s] }.each do |shift, shift_students| %>
+          <div class="aee-shift-title">
+            <%= shift.to_s.capitalize %>
+          </div>
+
+          <table class="table table-striped table-hover table-sm aee-table">
+            <colgroup>
+              <col style="width: 85px">
+              <col>
+            </colgroup>
+
+            <thead class="table-dark">
+              <tr>
+                <th>Turma</th>
+                <th>Aluno</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% shift_students.sort_by { |student| [student.school_class&.grade.to_s, student.school_class&.identifier.to_s, student.name] }.each do |student| %>
+                <tr>
+                  <td>
+                    <% if student.school_class.present? %>
+                      <%= "#{student.school_class.grade} #{student.school_class.identifier}" %>
+                    <% else %>
+                      Sem turma
+                    <% end %>
+                  </td>
+
+                  <td>
+                    <%= student.name %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+
+      </div>
+    <% end %>
+
+  <% else %>
+
+    <p>Nenhum aluno está cadastrado como AEE.</p>
+
   <% end %>
-<% else %>
-  <p>Nenhum aluno está cadastrado como AEE.</p>
-<% end %>
+
+</div>

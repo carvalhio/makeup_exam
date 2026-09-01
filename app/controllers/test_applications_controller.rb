@@ -22,7 +22,7 @@ class TestApplicationsController < ApplicationController
         )
       end
 
-      redirect_to test_application_path(@test_application)
+      redirect_to pdf_test_application_path(@test_application), status: :see_other
 
     else
 
@@ -53,7 +53,7 @@ class TestApplicationsController < ApplicationController
            template: "test_applications/pdf",
            formats: [ :html ],
            layout: "pdf",
-           disposition: "attachment",
+           disposition: "inline",
            margin: {
              top: 5,
              bottom: 5,

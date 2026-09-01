@@ -1,0 +1,32 @@
+.school-classes-wrapper {
+  width: fit-content; /* tamanho do conteúdo, não fixo */
+  margin: 0 auto;
+}
+
+.school-classes-wrapper .card {
+  width: fit-content;
+}
+
+.school-classes-table {
+  width: auto !important; /* só o tamanho das 3 colunas juntas */
+  table-layout: auto !important;
+  font-size: 13px;
+  margin: 0 !important;
+}
+
+.school-classes-table th,
+.school-classes-table td {
+  padding: 3px 10px !important;
+  vertical-align: middle !important;
+  white-space: nowrap !important;
+}
+
+.school-classes-table .col-turma,
+.school-classes-table .col-turno,
+.school-classes-table .col-qtd {
+  width: 1% !important; /* cada uma só o tamanho do texto */
+}
+
+.school-classes-table .col-qtd {
+  text-align: center !important;
+}

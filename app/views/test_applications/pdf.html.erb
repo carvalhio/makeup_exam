@@ -14,16 +14,21 @@
         </h1>
 
         <div style="font-size: 13px; line-height: 1.6; text-align: left; margin-top: 8px;">
-          
-          <div>
-            <strong>Data:</strong> <%= @test_application.application_date.strftime("%d/%m/%Y") %>
+         <div>
+            <strong>Data:</strong>
+            <%= @test_application.application_date.strftime("%d/%m/%Y") %>
           </div>
 
-          <div style="margin-top: 4px;">
-            <strong>Componente curricular:</strong> <%= @test_application.subject_name.presence || "________________________" %>
+          <div style="margin-top: 4px; white-space: nowrap;">
+            <strong>Componentes curriculares:</strong>
+            <%= @test_application.subject_name.presence || "________________________" %>
+
+            <span style="margin-left: 24px;">
+              <strong>Tipo de teste:</strong>
+              <%= @test_application.exam_type %>
+            </span>
           </div>
 
-          <!-- FISCAL - LINHA ATÉ O FINAL DA BORDA -->
           <div style="margin-top: 4px; white-space: nowrap;">
             <strong>Fiscal responsável:</strong>
             <% if @test_application.invigilator.present? %>
@@ -33,7 +38,6 @@
               <span style="display: inline-block; border-bottom: 1px solid #000; width: 75%; margin-left: 8px; margin-bottom: -2px;"></span>
             <% end %>
           </div>
-          
         </div>
       </div>
 
@@ -51,30 +55,30 @@
           </tr>
         </thead>
         <tbody>
-<%
-students = if @test_application.include_aee
-  school_class.students
-else
-  school_class.students.where(aee: false)
-end
-%>
+        <%
+        students = if @test_application.include_aee
+          school_class.students
+        else
+          school_class.students.where(aee: false)
+        end
+        %>
 
-<% students.order(:name).each_with_index do |student, student_index| %>
-  <tr>
-    <td style="text-align: center; padding: 2px 1px; font-size: 12px;">
-      <%= student_index + 1 %>
-    </td>
+  <% students.order(:name).each_with_index do |student, student_index| %>
+    <tr style="height: 17px;">
+      <td style="text-align: center; padding: 0 1px; font-size: 11px; line-height: 1;">
+        <%= student_index + 1 %>
+      </td>
 
-    <td style="padding: 2px 5px; font-size: 12px;">
-      <%= student.name %>
-    </td>
+      <td style="padding: 0 5px; font-size: 11px; line-height: 1;">
+        <%= student.name %>
+      </td>
 
-    <td style="padding: 2px 1px; font-size: 12px;">
-    </td>
-  </tr>
-<% end %>
-  </tbody>
-      </table>
+      <td style="padding: 0 1px; font-size: 11px; line-height: 1;">
+      </td>
+    </tr>
+  <% end %>
+    </tbody>
+        </table>
 
       <div style="margin-top: 4px; page-break-inside: avoid;">
         <table style="width: 100%; border-collapse: collapse;">

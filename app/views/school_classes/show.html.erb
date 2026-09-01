@@ -368,7 +368,7 @@
               AEE
 
               <small class="text-muted fw-normal">
-                (fará teste adaptado)
+                (realiza teste adaptado)
               </small>
 
             <% end %>
@@ -441,8 +441,11 @@
       <div class="modal-body">
 
         <%= form_with model: TestApplication.new,
-                      url: test_applications_path,
-                      method: :post do |form| %>
+              url: test_applications_path,
+              method: :post,
+              local: true,
+              data: { turbo: false }, 
+              html: { target: "_blank" } do |form| %>
 
 
           <div class="alert alert-info py-2 mb-3">
