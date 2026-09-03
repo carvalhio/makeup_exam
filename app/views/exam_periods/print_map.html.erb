@@ -1,56 +1,146 @@
-<h1 class="mb-3">Mapa de Impressão - 2ª Chamada</h1>
+<style>
+  @media print {
+    body * {
+      visibility: hidden;
+    }
 
-<p class="text-muted mb-3">
-  <strong>Período:</strong> <%= @exam_period.name %>
-</p>
+    .print-wrapper,
+    .print-wrapper * {
+      visibility: visible;
+    }
 
-<%= button_tag "Imprimir",
-    type: "button",
-    onclick: "window.print()",
-    class: "btn btn-primary mb-3" %>
+    .print-wrapper {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
 
-<% ["Manhã", "Tarde"].each do |shift| %>
+    .no-print {
+      display: none !important;
+    }
 
-  <% next unless @print_map[shift] %>
+    @page {
+      margin: 10mm;
+    }
+  }
 
-  <div class="mb-4 print-group">
+  .print-wrapper h1 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
 
-    <h5 class="mb-1 fw-bold">
-      Turno da <%= shift.downcase %>
-    </h5>
+  .period {
+    font-size: 11px;
+    margin-bottom: 15px;
+  }
 
-    <small class="text-muted d-block mb-2">
-      <% if shift == "Manhã" %>
-        Alunos matriculados no turno da tarde
-      <% else %>
-        Alunos matriculados no turno da manhã
-      <% end %>
-    </small>
+  .print-shift {
+    margin-bottom: 25px;
+  }
 
-    <table class="table table-sm table-bordered align-middle print-map-table">
+  .print-shift-title {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
 
-      <thead>
-        <tr>
-          <th>Turma</th>
-          <th>Comp. curricular</th>
-          <th>Qtd.</th>
-        </tr>
-      </thead>
+  .print-shift-description {
+    font-size: 10px;
+    color: #6c757d;
+    margin-bottom: 5px;
+  }
 
-      <tbody>
-        <% @print_map[shift].each do |grade, subjects| %>
-          <% subjects.each do |subject, quantity| %>
-            <tr>
-              <td><%= grade %></td>
-              <td><%= subject %></td>
-              <td><%= quantity %></td>
-            </tr>
-          <% end %>
-        <% end %>
-      </tbody>
+  .print-map-table {
+    font-size: 13px !important;
+    width: max-content !important;
+    max-width: max-content !important;
+    table-layout: auto !important;
+    margin-bottom: 0;
+  }
 
-    </table>
+  .print-map-table th,
+  .print-map-table td {
+    padding: 3px 8px !important;
+    white-space: nowrap !important;
+    width: auto !important;
+  }
 
+  .print-map-table th:nth-child(2),
+  .print-map-table td:nth-child(2) {
+    white-space: nowrap !important;
+    max-width: 140px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+</style>
+
+<div class="print-wrapper">
+
+  <h1 class="mb-1">
+    Mapa de Impressão - 2ª Chamada - <%= @exam_period.name %>
+  </h1>
+
+  <div class="period text-muted">
+    Gerado em <%= l Time.current, format: :short %>
   </div>
 
-<% end %>
+
+  <% ["Manhã", "Tarde"].each do |shift| %>
+
+    <% next unless @print_map[shift].present? %>
+
+    <div class="print-shift">
+
+      <div class="print-shift-title">
+        Aplicação pela <%= shift.downcase %>
+      </div>
+
+      <div class="print-shift-description">
+        <%= shift == "Manhã" ? "Matriculados à tarde" : "Matriculados de manhã" %>
+      </div>
+
+      <table class="table table-sm table-bordered align-middle print-map-table">
+
+        <thead class="table-light">
+          <tr>
+            <th>Turma</th>
+            <th>
+              <%= @exam_period.exam_type == "Global" ? "Área" : "Comp. curricular" %>
+            </th>
+            <th>Qtd.</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <% @print_map[shift].each do |grade, subjects| %>
+
+            <% subjects.each do |subject, quantity| %>
+
+              <tr>
+                <td><%= grade %></td>
+                <td><%= subject %></td>
+                <td class="text-center"><%= quantity %></td>
+              </tr>
+
+            <% end %>
+
+          <% end %>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  <% end %>
+
+</div>
+
+<div class="no-print">
+  <%= button_tag "Imprimir",
+        type: "button",
+        onclick: "window.print()",
+        class: "btn btn-primary mt-3" %>
+</div>

@@ -5,7 +5,12 @@ Rails.application.routes.draw do
   get "home/about"
   get "reports/index"
   get "reports", to: "reports#index"
+
+  get "aee/index"
   get "aee", to: "aee#index", as: :aee
+
+  post "aee", to: "aee#create", as: :aee_create
+  get "aee/:id/pdf", to: "aee#pdf", as: :aee_pdf
 
   resources :students
 

@@ -1,10 +1,22 @@
 <p style="color: green"><%= notice %></p>
 
-<% content_for :title, "AEE" %>
+<% content_for :title, "Testes adaptados" %>
 
 <div class="aee-container">
 
-  <h1>AEE</h1>
+  <div class="aee-container">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">AEE</h1>
+
+    <button
+      type="button"
+      class="btn btn-primary btn-sm"
+      data-bs-toggle="modal"
+      data-bs-target="#aeeFrequencyModal">
+      Lista de frequência - Testes Adaptados
+    </button>
+  </div>
 
   <% if @students.any? %>
 
@@ -167,3 +179,247 @@
   <% end %>
 
 </div>
+
+<div class="modal fade"
+     id="aeeFrequencyModal"
+     tabindex="-1"
+     aria-labelledby="aeeFrequencyModalLabel"
+     aria-hidden="true">
+
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+
+    <div class="modal-content">
+
+      <%= form_with model: TestApplication.new,
+              url: aee_create_path,
+              method: :post,
+              local: true,
+              data: { turbo: false },
+              html: { target: "_blank" } do |form| %>
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="aeeFrequencyModalLabel">
+            Lista de frequência - Testes Adaptados
+          </h5>
+
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Fechar">
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <%= form.label :exam_type,
+                    "Tipo de prova",
+                    class: "form-label fw-bold" %>
+
+              <%= form.select :exam_type,
+                    ["Parcial", "Global"],
+                    { prompt: "Selecione..." },
+                    class: "form-select",
+                    required: true %>
+            </div>
+
+            <div class="col-md-6">
+              <%= form.label :application_date,
+                    "Data da aplicação",
+                    class: "form-label fw-bold" %>
+
+              <%= form.date_field :application_date,
+                    class: "form-control",
+                    required: true %>
+            </div>
+
+            <div class="col-md-12">
+              <%= form.label :subject_name,
+                    "Componente curricular",
+                    class: "form-label fw-bold" %>
+
+              <%= form.text_field :subject_name,
+                    class: "form-control",
+                    placeholder: "Digite o componente curricular",
+                    required: true %>
+            </div>
+
+            <div class="col-md-12">
+              <%= form.label :invigilator,
+                    "Fiscal responsável",
+                    class: "form-label fw-bold" %>
+
+              <%= form.text_field :invigilator,
+                    class: "form-control",
+                    placeholder: "Digite o nome do fiscal" %>
+            </div>
+
+            <div class="col-md-12">
+
+              <label class="form-label fw-bold">
+                Turmas
+              </label>
+
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="class_selection"
+                  id="aeeAllClasses"
+                  value="all"
+                  checked>
+
+                <label
+                  class="form-check-label"
+                  for="aeeAllClasses">
+                  Todas as turmas
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="class_selection"
+                  id="aeeSelectedClasses"
+                  value="selected">
+
+                <label
+                  class="form-check-label"
+                  for="aeeSelectedClasses">
+                  Selecionar turmas
+                </label>
+              </div>
+
+              <div
+                id="aeeClassesSelection"
+                class="mt-3 p-3 border rounded d-none">
+
+                <%
+                  grouped_classes_modal = {
+                    "Anos Iniciais" => [
+                      "1º ano",
+                      "2º ano",
+                      "3º ano",
+                      "4º ano",
+                      "5º ano"
+                    ],
+
+                    "Anos Finais" => [
+                      "6º ano",
+                      "7º ano",
+                      "8º ano",
+                      "9º ano"
+                    ],
+
+                    "Ensino Médio" => [
+                      "1ª série",
+                      "2ª série",
+                      "3ª série"
+                    ]
+                  }
+                %>
+
+                <% grouped_classes_modal.each do |group_name, grades| %>
+
+                  <%
+                    classes = @school_classes
+                      .select { |school_class| grades.include?(school_class.grade) }
+                  %>
+
+                  <% next if classes.empty? %>
+
+                  <div class="mb-3">
+
+                    <div class="fw-bold mb-2">
+                      <%= group_name %>
+                    </div>
+
+                    <% classes.each do |school_class| %>
+
+                      <div class="form-check">
+
+                        <input
+                          class="form-check-input aee-class-checkbox"
+                          type="checkbox"
+                          name="school_class_ids[]"
+                          value="<%= school_class.id %>"
+                          id="aee_class_<%= school_class.id %>">
+
+                        <label
+                          class="form-check-label"
+                          for="aee_class_<%= school_class.id %>">
+
+                          <%= "#{school_class.grade} #{school_class.identifier} - #{school_class.shift}" %>
+
+                        </label>
+
+                      </div>
+
+                    <% end %>
+
+                  </div>
+
+                <% end %>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            data-bs-dismiss="modal">
+            Cancelar
+          </button>
+
+          <%= form.submit "Gerar lista de frequência",
+                class: "btn btn-primary btn-sm" %>
+
+        </div>
+
+      <% end %>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener("turbo:load", function () {
+    const allClasses = document.getElementById("aeeAllClasses");
+    const selectedClasses = document.getElementById("aeeSelectedClasses");
+    const classesSelection = document.getElementById("aeeClassesSelection");
+
+    if (!allClasses || !selectedClasses || !classesSelection) return;
+
+    function updateClassesSelection() {
+      if (selectedClasses.checked) {
+        classesSelection.classList.remove("d-none");
+      } else {
+        classesSelection.classList.add("d-none");
+
+        document
+          .querySelectorAll(".aee-class-checkbox")
+          .forEach(function (checkbox) {
+            checkbox.checked = false;
+          });
+      }
+    }
+
+    allClasses.addEventListener("change", updateClassesSelection);
+    selectedClasses.addEventListener("change", updateClassesSelection);
+
+    updateClassesSelection();
+  });
+</script>

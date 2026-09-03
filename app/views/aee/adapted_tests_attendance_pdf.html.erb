@@ -1,0 +1,290 @@
+<div class="frequency-pdf">
+
+  <% ["Manhã", "Tarde"].each_with_index do |shift, shift_index| %>
+
+    <%
+      school_classes = @test_application.school_classes
+        .where(shift: shift)
+        .includes(:students)
+        .sort_by { |school_class| [school_class.grade.to_s, school_class.identifier.to_s] }
+
+      students_by_class = school_classes.map do |school_class|
+        students = school_class.students
+          .where(aee: true)
+          .order(:name)
+
+        [school_class, students]
+      end.reject { |school_class, students| students.empty? }
+
+      next if students_by_class.empty?
+
+      students = students_by_class.flat_map do |school_class, class_students|
+        class_students.map { |student| [school_class, student] }
+      end
+    %>
+
+    <div class="frequency-page">
+
+      <!-- CABEÇALHO -->
+
+      <div class="frequency-header"
+           style="padding-bottom: 8px;
+                  margin-bottom: 10px;
+                  width: 100%;
+                  position: relative;
+                  text-align: center;
+                  border: none;">
+
+        <div style="position: absolute; top: 0; right: 0;">
+          <img src="<%= wicked_pdf_asset_base64('logo.png') %>"
+               style="width: 90px; height: auto;" />
+        </div>
+
+        <h1 style="font-size: 12px;
+                   font-weight: bold;
+                   text-transform: uppercase;
+                   margin: 0 0 10px 0;
+                   text-align: center;">
+
+          Lista de frequência para testes adaptados -
+          <%= shift.upcase %>
+
+        </h1>
+
+        <div style="font-size: 13px;
+                    line-height: 1.6;
+                    text-align: left;
+                    margin-top: 8px;">
+
+          <div>
+            <strong>Data:</strong>
+            <%= @test_application.application_date.strftime("%d/%m/%Y") %>
+          </div>
+
+          <div style="margin-top: 4px; white-space: nowrap;">
+
+            <strong>Componentes curriculares:</strong>
+
+            <%= @test_application.subject_name.presence ||
+                "________________________" %>
+
+            <span style="margin-left: 24px;">
+
+              <strong>Tipo de teste:</strong>
+
+              <%= @test_application.exam_type %>
+
+            </span>
+
+          </div>
+
+          <div style="margin-top: 4px; white-space: nowrap;">
+
+            <strong>Fiscal responsável:</strong>
+
+            <% if @test_application.invigilator.present? %>
+
+              <span style="margin-left: 4px;">
+                <%= @test_application.invigilator %>
+              </span>
+
+              <span style="display: inline-block;
+                           border-bottom: 1px solid #000;
+                           width: 72%;
+                           margin-left: 8px;
+                           margin-bottom: -2px;">
+              </span>
+
+            <% else %>
+
+              <span style="display: inline-block;
+                           border-bottom: 1px solid #000;
+                           width: 75%;
+                           margin-left: 8px;
+                           margin-bottom: -2px;">
+              </span>
+
+            <% end %>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- TABELA ÚNICA DO TURNO -->
+
+      <table class="frequency-table"
+             style="table-layout: fixed;
+                    width: 100%;
+                    border-collapse: collapse;">
+
+        <colgroup>
+
+          <col style="width: 26px;">
+
+          <col style="width: 80px;">
+
+          <col>
+
+          <col style="width: 40%;">
+
+        </colgroup>
+
+        <thead>
+
+          <tr style="height: 30px;">
+
+            <th style="border: 1px solid #000;
+                       text-align: center;
+                       vertical-align: middle;
+                       font-size: 11px;">
+              Nº
+            </th>
+
+            <th style="border: 1px solid #000;
+                       text-align: center;
+                       vertical-align: middle;
+                       font-size: 11px;">
+              Turma
+            </th>
+
+            <th style="border: 1px solid #000;
+                       text-align: center;
+                       vertical-align: middle;
+                       font-size: 11px;">
+              Aluno(a)
+            </th>
+
+            <th style="border: 1px solid #000;
+                       text-align: center;
+                       vertical-align: middle;
+                       font-size: 11px;">
+              Assinatura
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <% students.each_with_index do |(school_class, student), student_index| %>
+
+            <tr style="height: 17px;">
+
+              <td style="border: 1px solid #000;
+                         text-align: center;
+                         vertical-align: middle;
+                         font-size: 10px;">
+
+                <%= student_index + 1 %>
+
+              </td>
+
+              <td style="border: 1px solid #000;
+                         text-align: center;
+                         vertical-align: middle;
+                         font-size: 10px;">
+
+                <%= "#{school_class.grade} #{school_class.identifier}" %>
+
+              </td>
+
+              <td style="border: 1px solid #000;
+                         padding-left: 5px;
+                         vertical-align: middle;
+                         font-size: 10px;">
+
+                <%= student.name %>
+
+              </td>
+
+              <td style="border: 1px solid #000;
+                         vertical-align: middle;">
+              </td>
+
+            </tr>
+
+          <% end %>
+
+        </tbody>
+
+      </table>
+
+
+      <!-- ESPAÇO DOS FISCAIS / OBSERVAÇÕES -->
+
+      <div style="margin-top: 4px;
+                  page-break-inside: avoid;">
+
+        <table style="width: 100%;
+                      border-collapse: collapse;">
+
+          <tr>
+
+            <th style="border: 1px solid #000;
+                       text-align: center;
+                       font-size: 10px;
+                       padding: 3px;">
+
+              ESPAÇO DESTINADO AOS FISCAIS
+
+            </th>
+
+          </tr>
+
+          <tr>
+
+            <td style="border: 1px solid #000;
+                       height: 35px;">
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <th style="border: 1px solid #000;
+                       text-align: center;
+                       font-size: 10px;
+                       padding: 3px;">
+
+              OBSERVAÇÕES / CONSIDERAÇÕES
+
+            </th>
+
+          </tr>
+
+          <tr>
+
+            <td style="border: 1px solid #000;
+                       height: 25px;">
+            </td>
+
+          </tr>
+
+          <tr>
+
+            <td style="border: 1px solid #000;
+                       height: 25px;">
+            </td>
+
+          </tr>
+
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <!-- PRÓXIMO TURNO = NOVA PÁGINA -->
+
+    <% unless shift_index == 1 %>
+      <div style="page-break-after: always;"></div>
+    <% end %>
+
+  <% end %>
+
+</div>

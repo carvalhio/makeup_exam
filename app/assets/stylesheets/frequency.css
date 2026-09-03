@@ -1,5 +1,150 @@
-.frequency-pdf { background: #fff !important; }
-.frequency-table { width: 100%; border-collapse: collapse; }
-.frequency-table th { background: #fff !important; border: 1px solid #000 !important; }
-.frequency-table td { border: 1px solid #000; }
-.frequency-table tbody tr:nth-child(even) { background: #d2e5fd !important; }
+@page {
+  size: A4 portrait;
+  margin: 8mm 10mm 8mm 10mm;
+}
+
+.frequency-pdf { 
+  background: #fff !important; 
+  width: 100%;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.frequency-page {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* CABEÇALHO */
+.frequency-header {
+  margin-bottom: 4px;
+}
+.frequency-header h1 {
+  font-size: 12px; /* mantido */
+  text-align: center;
+  margin: 0 0 4px 0;
+}
+.frequency-info {
+  font-size: 18px !important; /* era 9px -> dobro */
+  line-height: 1.2;
+  margin-bottom: 1px;
+}
+.fiscal-line {
+  margin-bottom: 6px;
+  font-size: 18px !important; /* era 9px -> dobro */
+}
+
+/* TABELA - AQUI ESTÁ O SEGREDO DOS 45 */
+.frequency-table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  table-layout: fixed;
+  margin-top: 4px;
+}
+
+.frequency-table td { 
+  border: 1px solid #000;
+  padding: 0 5px !important;
+  line-height: 1.2 !important;
+  height: 22.55px !important;
+  font-size: 16.45px !important;
+}
+.frequency-table th { 
+  background: #fff !important; 
+  border: 1px solid #000 !important;
+  text-align: center;
+  font-size: 14.92px !important;
+  padding: 4.1px 0 !important;
+}
+
+.frequency-table tbody tr:nth-child(even) { 
+  background: #d2e5fd !important; 
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Colunas */
+.number-column {
+  width: 4%;
+  text-align: center;
+  padding: 0 !important;
+}
+.frequency-table th:nth-child(2),
+.frequency-table td:nth-child(2) {
+  width: 41%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.signature-column {
+  width: 55%;
+  padding: 0 !important;
+}
+
+/* OBSERVAÇÕES - AUMENTADO 1x */
+.frequency-observations {
+  margin-top: 6px;
+  font-size: 20px !important; /* era 10px -> dobro */
+}
+.observations-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 4px;
+  table-layout: fixed;
+}
+.observations-table th {
+  border: 1px solid #000;
+  text-align: center;
+  font-size: 20px !important; /* era 10px -> dobro */
+  padding: 2px 4px;
+}
+.observations-table td {
+  border: 1px solid #000;
+  padding: 0;
+}
+.fiscal-space { height: 14px; }
+.observations-space { height: 12px; }
+
+/* RODAPÉ */
+.frequency-footer {
+  margin-top: 4px;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* IGUAL A TABELA DE ALUNOS */
+.fiscal-title {
+  border: 1px dashed #0a0a0a !important;
+  padding: 0 5px !important;
+  text-align: center !important;
+  font-size: 14.92px !important; /* igual ao th dos alunos */
+  color: #777 !important;
+  background: #fff !important;
+  font-style: italic !important;
+  text-transform: uppercase !important;
+  height: 22.55px !important; /* mesma altura da linha de aluno */
+  line-height: 1.2 !important;
+}
+.fiscal-space {
+  border-left: 1px dashed #bbb !important;
+  border-right: 1px dashed #bbb !important;
+  border-top: 1px dashed #bbb !important;
+  border-bottom: 1px solid #000 !important;
+  height: 22.55px !important; /* igual ao td dos alunos */
+  background: #fff !important;
+}
+.obs-title {
+  text-align: left !important;
+  font-size: 14.92px !important; /* igual ao th dos alunos */
+  background: #fff !important;
+  border: 1px solid #000 !important;
+  padding: 0 5px !important;
+  height: 22.55px !important;
+  line-height: 1.2 !important;
+}
+.obs-space {
+  border: 1px solid #000 !important;
+  height: 22.55px !important; /* igual ao td dos alunos */
+  background: #fff !important;
+  font-size: 16.45px !important;
+}
