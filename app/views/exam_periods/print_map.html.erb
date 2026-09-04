@@ -1,90 +1,4 @@
-<style>
-  @media print {
-    body * {
-      visibility: hidden;
-    }
-
-    .print-wrapper,
-    .print-wrapper * {
-      visibility: visible;
-    }
-
-    .print-wrapper {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-    }
-
-    .no-print {
-      display: none !important;
-    }
-
-    @page {
-      margin: 10mm;
-    }
-  }
-
-  .print-wrapper h1 {
-    font-size: 16px;
-    margin-bottom: 4px;
-  }
-
-  .period {
-    font-size: 11px;
-    margin-bottom: 15px;
-  }
-
-  .print-shift {
-    margin-bottom: 25px;
-  }
-
-  .print-shift-title {
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 2px;
-  }
-
-  .print-shift-description {
-    font-size: 10px;
-    color: #6c757d;
-    margin-bottom: 5px;
-  }
-
-  .print-map-table {
-    font-size: 13px !important;
-    width: max-content !important;
-    max-width: max-content !important;
-    table-layout: auto !important;
-    margin-bottom: 0;
-  }
-
-  .print-map-table th,
-  .print-map-table td {
-    padding: 3px 8px !important;
-    white-space: nowrap !important;
-    width: auto !important;
-  }
-
-  .print-map-table th:nth-child(2),
-  .print-map-table td:nth-child(2) {
-    white-space: nowrap !important;
-    max-width: 140px !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-</style>
-
 <div class="print-wrapper">
-
-  <h1 class="mb-1">
-    Mapa de Impressão - 2ª Chamada - <%= @exam_period.name %>
-  </h1>
-
-  <div class="period text-muted">
-    Gerado em <%= l Time.current, format: :short %>
-  </div>
-
 
   <% ["Manhã", "Tarde"].each do |shift| %>
 
@@ -96,13 +10,9 @@
         Aplicação pela <%= shift.downcase %>
       </div>
 
-      <div class="print-shift-description">
-        <%= shift == "Manhã" ? "Matriculados à tarde" : "Matriculados de manhã" %>
-      </div>
+      <table class="print-map-table">
 
-      <table class="table table-sm table-bordered align-middle print-map-table">
-
-        <thead class="table-light">
+        <thead>
           <tr>
             <th>Turma</th>
             <th>
@@ -114,14 +24,34 @@
 
         <tbody>
 
-          <% @print_map[shift].each do |grade, subjects| %>
+          <% @print_map[shift].each_with_index do |(grade, subjects), grade_index| %>
 
-            <% subjects.each do |subject, quantity| %>
+            <% if grade_index > 0 %>
+              <tr class="grade-divider">
+                <td colspan="3"></td>
+              </tr>
+            <% end %>
+
+            <% subject_items = subjects.to_a %>
+
+            <% subject_items.each_with_index do |(subject, quantity), subject_index| %>
 
               <tr>
-                <td><%= grade %></td>
-                <td><%= subject %></td>
-                <td class="text-center"><%= quantity %></td>
+
+                <% if subject_index == 0 %>
+                  <td rowspan="<%= subject_items.length %>" class="grade">
+                    <%= grade %>
+                  </td>
+                <% end %>
+
+                <td>
+                  <%= subject %>
+                </td>
+
+                <td class="quantity">
+                  <%= quantity %>
+                </td>
+
               </tr>
 
             <% end %>
@@ -138,9 +68,13 @@
 
 </div>
 
+
 <div class="no-print">
-  <%= button_tag "Imprimir",
-        type: "button",
-        onclick: "window.print()",
+  <%= link_to "Gerar PDF",
+        print_map_exam_period_path(
+          @exam_period,
+          format: :pdf
+        ),
+        target: "_blank",
         class: "btn btn-primary mt-3" %>
 </div>

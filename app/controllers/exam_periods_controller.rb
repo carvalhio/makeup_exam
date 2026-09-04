@@ -85,58 +85,59 @@ class ExamPeriodsController < ApplicationController
     end
   end
 
-  # PRINT MAP
-  def print_map
-    @exam_period = ExamPeriod.find(params[:id])
+# PRINT MAP
+# PRINT MAP
+def print_map
+  @exam_period = ExamPeriod.find(params[:id])
 
-    items = []
+  items = []
 
-    @exam_period.exam_requests
-                .includes(:subjects)
-                .includes(student: :school_class)
-                .find_each do |request|
-      school_class = request.student.school_class
-      application_shift = request.application_shift
+  @exam_period.exam_requests
+              .includes(:subjects)
+              .includes(student: :school_class)
+              .find_each do |request|
+    school_class = request.student.school_class
+    application_shift = request.application_shift
 
-      puts "ALUNO: #{request.student.name} | TURMA: #{school_class.shift} | APLICAÇÃO: #{application_shift} | SAME_SHIFT: #{request.same_shift}"
+    puts "ALUNO: #{request.student.name} | TURMA: #{school_class.shift} | APLICAÇÃO: #{application_shift} | SAME_SHIFT: #{request.same_shift}"
 
-      if @exam_period.exam_type == "Global"
+    if @exam_period.exam_type == "Global"
 
-  added_areas = []
+      added_areas = []
 
-  request.subjects.each do |subject|
-    area = subject_area(subject.name)
+      request.subjects.each do |subject|
+        area = subject_area(subject.name)
 
-    next if added_areas.include?(area)
+        next if added_areas.include?(area)
 
-    added_areas << area
+        added_areas << area
 
-    items << {
-      shift: application_shift,
-      grade: school_class.grade,
-      subject: area
-    }
-  end
-
-      else
-
-  request.subjects.each do |subject|
-    items << {
-      shift: application_shift,
-      grade: school_class.grade,
-      subject: subject.name
-    }
-  end
-
+        items << {
+          shift: application_shift,
+          grade: school_class.grade,
+          subject: area
+        }
       end
+
+    else
+
+      request.subjects.each do |subject|
+        items << {
+          shift: application_shift,
+          grade: school_class.grade,
+          subject: subject.name
+        }
+      end
+
     end
+  end
 
-    shift_order = {
-      "Manhã" => 1,
-      "Tarde" => 2
-    }
+  shift_order = {
+    "Manhã" => 1,
+    "Tarde" => 2
+  }
 
-    @print_map =
+      @print_map =
       items.group_by { |i| i[:shift] }
            .sort_by { |shift, _| shift_order[shift] || 999 }
            .to_h
@@ -149,6 +150,23 @@ class ExamPeriodsController < ApplicationController
                      .transform_values(&:count)
         end
       end
+
+    respond_to do |format|
+      format.html
+
+      format.pdf do
+        render pdf: "mapa_impressao",
+               template: "exam_periods/print_map",
+               formats: [ :html ],
+               layout: "print_map_pdf",
+               margin: {
+                 top: 10,
+                 bottom: 10,
+                 left: 10,
+                 right: 10
+               }
+      end
+    end
   end
 
   # ATTENDANCE LIST

@@ -27,10 +27,10 @@
         <tbody>
           <%
             grouped_classes = {
-              "Anos Iniciais" => ["1º ano", "2º ano", "3º ano", "4º ano", "5º ano"],
-              "Anos Finais"   => ["6º ano", "7º ano", "8º ano", "9º ano"],
-              "Ensino Médio"  => ["1ª série", "2ª série", "3ª série"]
-            }
+            "Anos Iniciais" => ["1º", "2º", "3º", "4º", "5º"],
+            "Anos Finais"   => ["6º", "7º", "8º", "9º"],
+            "Ensino Médio" => ["1ª", "2ª", "3ª"]
+          }
           %>
 
           <% grouped_classes.each do |group_name, grades| %>
@@ -119,12 +119,12 @@
                 </div>
 
                 <div class="border rounded p-2" style="max-height: 250px; overflow-y: auto;">
-                  <%
-                    grouped_classes_modal = {
-                      "Anos Iniciais" => ["1º ano", "2º ano", "3º ano", "4º ano", "5º ano"],
-                      "Anos Finais" => ["6º ano", "7º ano", "8º ano", "9º ano"],
-                      "Ensino Médio" => ["1ª série", "2ª série", "3ª série"]
-                    }
+                  <% 
+                 grouped_classes_modal = {
+                    "Anos Iniciais" => ["1º", "2º", "3º", "4º", "5º"],
+                    "Anos Finais" => ["6º", "7º", "8º", "9º"],
+                    "Ensino Médio" => ["1ª", "2ª", "3ª"]
+                  }
                   %>
 
                   <% grouped_classes_modal.each do |group_name, grades| %>

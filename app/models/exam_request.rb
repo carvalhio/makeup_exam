@@ -6,11 +6,13 @@ class ExamRequest < ApplicationRecord
   has_many :subjects, through: :exam_request_subjects
 
   def application_shift
-    student_shift = student.school_class.shift
+    student_shift = student.school_class.shift.to_s.strip.downcase
 
-    return student_shift if same_shift?
-
-    student_shift == "Manhã" ? "Tarde" : "Manhã"
+    if same_shift?
+      student_shift == "manhã" ? "Manhã" : "Tarde"
+    else
+      student_shift == "manhã" ? "Tarde" : "Manhã"
+    end
   end
 
   def display_subjects
