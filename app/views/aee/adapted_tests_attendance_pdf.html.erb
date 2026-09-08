@@ -116,32 +116,18 @@
       <!-- TABELA ÚNICA DO TURNO -->
 
       <table class="frequency-table"
-             style="table-layout: fixed;
-                    width: 100%;
+             style="width: 100%;
                     border-collapse: collapse;">
 
         <colgroup>
-
-          <col style="width: 26px;">
-
-          <col style="width: 80px;">
-
+          <col style="width: 60px;">
           <col>
-
-          <col style="width: 40%;">
-
+          <col style="width: 45%;">
         </colgroup>
 
         <thead>
 
           <tr style="height: 30px;">
-
-            <th style="border: 1px solid #000;
-                       text-align: center;
-                       vertical-align: middle;
-                       font-size: 11px;">
-              Nº
-            </th>
 
             <th style="border: 1px solid #000;
                        text-align: center;
@@ -170,18 +156,9 @@
 
         <tbody>
 
-          <% students.each_with_index do |(school_class, student), student_index| %>
+          <% students.each do |school_class, student| %>
 
             <tr style="height: 17px;">
-
-              <td style="border: 1px solid #000;
-                         text-align: center;
-                         vertical-align: middle;
-                         font-size: 10px;">
-
-                <%= student_index + 1 %>
-
-              </td>
 
               <td style="border: 1px solid #000;
                          text-align: center;
@@ -195,7 +172,8 @@
               <td style="border: 1px solid #000;
                          padding-left: 5px;
                          vertical-align: middle;
-                         font-size: 10px;">
+                         font-size: 10px;
+                         overflow-wrap: break-word;">
 
                 <%= student.name %>
 
@@ -213,7 +191,9 @@
 
       </table>
 
+      <!-- ESPAÇO ENTRE A TABELA E OS FISCAIS -->
 
+      <div style="height: 24px;"></div>
       <!-- ESPAÇO DOS FISCAIS / OBSERVAÇÕES -->
 
       <div style="margin-top: 4px;
@@ -222,14 +202,33 @@
         <table style="width: 100%;
                       border-collapse: collapse;">
 
+          <!-- ESPAÇO DOS FISCAIS -->
+
+          <tr>
+
+            <th style="border: 1px dashed #aaa;
+                       text-align: center;
+                       font-size: 8px;
+                       font-weight: normal;
+                       color: #888;
+                       padding: 2px;">
+
+              ESPAÇO DESTINADO AOS FISCAIS
+
+            </th>
+
+          </tr>
+
+          <!-- OBSERVAÇÕES -->
+
           <tr>
 
             <th style="border: 1px solid #000;
-                       text-align: center;
+                       text-align: left;
                        font-size: 10px;
                        padding: 3px;">
 
-              ESPAÇO DESTINADO AOS FISCAIS
+              OBSERVAÇÕES / CONSIDERAÇÕES
 
             </th>
 
@@ -238,21 +237,16 @@
           <tr>
 
             <td style="border: 1px solid #000;
-                       height: 35px;">
+                       height: 25px;">
             </td>
 
           </tr>
 
           <tr>
 
-            <th style="border: 1px solid #000;
-                       text-align: center;
-                       font-size: 10px;
-                       padding: 3px;">
-
-              OBSERVAÇÕES / CONSIDERAÇÕES
-
-            </th>
+            <td style="border: 1px solid #000;
+                       height: 25px;">
+            </td>
 
           </tr>
 

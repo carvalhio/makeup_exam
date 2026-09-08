@@ -14,27 +14,36 @@ class AeeController < ApplicationController
     @test_application = TestApplication.new(test_application_params)
 
     if @test_application.save
-      school_class_ids = params[:school_class_ids] || []
 
+    school_class_ids =
       if params[:class_selection] == "all"
-        school_class_ids = SchoolClass.pluck(:id)
+        SchoolClass.pluck(:id)
+      else
+        Array(params[:school_class_ids])
+          .reject(&:blank?)
+          .map(&:to_i)
+          .select { |id| SchoolClass.exists?(id) }
       end
 
-      school_class_ids.each do |school_class_id|
-        @test_application.test_application_school_classes.create(
-          school_class_id: school_class_id
-        )
-      end
-
-      redirect_to aee_pdf_path(
-        @test_application,
-        aee: true
+    school_class_ids.each do |school_class_id|
+      @test_application.test_application_school_classes.create!(
+        school_class_id: school_class_id
       )
+    end
+
+    redirect_to aee_pdf_path(
+      @test_application,
+      aee: true
+    )
+
     else
-      redirect_to aee_path,
-        alert: @test_application.errors.full_messages.join(", ")
+
+    redirect_to aee_path,
+      alert: @test_application.errors.full_messages.join(", ")
+
     end
   end
+
 
  def pdf
   @test_application = TestApplication.find(params[:id])

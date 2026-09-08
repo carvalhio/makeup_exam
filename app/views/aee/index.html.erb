@@ -4,422 +4,545 @@
 
 <div class="aee-container">
 
-  <div class="aee-container">
-
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="mb-0">AEE</h1>
 
-    <button
-      type="button"
-      class="btn btn-primary btn-sm"
-      data-bs-toggle="modal"
-      data-bs-target="#aeeFrequencyModal">
-      Lista de frequência - Testes Adaptados
-    </button>
+<h1 class="mb-0">AEE</h1>
+
+<button
+  type="button"
+  class="btn btn-primary btn-sm"
+  data-bs-toggle="modal"
+  data-bs-target="#aeeFrequencyModal">
+  Lista de frequência - Testes Adaptados
+</button>
+
+
   </div>
 
-  <% if @students.any? %>
+<% if @students.any? %>
+
+
+<%
+  groups = {
+    "Ensino Fundamental - Anos Iniciais — 1º ao 5º ano" => [
+      "1º", "2º", "3º", "4º", "5º"
+    ],
+
+    "Ensino Fundamental - Anos Finais — 6º ao 9º ano" => [
+      "6º", "7º", "8º", "9º"
+    ],
+
+    "Ensino Médio" => [
+      "1ª", "2ª", "3ª"
+    ]
+  }
+
+  grouped_student_ids = []
+
+  shift_order = {
+    "manhã" => 1,
+    "tarde" => 2
+  }
+%>
+
+
+<% groups.each do |group_name, grades| %>
+
+  <%
+    group_students = @students.select do |student|
+      student.school_class.present? &&
+        grades.include?(student.school_class.grade)
+    end
+
+    grouped_student_ids.concat(group_students.map(&:id))
+  %>
+
+
+  <% next if group_students.empty? %>
+
+
+  <div class="aee-group">
+
+    <div class="aee-group-title">
+      <%= group_name %>
+    </div>
+
 
     <%
-      groups = {
-        "Ensino Fundamental - Anos Iniciais — 1º ao 5º ano" => [
-          "1º ano", "2º ano", "3º ano", "4º ano", "5º ano"
-        ],
-
-        "Esino Fundamental - Anos Finais — 6º ao 8º ano" => [
-          "6º ano", "7º ano", "8º ano"
-        ],
-
-        "9º ano ao Ensino Médio" => [
-          "9º ano", "1ª série", "2ª série", "3ª série"
-        ]
-      }
-
-      grouped_student_ids = []
-      shift_order = { "manhã" => 1, "tarde" => 2 }
+      shifts =
+        group_students
+          .group_by { |student| student.school_class.shift }
+          .sort_by do |shift, _|
+            [
+              shift_order[shift.to_s.downcase] || 99,
+              shift.to_s
+            ]
+          end
     %>
 
-    <% groups.each do |group_name, grades| %>
+
+    <% shifts.each do |shift, shift_students| %>
+
+      <div class="aee-shift-title">
+        <%= shift.to_s.capitalize %>
+      </div>
+
 
       <%
-        group_students = @students.select do |student|
-          student.school_class.present? && grades.include?(student.school_class.grade)
-        end
-
-        grouped_student_ids.concat(group_students.map(&:id))
+        students_by_class =
+          shift_students
+            .group_by(&:school_class)
+            .sort_by do |school_class, _|
+              [
+                grades.index(school_class.grade),
+                school_class.identifier.to_s
+              ]
+            end
       %>
 
-      <% next if group_students.empty? %>
 
-      <div class="aee-group">
+      <table class="table table-striped table-hover table-sm aee-table">
 
-        <div class="aee-group-title">
-          <%= group_name %>
-        </div>
+        <thead class="table-dark">
+          <tr>
+            <th>Turma</th>
+            <th>Aluno(a)</th>
+          </tr>
+        </thead>
 
-        <%
-          shifts =
-            group_students.group_by { |student| student.school_class.shift }
-                          .sort_by { |shift, _| [shift_order[shift.to_s.downcase] || 99, shift.to_s] }
-        %>
+        <tbody>
 
-        <% shifts.each do |shift, shift_students| %>
+          <% students_by_class.each do |school_class, students| %>
 
-          <div class="aee-shift-title">
-            <%= shift.to_s.capitalize %>
-          </div>
+            <% students.sort_by(&:name).each do |student| %>
 
-          <%
-            students_by_class =
-              shift_students.group_by(&:school_class).sort_by do |school_class, _|
-                [
-                  grades.index(school_class.grade),
-                  school_class.identifier.to_s
-                ]
-              end
-          %>
-
-          <table class="table table-striped table-hover table-sm aee-table">
-            
-            <thead class="table-dark">
               <tr>
-                <th>Turma</th>
-                <th>Aluno(a)</th>
+
+                <td>
+                  <%= "#{school_class.grade} #{school_class.identifier}" %>
+                </td>
+
+                <td>
+                  <%= student.name %>
+                </td>
+
               </tr>
-            </thead>
 
-            <tbody>
+            <% end %>
 
-              <% students_by_class.each do |school_class, students| %>
+          <% end %>
 
-                <% students.sort_by(&:name).each do |student| %>
+        </tbody>
 
-                  <tr>
-                    <td>
-                      <%= "#{school_class.grade} #{school_class.identifier}" %>
-                    </td>
+      </table>
 
-                    <td>
-                      <%= student.name %>
-                    </td>
-                  </tr>
+    <% end %>
+
+  </div>
+
+<% end %>
+
+
+<%
+  other_students = @students.reject do |student|
+    grouped_student_ids.include?(student.id)
+  end
+%>
+
+
+<% if other_students.any? %>
+
+  <div class="aee-group">
+
+    <div class="aee-group-title">
+      Outras turmas
+    </div>
+
+
+    <%
+      other_students
+        .group_by do |student|
+          student.school_class&.shift || "Sem turno"
+        end
+        .sort_by do |shift, _|
+          [
+            shift_order[shift.to_s.downcase] || 99,
+            shift.to_s
+          ]
+        end
+        .each do |shift, shift_students|
+    %>
+
+      <div class="aee-shift-title">
+        <%= shift.to_s.capitalize %>
+      </div>
+
+
+      <table class="table table-striped table-hover table-sm aee-table">
+
+        <colgroup>
+          <col style="width: 85px">
+          <col>
+        </colgroup>
+
+        <thead class="table-dark">
+          <tr>
+            <th>Turma</th>
+            <th>Aluno</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <% shift_students
+               .sort_by do |student|
+                 [
+                   student.school_class&.grade.to_s,
+                   student.school_class&.identifier.to_s,
+                   student.name
+                 ]
+               end
+               .each do |student| %>
+
+            <tr>
+
+              <td>
+
+                <% if student.school_class.present? %>
+
+                  <%= "#{student.school_class.grade} #{student.school_class.identifier}" %>
+
+                <% else %>
+
+                  Sem turma
 
                 <% end %>
 
-              <% end %>
+              </td>
 
-            </tbody>
+              <td>
+                <%= student.name %>
+              </td>
 
-          </table>
+            </tr>
 
-        <% end %>
+          <% end %>
 
-      </div>
+        </tbody>
+
+      </table>
 
     <% end %>
 
-    <%
-      other_students = @students.reject do |student|
-        grouped_student_ids.include?(student.id)
-      end
-    %>
+  </div>
 
-    <% if other_students.any? %>
-      <div class="aee-group">
+<% end %>
 
-        <div class="aee-group-title">
-          Outras turmas
+
+<% else %>
+
+<p>Nenhum aluno está cadastrado como AEE.</p>
+
+
+<% end %>
+
+</div>
+
+<!-- ========================================================= -->
+
+<!-- MODAL — GERAR LISTA DE FREQUÊNCIA                         -->
+
+<!-- ========================================================= -->
+
+<div
+  class="modal fade"
+  id="aeeFrequencyModal"
+  tabindex="-1"
+  aria-labelledby="aeeFrequencyModalLabel"
+  aria-hidden="true">
+
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+
+
+<div class="modal-content">
+
+
+  <%= form_with model: TestApplication.new,
+        url: aee_create_path,
+        method: :post,
+        local: true,
+        data: { turbo: false },
+        html: { target: "_blank" } do |form| %>
+
+
+    <!-- CABEÇALHO DO MODAL -->
+
+    <div class="modal-header">
+
+      <h5 class="modal-title" id="aeeFrequencyModalLabel">
+        Lista de frequência - Testes Adaptados
+      </h5>
+
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Fechar">
+      </button>
+
+    </div>
+
+
+    <!-- CORPO DO MODAL -->
+
+   
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+
+      <div class="row g-3">
+
+
+        <!-- TIPO DE PROVA -->
+
+        <div class="col-md-6">
+
+          <%= form.label :exam_type,
+                "Tipo de prova",
+                class: "form-label fw-bold" %>
+
+          <%= form.select :exam_type,
+                ["Parcial", "Global"],
+                { prompt: "Selecione..." },
+                class: "form-select",
+                required: true %>
+
         </div>
 
-        <% other_students.group_by { |student| student.school_class&.shift || "Sem turno" }.sort_by { |shift, _| [shift_order[shift.to_s.downcase] || 99, shift.to_s] }.each do |shift, shift_students| %>
-          <div class="aee-shift-title">
-            <%= shift.to_s.capitalize %>
+
+        <!-- DATA -->
+
+        <div class="col-md-6">
+
+          <%= form.label :application_date,
+                "Data da aplicação",
+                class: "form-label fw-bold" %>
+
+          <%= form.date_field :application_date,
+                class: "form-control",
+                required: true %>
+
+        </div>
+
+
+        <!-- COMPONENTE CURRICULAR -->
+
+        <div class="col-md-12">
+
+          <%= form.label :subject_name,
+                "Componente curricular",
+                class: "form-label fw-bold" %>
+
+          <%= form.text_field :subject_name,
+                class: "form-control",
+                placeholder: "Digite o componente curricular",
+                required: true %>
+
+        </div>
+
+
+        <!-- FISCAL -->
+
+        <div class="col-md-12">
+
+          <%= form.label :invigilator,
+                "Fiscal responsável",
+                class: "form-label fw-bold" %>
+
+          <%= form.text_field :invigilator,
+                class: "form-control",
+                placeholder: "Digite o nome do fiscal" %>
+
+        </div>
+
+
+        <!-- TURMAS -->
+
+        <div class="col-md-12">
+
+          <label class="form-label fw-bold">
+            Turmas
+          </label>
+
+
+          <!-- TODAS -->
+
+          <div class="form-check">
+
+            <input
+              class="form-check-input"
+              type="radio"
+              name="class_selection"
+              id="aeeAllClasses"
+              value="all"
+              checked>
+
+            <label
+              class="form-check-label"
+              for="aeeAllClasses">
+
+              Todas as turmas
+
+            </label>
+
           </div>
 
-          <table class="table table-striped table-hover table-sm aee-table">
-            <colgroup>
-              <col style="width: 85px">
-              <col>
-            </colgroup>
 
-            <thead class="table-dark">
-              <tr>
-                <th>Turma</th>
-                <th>Aluno</th>
-              </tr>
-            </thead>
+          <!-- SELECIONAR -->
 
-            <tbody>
-              <% shift_students.sort_by { |student| [student.school_class&.grade.to_s, student.school_class&.identifier.to_s, student.name] }.each do |student| %>
-                <tr>
-                  <td>
-                    <% if student.school_class.present? %>
-                      <%= "#{student.school_class.grade} #{student.school_class.identifier}" %>
-                    <% else %>
-                      Sem turma
-                    <% end %>
-                  </td>
+          <div class="form-check">
 
-                  <td>
-                    <%= student.name %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% end %>
+            <input
+              class="form-check-input"
+              type="radio"
+              name="class_selection"
+              id="aeeSelectedClasses"
+              value="selected">
 
-      </div>
-    <% end %>
+            <label
+              class="form-check-label"
+              for="aeeSelectedClasses">
 
-  <% else %>
+              Selecionar turmas
 
-    <p>Nenhum aluno está cadastrado como AEE.</p>
+            </label>
+
+          </div>
+
+
+          <!-- LISTA DE TURMAS -->
+
+          <div
+  id="aeeClassesSelection"
+  class="mt-3 p-3 border rounded d-none">
+
+  <% @school_classes.each do |school_class| %>
+
+    <div class="form-check">
+      <input
+        class="form-check-input aee-class-checkbox"
+        type="checkbox"
+        name="school_class_ids[]"
+        value="<%= school_class.id %>"
+        id="aee_class_<%= school_class.id %>">
+
+      <label
+        class="form-check-label"
+        for="aee_class_<%= school_class.id %>">
+        <%= "#{school_class.grade} #{school_class.identifier} - #{school_class.shift}" %>
+      </label>
+    </div>
 
   <% end %>
 
 </div>
 
-<div class="modal fade"
-     id="aeeFrequencyModal"
-     tabindex="-1"
-     aria-labelledby="aeeFrequencyModalLabel"
-     aria-hidden="true">
-
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-
-    <div class="modal-content">
-
-      <%= form_with model: TestApplication.new,
-              url: aee_create_path,
-              method: :post,
-              local: true,
-              data: { turbo: false },
-              html: { target: "_blank" } do |form| %>
-
-        <div class="modal-header">
-          <h5 class="modal-title" id="aeeFrequencyModalLabel">
-            Lista de frequência - Testes Adaptados
-          </h5>
-
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Fechar">
-          </button>
         </div>
 
-        <div class="modal-body">
 
-          <div class="row g-3">
-
-            <div class="col-md-6">
-              <%= form.label :exam_type,
-                    "Tipo de prova",
-                    class: "form-label fw-bold" %>
-
-              <%= form.select :exam_type,
-                    ["Parcial", "Global"],
-                    { prompt: "Selecione..." },
-                    class: "form-select",
-                    required: true %>
-            </div>
-
-            <div class="col-md-6">
-              <%= form.label :application_date,
-                    "Data da aplicação",
-                    class: "form-label fw-bold" %>
-
-              <%= form.date_field :application_date,
-                    class: "form-control",
-                    required: true %>
-            </div>
-
-            <div class="col-md-12">
-              <%= form.label :subject_name,
-                    "Componente curricular",
-                    class: "form-label fw-bold" %>
-
-              <%= form.text_field :subject_name,
-                    class: "form-control",
-                    placeholder: "Digite o componente curricular",
-                    required: true %>
-            </div>
-
-            <div class="col-md-12">
-              <%= form.label :invigilator,
-                    "Fiscal responsável",
-                    class: "form-label fw-bold" %>
-
-              <%= form.text_field :invigilator,
-                    class: "form-control",
-                    placeholder: "Digite o nome do fiscal" %>
-            </div>
-
-            <div class="col-md-12">
-
-              <label class="form-label fw-bold">
-                Turmas
-              </label>
-
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="class_selection"
-                  id="aeeAllClasses"
-                  value="all"
-                  checked>
-
-                <label
-                  class="form-check-label"
-                  for="aeeAllClasses">
-                  Todas as turmas
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="class_selection"
-                  id="aeeSelectedClasses"
-                  value="selected">
-
-                <label
-                  class="form-check-label"
-                  for="aeeSelectedClasses">
-                  Selecionar turmas
-                </label>
-              </div>
-
-              <div
-                id="aeeClassesSelection"
-                class="mt-3 p-3 border rounded d-none">
-
-                <%
-                  grouped_classes_modal = {
-                    "Anos Iniciais" => [
-                      "1º ano",
-                      "2º ano",
-                      "3º ano",
-                      "4º ano",
-                      "5º ano"
-                    ],
-
-                    "Anos Finais" => [
-                      "6º ano",
-                      "7º ano",
-                      "8º ano",
-                      "9º ano"
-                    ],
-
-                    "Ensino Médio" => [
-                      "1ª série",
-                      "2ª série",
-                      "3ª série"
-                    ]
-                  }
-                %>
-
-                <% grouped_classes_modal.each do |group_name, grades| %>
-
-                  <%
-                    classes = @school_classes
-                      .select { |school_class| grades.include?(school_class.grade) }
-                  %>
-
-                  <% next if classes.empty? %>
-
-                  <div class="mb-3">
-
-                    <div class="fw-bold mb-2">
-                      <%= group_name %>
-                    </div>
-
-                    <% classes.each do |school_class| %>
-
-                      <div class="form-check">
-
-                        <input
-                          class="form-check-input aee-class-checkbox"
-                          type="checkbox"
-                          name="school_class_ids[]"
-                          value="<%= school_class.id %>"
-                          id="aee_class_<%= school_class.id %>">
-
-                        <label
-                          class="form-check-label"
-                          for="aee_class_<%= school_class.id %>">
-
-                          <%= "#{school_class.grade} #{school_class.identifier} - #{school_class.shift}" %>
-
-                        </label>
-
-                      </div>
-
-                    <% end %>
-
-                  </div>
-
-                <% end %>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="modal-footer">
-
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm"
-            data-bs-dismiss="modal">
-            Cancelar
-          </button>
-
-          <%= form.submit "Gerar lista de frequência",
-                class: "btn btn-primary btn-sm" %>
-
-        </div>
-
-      <% end %>
+      </div>
 
     </div>
+
+
+    <!-- RODAPÉ DO MODAL -->
+
+    <div class="modal-footer">
+
+
+      <button
+        type="button"
+        class="btn btn-secondary btn-sm"
+        data-bs-dismiss="modal">
+
+        Cancelar
+
+      </button>
+
+
+      <%= form.submit "Gerar lista de frequência",
+            class: "btn btn-primary btn-sm" %>
+
+
+    </div>
+
+
+  <% end %>
+
+
+</div>
+
 
   </div>
 
 </div>
 
+<!-- ========================================================= -->
+
+<!-- JAVASCRIPT — SELEÇÃO DE TURMAS                            -->
+
+<!-- ========================================================= -->
+
 <script>
+
   document.addEventListener("turbo:load", function () {
-    const allClasses = document.getElementById("aeeAllClasses");
-    const selectedClasses = document.getElementById("aeeSelectedClasses");
-    const classesSelection = document.getElementById("aeeClassesSelection");
 
-    if (!allClasses || !selectedClasses || !classesSelection) return;
+    const allClasses =
+      document.getElementById("aeeAllClasses");
 
-    function updateClassesSelection() {
-      if (selectedClasses.checked) {
-        classesSelection.classList.remove("d-none");
-      } else {
-        classesSelection.classList.add("d-none");
+    const selectedClasses =
+      document.getElementById("aeeSelectedClasses");
 
-        document
-          .querySelectorAll(".aee-class-checkbox")
-          .forEach(function (checkbox) {
-            checkbox.checked = false;
-          });
-      }
+    const classesSelection =
+      document.getElementById("aeeClassesSelection");
+
+
+    if (
+      !allClasses ||
+      !selectedClasses ||
+      !classesSelection
+    ) {
+      return;
     }
 
-    allClasses.addEventListener("change", updateClassesSelection);
-    selectedClasses.addEventListener("change", updateClassesSelection);
+
+    function updateClassesSelection() {
+
+      if (selectedClasses.checked) {
+
+        classesSelection.classList.remove("d-none");
+
+      } else {
+
+        classesSelection.classList.add("d-none");
+
+      }
+
+    }
+
+
+    allClasses.addEventListener(
+      "change",
+      updateClassesSelection
+    );
+
+
+    selectedClasses.addEventListener(
+      "change",
+      updateClassesSelection
+    );
+
 
     updateClassesSelection();
+
   });
+
 </script>
