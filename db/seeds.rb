@@ -1,28 +1,3 @@
-require "csv"
-
-# =========================================
-# LIMPEZA DOS DADOS ANTIGOS
-# =========================================
-
-puts "Limpando dados antigos..."
-
-# Remove as associações das aplicações de testes com as turmas
-TestApplicationSchoolClass.delete_all
-
-# Remove as disciplinas vinculadas às solicitações
-ExamRequestSubject.delete_all
-
-# Remove as solicitações de 2ª chamada
-ExamRequest.delete_all
-
-# Remove todos os alunos
-Student.delete_all
-
-# Remove todas as turmas
-SchoolClass.delete_all
-
-puts "Dados antigos removidos com sucesso!"
-
 # =========================================
 # EXAM PERIODS
 # =========================================
@@ -74,29 +49,3 @@ subjects.each do |subject|
 end
 
 puts "Disciplinas cadastradas com sucesso!"
-
-
-# =========================================
-# STUDENTS + SCHOOL CLASSES (CSV)
-# =========================================
-
-CSV.foreach(
-  Rails.root.join("db/students.csv"),
-  headers: true,
-  encoding: "bom|utf-8",
-  col_sep: ";"
-) do |row|
-  school_class =
-    SchoolClass.find_or_create_by!(
-      grade: row["grade"]&.strip,
-      identifier: row["identifier"]&.strip,
-      shift: row["shift"]&.strip&.capitalize
-    )
-
-  Student.find_or_create_by!(
-    name: row["student_name"]&.strip,
-    school_class: school_class
-  )
-end
-
-puts "Turmas e alunos importados com sucesso!"
