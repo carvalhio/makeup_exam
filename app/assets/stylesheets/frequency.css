@@ -64,6 +64,19 @@
   print-color-adjust: exact;
 }
 
+.turma-titulo {
+  font-size: 12px;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin: 0 0 10px 0;
+  padding: 5px 8px;
+}
+
+.turma-titulo strong {
+  font-size: 15px;
+  font-weight: bold;
+}
+
 /* Colunas */
 .number-column {
   width: 4%;
