@@ -1,10 +1,27 @@
 <div class="frequency-pdf">
 
-  <% ["Manhã", "Tarde"].each_with_index do |shift, shift_index| %>
+  <%
+    levels = {
+      "Anos Iniciais" => ["1º", "2º", "3º", "4º", "5º"],
+      "Anos Finais"   => ["6º", "7º", "8º"],
+      "Ensino Médio"  => ["9º", "1ª", "2ª", "3ª"]
+    }
+
+    pages = []
+
+    levels.each do |level_name, grades|
+      ["Manhã", "Tarde"].each do |shift|
+        pages << [level_name, grades, shift]
+      end
+    end
+  %>
+
+  <% pages.each_with_index do |(level_name, grades, shift), page_index| %>
 
     <%
       school_classes = @test_application.school_classes
         .where(shift: shift)
+        .where(grade: grades)
         .includes(:students)
         .sort_by { |school_class| [school_class.grade.to_s, school_class.identifier.to_s] }
 
@@ -47,6 +64,7 @@
                    text-align: center;">
 
           Lista de frequência para testes adaptados -
+          <%= level_name.upcase %> -
           <%= shift.upcase %>
 
         </h1>
@@ -113,7 +131,7 @@
       </div>
 
 
-      <!-- TABELA ÚNICA DO TURNO -->
+      <!-- TABELA ÚNICA DO NÍVEL / TURNO -->
 
       <table class="frequency-table"
              style="width: 100%;
@@ -191,9 +209,12 @@
 
       </table>
 
+
       <!-- ESPAÇO ENTRE A TABELA E OS FISCAIS -->
 
       <div style="height: 24px;"></div>
+
+
       <!-- ESPAÇO DOS FISCAIS / OBSERVAÇÕES -->
 
       <div style="margin-top: 4px;
@@ -201,8 +222,6 @@
 
         <table style="width: 100%;
                       border-collapse: collapse;">
-
-          <!-- ESPAÇO DOS FISCAIS -->
 
           <tr>
 
@@ -218,8 +237,6 @@
             </th>
 
           </tr>
-
-          <!-- OBSERVAÇÕES -->
 
           <tr>
 
@@ -273,9 +290,9 @@
     </div>
 
 
-    <!-- PRÓXIMO TURNO = NOVA PÁGINA -->
+    <!-- PRÓXIMA COMBINAÇÃO = NOVA PÁGINA -->
 
-    <% unless shift_index == 1 %>
+    <% unless page_index == pages.length - 1 %>
       <div style="page-break-after: always;"></div>
     <% end %>
 

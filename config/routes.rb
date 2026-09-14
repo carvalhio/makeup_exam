@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   post "aee", to: "aee#create", as: :aee_create
   get "aee/:id/pdf", to: "aee#pdf", as: :aee_pdf
 
+  get "print_map", to: "print_maps#index", as: :print_map
+
   resources :students
 
   resources :school_classes do

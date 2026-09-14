@@ -1,0 +1,169 @@
+/* =========================================================
+   MAPA DE IMPRESSÃO — TESTES
+   ========================================================= */
+
+.print-map-tests {
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* TÍTULO */
+
+.print-map-tests-title {
+  margin: 0 0 12px 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.1;
+}
+
+
+/* BLOCO DE CADA SÉRIE */
+
+.print-map-tests-grade {
+  width: max-content;
+  margin: 0 0 12px 0;
+  padding: 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+
+/* TABELA */
+
+.print-map-tests-table {
+  border-collapse: collapse;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+
+/* CÉLULAS */
+
+.print-map-tests-table th,
+.print-map-tests-table td {
+  margin: 0;
+  padding: 4px 12px;
+  border: 1px solid #bfbfbf;
+  height: auto;
+  line-height: 1.1;
+  vertical-align: middle;
+}
+
+
+/* =========================================================
+   LINHA DA SÉRIE
+   ========================================================= */
+
+.print-map-tests-table .grade-row th {
+  padding: 5px 8px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #333333;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   CABEÇALHOS
+   ========================================================= */
+
+.print-map-tests-table thead tr:not(.grade-row) th {
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* =========================================================
+   QUANTIDADES
+   ========================================================= */
+
+.print-map-tests-table .quantity {
+  text-align: center;
+}
+
+
+/* =========================================================
+   QUANTIDADE PARA IMPRESSÃO
+   ========================================================= */
+
+.print-map-tests-table .summary-title-row th {
+  padding: 4px 8px;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #ffffff;
+  border-top: 2px solid #808080;
+}
+
+
+/* CABEÇALHO DO RESUMO */
+
+.print-map-tests-table .summary-header-row th {
+  text-align: center;
+  font-weight: bold;
+}
+
+
+/* LINHA DOS NÚMEROS DO RESUMO */
+
+.print-map-tests-table .summary-row td {
+  background: #e6e6e6;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* TOTAL DO RESUMO */
+
+.print-map-tests-table .summary-row td:last-child {
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   LINHAS
+   ========================================================= */
+
+.print-map-tests-table tr {
+  height: auto;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+
+/* =========================================================
+   PDF
+   ========================================================= */
+
+.print-map-tests-pdf {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.print-map-tests-pdf .print-map-tests {
+  width: max-content;
+  max-width: none;
+}
+
+.print-map-tests-pdf .print-map-tests-grade {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+
+/* ELEMENTOS QUE NÃO APARECEM NO PDF */
+
+.print-map-tests .no-print {
+  display: none !important;
+}

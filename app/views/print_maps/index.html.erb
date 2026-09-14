@@ -1,0 +1,111 @@
+<div class="print-map-tests">
+
+  <h1 class="print-map-tests-title">
+    Mapa de impressão
+  </h1>
+
+  <% @print_map.each do |item| %>
+
+    <section class="print-map-tests-grade">
+
+      <table class="print-map-tests-table">
+
+        <!-- SÉRIE -->
+
+        <thead>
+          <tr class="grade-row">
+             <th colspan="4">
+                        <% if item[:grade].ends_with?("ª") %>
+                        <%= "#{item[:grade]} SÉRIE" %>
+                        <% else %>
+                        <%= "#{item[:grade]} ANO" %>
+                        <% end %>
+            </th>
+          </tr>
+           <!-- CABEÇALHO DO DETALHAMENTO -->
+
+          <tr>
+            <th>Turma</th>
+            <th>Turno</th>
+            <th>qtd's</th>
+            <th>qtd's AEE</th>
+          </tr>
+        </thead>
+
+        <!-- TURMAS -->
+
+        <tbody>
+
+          <% item[:classes].each do |school_class| %>
+
+            <tr>
+              <td>
+                <%= "#{item[:grade]} #{school_class[:identifier]}" %>
+              </td>
+
+              <td>
+                <%= school_class[:shift] %>
+              </td>
+
+              <td class="quantity">
+                <%= school_class[:regular] %>
+              </td>
+
+              <td class="quantity">
+                <%= school_class[:aee] %>
+              </td>
+            </tr>
+
+          <% end %>
+
+
+          <!-- SEPARADOR / QUANTIDADE PARA IMPRESSÃO -->
+
+          <tr class="summary-title-row">
+            <th colspan="4">
+              QTD P/ IMPRESSÃO
+            </th>
+          </tr>
+
+
+          <!-- CABEÇALHO DO RESUMO -->
+
+          <tr class="summary-header-row">
+            <th>Manhã</th>
+            <th>Tarde</th>
+            <th>Adaptados</th>
+            <th>Total</th>
+          </tr>
+
+
+          <!-- VALORES DO RESUMO -->
+
+          <tr class="summary-row">
+
+            <td class="quantity">
+              <%= item[:morning] %>
+            </td>
+
+            <td class="quantity">
+              <%= item[:afternoon] %>
+            </td>
+
+            <td class="quantity">
+              <%= item[:aee] %>
+            </td>
+
+            <td class="quantity">
+              <%= item[:total] %>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </section>
+
+  <% end %>
+
+</div>
