@@ -91,18 +91,20 @@
   text-align: center;
 }
 
-
 /* =========================================================
    QUANTIDADE PARA IMPRESSÃO
    ========================================================= */
 
 .print-map-tests-table .summary-title-row th {
   padding: 4px 8px;
-  text-align: center;
+  text-align: left;
   font-weight: bold;
   text-transform: uppercase;
-  background: #ffffff;
+  background: #f2f2f2;
+
   border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #808080;
 }
 
 
@@ -111,6 +113,10 @@
 .print-map-tests-table .summary-header-row th {
   text-align: center;
   font-weight: bold;
+  background: #f7f7f7;
+
+  border-left: 2px solid #808080;
+  border-right: 2px solid #808080;
 }
 
 
@@ -120,6 +126,10 @@
   background: #e6e6e6;
   font-weight: bold;
   text-align: center;
+
+  border-left: 2px solid #808080;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
 }
 
 
@@ -166,4 +176,9 @@
 
 .print-map-tests .no-print {
   display: none !important;
+}
+
+html,
+body {
+  background: #ffffff !important;
 }

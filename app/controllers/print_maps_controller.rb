@@ -3,6 +3,22 @@ class PrintMapsController < ApplicationController
     @print_map = build_print_map
   end
 
+  def pdf
+    @print_map = build_print_map
+
+    render pdf: "mapa_de_impressao_testes",
+          template: "print_maps/index",
+          formats: [ :html ],
+          layout: "pdf",
+          disposition: "inline",
+          margin: {
+            top: 5,
+            bottom: 5,
+            left: 5,
+            right: 5
+          }
+  end
+
   private
 
   def build_print_map
