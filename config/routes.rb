@@ -56,6 +56,14 @@ resources :exam_periods, only: [ :show ] do
     end
   end
 
+  # API
+  namespace :api do
+    namespace :v1 do
+      resources :students, only: [ :index,  :show ]
+    end
+  end
+
+
   get "stages/:stage", to: "exam_periods#stage", as: :stage
 
   # Rails system routes
