@@ -9,9 +9,19 @@
           <img src="<%= wicked_pdf_asset_base64('logo.png') %>" style="width: 90px; height: auto;" />
         </div>
 
+        <%
+          exam_type = @test_application.exam_type == "Global" ? "globais" : "parciais"
+
+          grade = school_class.grade
+          ensino_medio = ["1ª", "2ª", "3ª"].include?(grade)
+        %>
+
         <h1 class="turma-titulo">
-          Lista de frequência para testes -
-          <strong><%= "#{school_class.grade} #{school_class.identifier}" %></strong>
+          Lista de frequência para testes <%= exam_type %> - <%= @test_application.stage %> -
+          <strong>
+            <%= grade %><%= content_tag(:span, "s", class: "serie-s") if ensino_medio %>
+            <%= school_class.identifier %>
+          </strong>
         </h1>
 
         <div style="font-size: 13px; line-height: 1.6; text-align: left; margin-top: 8px;">
@@ -24,10 +34,6 @@
             <strong>Componentes curriculares:</strong>
             <%= @test_application.subject_name.presence || "________________________" %>
 
-            <span style="margin-left: 24px;">
-              <strong>Tipo de teste:</strong>
-              <%= @test_application.exam_type %>
-            </span>
           </div>
 
           <div style="margin-top: 4px; white-space: nowrap;">
@@ -89,22 +95,7 @@
         <table style="width: 100%;
                       border-collapse: collapse;">
 
-          <!-- ESPAÇO DOS FISCAIS -->
-
-          <tr>
-
-            <th style="border: 1px dashed #aaa;
-                       text-align: center;
-                       font-size: 8px;
-                       font-weight: normal;
-                       color: #888;
-                       padding: 2px;">
-
-              ESPAÇO DESTINADO AOS FISCAIS
-
-            </th>
-
-          </tr>
+        
 
           <!-- OBSERVAÇÕES -->
 

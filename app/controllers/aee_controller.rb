@@ -66,6 +66,7 @@ class AeeController < ApplicationController
   def test_application_params
     params.require(:test_application).permit(
       :exam_type,
+      :stage,
       :application_date,
       :subject_name,
       :invigilator

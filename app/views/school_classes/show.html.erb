@@ -460,30 +460,57 @@
           </div>
 
 
-          <div class="mb-3">
+          <div class="row g-3 mb-3">
 
-            <label class="form-label fw-bold">
-              Tipo de prova
-            </label>
+  <!-- TIPO DE PROVA -->
+
+          <div class="col-md-4">
+
+            <%= form.label :exam_type,
+                "Tipo de prova",
+                class: "form-label fw-bold" %>
 
             <%= form.select :exam_type,
                 ["Parcial", "Global"],
                 { prompt: "Selecione..." },
-                class: "form-select" %>
+                class: "form-select",
+                required: true %>
 
           </div>
 
 
-          <div class="mb-3">
+          <!-- ETAPA -->
 
-            <label class="form-label fw-bold">
-              Data
-            </label>
+          <div class="col-md-4">
+
+            <%= form.label :stage,
+                "Etapa",
+                class: "form-label fw-bold" %>
+
+            <%= form.select :stage,
+                ["1ª etapa", "2ª etapa", "3ª etapa", "4ª etapa"],
+                { prompt: "Selecione..." },
+                class: "form-select",
+                required: true %>
+
+          </div>
+
+
+          <!-- DATA -->
+
+          <div class="col-md-4">
+
+            <%= form.label :application_date,
+                "Data",
+                class: "form-label fw-bold" %>
 
             <%= form.date_field :application_date,
-                class: "form-control" %>
+                class: "form-control",
+                required: true %>
 
           </div>
+
+        </div>
 
 
           <div class="mb-3">

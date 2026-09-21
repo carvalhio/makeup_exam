@@ -32,6 +32,21 @@ document.addEventListener("turbo:load", () => {
       checkbox.checked = false;
     });
   });
+  
+    document.querySelectorAll(".regular-group-title").forEach(function (groupTitle) {
+    groupTitle.addEventListener("click", function () {
 
+      const group = groupTitle.dataset.group;
+
+      document.querySelectorAll(".class-checkbox").forEach(function (checkbox) {
+
+        if (checkbox.dataset.group === group) {
+          checkbox.checked = true;
+        }
+
+      });
+
+    });
+  });
   updateClassesSelection();
 });

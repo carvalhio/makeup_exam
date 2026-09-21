@@ -11,9 +11,6 @@
     </div>
   </div>
 <div class="school-classes-wrapper mt-3">
-
-  
-
   <div class="card shadow-sm">
     <div class="card-body p-0">
       <table class="table table-hover table-sm align-middle mb-0 small school-classes-table">
@@ -78,14 +75,29 @@
 
         <div class="modal-body">
           <div class="row g-3">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <%= form.label :exam_type, "Tipo de prova", class: "form-label fw-bold" %>
-              <%= form.select :exam_type, ["Parcial", "Global"], { prompt: "Selecione..." }, class: "form-select", required: true %>
+              <%= form.select :exam_type,
+                  ["Parcial", "Global"],
+                  { prompt: "Selecione..." },
+                  class: "form-select",
+                  required: true %>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
+              <%= form.label :stage, "Etapa", class: "form-label fw-bold" %>
+              <%= form.select :stage,
+                  ["1ª etapa", "2ª etapa", "3ª etapa", "4ª etapa"],
+                  { prompt: "Selecione..." },
+                  class: "form-select",
+                  required: true %>
+            </div>
+
+            <div class="col-md-4">
               <%= form.label :application_date, "Data da aplicação", class: "form-label fw-bold" %>
-              <%= form.date_field :application_date, class: "form-control", required: true %>
+              <%= form.date_field :application_date,
+                  class: "form-control",
+                  required: true %>
             </div>
 
             <div class="col-md-12">
@@ -128,22 +140,52 @@
                   %>
 
                   <% grouped_classes_modal.each do |group_name, grades| %>
+
                     <div class="mb-3">
-                      <div class="fw-bold text-uppercase small mb-1"><%= group_name %></div>
+
+                      <div
+                        class="fw-bold text-uppercase small mb-1 regular-group-title"
+                        data-group="<%= group_name.parameterize %>"
+                        style="cursor: pointer;">
+
+                        <%= group_name %>
+
+                      </div>
+
+
                       <%
-                        classes = @school_classes.select { |c| grades.include?(c.grade) }
-                                   .sort_by { |c| [grades.index(c.grade), c.identifier.to_s] }
+                        classes = @school_classes
+                          .select { |c| grades.include?(c.grade) }
+                          .sort_by { |c| [grades.index(c.grade), c.identifier.to_s] }
                       %>
+
+
                       <% classes.each do |school_class| %>
+
                         <div class="form-check">
-                          <input class="form-check-input class-checkbox" type="checkbox" name="school_class_ids[]" value="<%= school_class.id %>" id="class_<%= school_class.id %>">
-                          <label class="form-check-label" for="class_<%= school_class.id %>">
+
+                          <input
+                            class="form-check-input class-checkbox"
+                            type="checkbox"
+                            name="school_class_ids[]"
+                            value="<%= school_class.id %>"
+                            id="class_<%= school_class.id %>"
+                            data-group="<%= group_name.parameterize %>">
+
+                          <label
+                            class="form-check-label"
+                            for="class_<%= school_class.id %>">
+
                             <%= "#{school_class.grade} #{school_class.identifier} - #{school_class.shift}" %>
+
                           </label>
+
                         </div>
+
                       <% end %>
+
                     </div>
-                   
+
                   <% end %>      
                 </div>
               </div>

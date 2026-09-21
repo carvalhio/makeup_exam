@@ -35,6 +35,10 @@
   font-size: 18px !important; /* era 9px -> dobro */
 }
 
+.serie-s {
+  text-transform: none;
+}
+
 /* TABELA - AQUI ESTÁ O SEGREDO DOS 45 */
 .frequency-table { 
   width: 100%; 
