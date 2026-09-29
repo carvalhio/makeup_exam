@@ -59,7 +59,7 @@ resources :exam_periods, only: [ :show ] do
   # API
   namespace :api do
     namespace :v1 do
-      resources :students, only: [ :index,  :show ]
+      resources :students, only: [ :index,  :show, :create, :update, :destroy ]
     end
   end
 
