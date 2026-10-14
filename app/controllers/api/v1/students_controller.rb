@@ -11,28 +11,28 @@ class Api::V1::StudentsController < Api::V1::BaseController
     render json: ::StudentSerializer.new(student).as_json
   end
 
-  def create
-    student = Student.new(student_params)
+ def create
+  student = Student.new(student_params)
 
-    if student.save
-      render json: student, status: :created
-    else
-      render json: { errors: student.errors }, status: :unprocessable_content
-    end
+  if student.save
+    render json: student, status: :created
+  else
+    render_validation_error(student, "Não foi possível cadastrar o aluno")
   end
+end
 
   def update
     student = Student.find(params[:id])
 
     if student.update(student_params)
-       render json: student
+      render json: student
     else
-      render json: { errors: student.errors }, status: :unprocessable_content
+      render_validation_error(student, "Não foi possível atualizar o aluno")
     end
   end
 
- def destroy
-    student = Student.find(id: params[:id])
+  def destroy
+    student = Student.find(params[:id])
 
     student.destroy
 
