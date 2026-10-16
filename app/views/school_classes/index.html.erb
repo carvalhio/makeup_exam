@@ -1,15 +1,24 @@
+
 <p style="color: green"><%= notice %></p>
 
 <% content_for :title, "Turmas" %>
+
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="mb-0" style="font-size: 22px;">Turmas</h1>
-    <div class="d-flex gap-2">
-      <%= link_to "Nova Turma", new_school_class_path, class: "btn btn-primary btn-sm" %>
-      <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#frequencyModal">
-        Lista de frequência
-      </button>
-    </div>
+  <h1 class="mb-0" style="font-size: 22px;">Turmas</h1>
+
+  <div class="d-flex gap-2">
+    <%= link_to "Nova Turma", new_school_class_path, class: "btn btn-primary btn-sm" %>
+
+    <button
+      type="button"
+      class="btn btn-primary btn-sm"
+      data-bs-toggle="modal"
+      data-bs-target="#frequencyModal">
+      Lista de frequência
+    </button>
   </div>
+</div>
+
 <div class="school-classes-wrapper mt-3">
   <div class="card shadow-sm">
     <div class="card-body p-0">
@@ -18,16 +27,17 @@
           <tr>
             <th class="col-turma">Turma</th>
             <th class="col-turno">Turno</th>
-            <th class="col-qtd align-middle">quantidade</th>
+            <th class="col-qtd align-middle">Quantidade</th>
           </tr>
         </thead>
+
         <tbody>
           <%
             grouped_classes = {
-            "Anos Iniciais" => ["1º", "2º", "3º", "4º", "5º"],
-            "Anos Finais"   => ["6º", "7º", "8º", "9º"],
-            "Ensino Médio" => ["1ª", "2ª", "3ª"]
-          }
+              "Anos Iniciais" => ["1º", "2º", "3º", "4º", "5º"],
+              "Anos Finais" => ["6º", "7º", "8º", "9º"],
+              "Ensino Médio" => ["1ª", "2ª", "3ª"]
+            }
           %>
 
           <% grouped_classes.each do |group_name, grades| %>
@@ -38,15 +48,31 @@
             </tr>
 
             <%
-              classes = @school_classes.select { |c| grades.include?(c.grade) }
-                         .sort_by { |c| [grades.index(c.grade), c.identifier.to_s] }
+              classes = @school_classes
+                .select { |school_class| grades.include?(school_class.grade) }
+                .sort_by do |school_class|
+                  [grades.index(school_class.grade), school_class.identifier.to_s]
+                end
             %>
 
             <% classes.each do |school_class| %>
-                <tr onclick="window.location='<%= school_class_path(school_class) %>'" style="cursor: pointer;">
-                <td class="col-turma"><%= "#{school_class.grade} #{school_class.identifier}" %></td>
-                <td class="col-turno"><%= school_class.shift %></td>
-                <td class="col-qtd"><span class="badge bg-light text-dark border align-middle"><%= school_class.students.count %></span></td>
+              <tr
+                onclick="window.location='<%= school_class_path(school_class) %>'"
+                style="cursor: pointer;">
+
+                <td class="col-turma">
+                  <%= "#{school_class.grade} #{school_class.identifier}" %>
+                </td>
+
+                <td class="col-turno">
+                  <%= school_class.shift %>
+                </td>
+
+                <td class="col-qtd">
+                  <span class="badge bg-light text-dark border align-middle">
+                    <%= school_class.students.count %>
+                  </span>
+                </td>
               </tr>
             <% end %>
           <% end %>
@@ -56,114 +82,184 @@
   </div>
 </div>
 
-<!-- =========================================
-     MODAL - LISTA DE FREQUÊNCIA
-========================================== -->
-<div class="modal fade" id="frequencyModal" tabindex="-1" aria-labelledby="frequencyModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered frequency-modal-dialog">
+<!-- ========================================================= -->
+<!-- MODAL - LISTA DE FREQUÊNCIA                               -->
+<!-- ========================================================= -->
+
+<div
+  class="modal fade"
+  id="frequencyModal"
+  tabindex="-1"
+  aria-labelledby="frequencyModalLabel"
+  aria-hidden="true">
+
+  <div class="modal-dialog modal-dialog-centered frequency-modal-dialog">
     <div class="modal-content">
+
       <%= form_with model: TestApplication.new,
-              url: test_applications_path,
-              method: :post,
-              local: true,
-              data: { turbo: false }, html: {target: "_blank"} do |form| %>
-              
+            url: test_applications_path,
+            method: :post,
+            local: true,
+            data: { turbo: false },
+            html: { target: "_blank" } do |form| %>
+
         <div class="modal-header">
-          <h5 class="modal-title" id="frequencyModalLabel">Lista de frequência</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          <h5 class="modal-title" id="frequencyModalLabel">
+            Lista de frequência
+          </h5>
+
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Fechar">
+          </button>
         </div>
 
         <div class="modal-body">
           <div class="row g-3">
+
+            <!-- TIPO DE PROVA -->
+
             <div class="col-md-4">
               <%= form.label :exam_type, "Tipo de prova", class: "form-label fw-bold" %>
+
               <%= form.select :exam_type,
-                  ["Parcial", "Global"],
-                  { prompt: "Selecione..." },
-                  class: "form-select",
-                  required: true %>
+                    ["Parcial", "Global"],
+                    { prompt: "Selecione..." },
+                    class: "form-select",
+                    required: true %>
             </div>
+
+            <!-- ETAPA -->
 
             <div class="col-md-4">
               <%= form.label :stage, "Etapa", class: "form-label fw-bold" %>
+
               <%= form.select :stage,
-                  ["1ª etapa", "2ª etapa", "3ª etapa", "4ª etapa"],
-                  { prompt: "Selecione..." },
-                  class: "form-select",
-                  required: true %>
+                    ["1ª etapa", "2ª etapa", "3ª etapa", "4ª etapa"],
+                    { prompt: "Selecione..." },
+                    class: "form-select",
+                    required: true %>
             </div>
+
+            <!-- DATA -->
 
             <div class="col-md-4">
               <%= form.label :application_date, "Data da aplicação", class: "form-label fw-bold" %>
+
               <%= form.date_field :application_date,
-                  class: "form-control",
-                  required: true %>
+                    class: "form-control",
+                    required: true %>
             </div>
+
+            <!-- COMPONENTE CURRICULAR -->
 
             <div class="col-md-12">
               <%= form.label :subject_name, "Componente curricular", class: "form-label fw-bold" %>
-              <%= form.text_field :subject_name, class: "form-control", placeholder: "Digite o componente curricular", required: true %>
+
+              <%= form.text_field :subject_name,
+                    class: "form-control",
+                    placeholder: "Digite o componente curricular",
+                    required: true %>
             </div>
+
+            <!-- FISCAL -->
 
             <div class="col-md-12">
               <%= form.label :invigilator, "Fiscal responsável", class: "form-label fw-bold" %>
-              <%= form.text_field :invigilator, class: "form-control", placeholder: "Digite o nome do fiscal" %>
+
+              <%= form.text_field :invigilator,
+                    class: "form-control",
+                    placeholder: "Digite o nome do fiscal" %>
             </div>
+
+            <!-- SELEÇÃO DE TURMAS -->
 
             <div class="col-md-12">
               <label class="form-label fw-bold">Turmas</label>
+
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="class_selection" id="allClasses" value="all" checked>
-                <label class="form-check-label" for="allClasses">Todas as turmas</label>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="class_selection"
+                  id="allClasses"
+                  value="all"
+                  checked>
+
+                <label class="form-check-label" for="allClasses">
+                  Todas as turmas
+                </label>
               </div>
+
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="class_selection" id="selectedClasses" value="selected">
-                <label class="form-check-label" for="selectedClasses">Selecionar turmas</label>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="class_selection"
+                  id="selectedClasses"
+                  value="selected">
+
+                <label class="form-check-label" for="selectedClasses">
+                  Selecionar turmas
+                </label>
               </div>
 
               <div id="classesSelection" class="mt-3 p-3 border rounded d-none">
+
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <strong>Selecionar turmas</strong>
+
                   <div>
-                    <button type="button" class="btn btn-outline-secondary btn-sm" id="selectAllClasses">Selecionar todas</button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm" id="clearAllClasses">Limpar seleção</button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary btn-sm"
+                      id="selectAllClasses">
+                      Selecionar todas
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary btn-sm"
+                      id="clearAllClasses">
+                      Limpar seleção
+                    </button>
                   </div>
                 </div>
 
                 <div class="border rounded p-2" style="max-height: 250px; overflow-y: auto;">
-                  <% 
-                 grouped_classes_modal = {
-                    "Anos Iniciais" => ["1º", "2º", "3º", "4º", "5º"],
-                    "Anos Finais" => ["6º", "7º", "8º", "9º"],
-                    "Ensino Médio" => ["1ª", "2ª", "3ª"]
-                  }
+                  <%
+                    grouped_classes_modal = {
+                      "Anos Iniciais" => ["1º", "2º", "3º", "4º", "5º"],
+                      "Anos Finais" => ["6º", "7º", "8º", "9º"],
+                      "Ensino Médio" => ["1ª", "2ª", "3ª"]
+                    }
                   %>
 
                   <% grouped_classes_modal.each do |group_name, grades| %>
-
                     <div class="mb-3">
 
                       <div
                         class="fw-bold text-uppercase small mb-1 regular-group-title"
                         data-group="<%= group_name.parameterize %>"
                         style="cursor: pointer;">
-
                         <%= group_name %>
-
                       </div>
-
 
                       <%
                         classes = @school_classes
-                          .select { |c| grades.include?(c.grade) }
-                          .sort_by { |c| [grades.index(c.grade), c.identifier.to_s] }
+                          .select { |school_class| grades.include?(school_class.grade) }
+                          .sort_by do |school_class|
+                            [
+                              grades.index(school_class.grade),
+                              school_class.identifier.to_s
+                            ]
+                          end
                       %>
 
-
                       <% classes.each do |school_class| %>
-
                         <div class="form-check">
-
                           <input
                             class="form-check-input class-checkbox"
                             type="checkbox"
@@ -175,47 +271,117 @@
                           <label
                             class="form-check-label"
                             for="class_<%= school_class.id %>">
-
                             <%= "#{school_class.grade} #{school_class.identifier} - #{school_class.shift}" %>
-
                           </label>
-
                         </div>
-
                       <% end %>
 
                     </div>
-
-                  <% end %>      
+                  <% end %>
                 </div>
               </div>
             </div>
-          </div>
-        
-        <div class="mb-3">
-              <div class="form-check">
 
-                <%= form.check_box :include_aee,
-                    class: "form-check-input" %>
+            <!-- INCLUIR ALUNOS AEE -->
+
+            <div class="col-md-12">
+              <div class="form-check">
+                <%= form.check_box :include_aee, class: "form-check-input" %>
 
                 <%= form.label :include_aee,
-                    "Incluir alunos AEE",
-                    class: "form-check-label fw-bold" %>
-
+                      "Incluir alunos AEE",
+                      class: "form-check-label fw-bold" %>
               </div>
 
               <small class="text-muted">
-                alunos que fazem testes adaptados
+                Alunos que fazem testes adaptados.
               </small>
+            </div>
 
-
+          </div>
         </div>
-        
+
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            data-bs-dismiss="modal">
+            Cancelar
+          </button>
+
           <%= form.submit "Gerar lista de frequência", class: "btn btn-primary btn-sm" %>
         </div>
+
       <% end %>
+
     </div>
   </div>
 </div>
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT - SELEÇÃO DE TURMAS                            -->
+<!-- ========================================================= -->
+
+<script>
+  function inicializarSelecaoTurmas() {
+    const allClasses = document.getElementById("allClasses");
+    const selectedClasses = document.getElementById("selectedClasses");
+    const classesSelection = document.getElementById("classesSelection");
+    const selectAllClasses = document.getElementById("selectAllClasses");
+    const clearAllClasses = document.getElementById("clearAllClasses");
+
+    if (!allClasses || !selectedClasses || !classesSelection) {
+      return;
+    }
+
+    // Evita registrar os mesmos eventos mais de uma vez.
+    if (allClasses.dataset.initialized === "true") {
+      return;
+    }
+
+    allClasses.dataset.initialized = "true";
+
+    function atualizarExibicaoTurmas() {
+      classesSelection.classList.toggle(
+        "d-none",
+        !selectedClasses.checked
+      );
+    }
+
+    allClasses.addEventListener("change", atualizarExibicaoTurmas);
+    selectedClasses.addEventListener("change", atualizarExibicaoTurmas);
+
+    if (selectAllClasses) {
+      selectAllClasses.addEventListener("click", function () {
+        classesSelection.querySelectorAll(".class-checkbox").forEach(function (checkbox) {
+          checkbox.checked = true;
+        });
+      });
+    }
+
+    if (clearAllClasses) {
+      clearAllClasses.addEventListener("click", function () {
+        classesSelection.querySelectorAll(".class-checkbox").forEach(function (checkbox) {
+          checkbox.checked = false;
+        });
+      });
+    }
+
+    classesSelection.querySelectorAll(".regular-group-title").forEach(function (groupTitle) {
+      groupTitle.addEventListener("click", function () {
+        const group = groupTitle.dataset.group;
+
+        classesSelection.querySelectorAll(".class-checkbox").forEach(function (checkbox) {
+          if (checkbox.dataset.group === group) {
+            checkbox.checked = true;
+          }
+        });
+      });
+    });
+
+    atualizarExibicaoTurmas();
+  }
+
+  document.addEventListener("DOMContentLoaded", inicializarSelecaoTurmas);
+  document.addEventListener("turbo:load", inicializarSelecaoTurmas);
+</script>
