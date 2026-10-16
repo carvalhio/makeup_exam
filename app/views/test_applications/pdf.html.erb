@@ -1,20 +1,25 @@
+
 <div class="frequency-pdf">
+
   <% @test_application.school_classes.each_with_index do |school_class, index| %>
+
     <div class="frequency-page">
-       
-       <!-- CABEÇALHO SEM LINHA -->
-      <div class="frequency-header" style="padding-bottom: 8px; margin-bottom: 10px; width: 100%; position: relative; text-align: center; border: none;">
-        
-        <div style="position: absolute; top: 0; right: 0;">
-          <img src="<%= wicked_pdf_asset_base64('logo.png') %>" style="width: 90px; height: auto;" />
-        </div>
 
-        <%
-          exam_type = @test_application.exam_type == "Global" ? "globais" : "parciais"
+      <%
+        exam_type = @test_application.exam_type == "Global" ? "globais" : "parciais"
 
-          grade = school_class.grade
-          ensino_medio = ["1ª", "2ª", "3ª"].include?(grade)
-        %>
+        grade = school_class.grade
+        ensino_medio = ["1ª", "2ª", "3ª"].include?(grade)
+      %>
+
+      <!-- CABEÇALHO -->
+
+      <div class="frequency-header">
+
+        <img
+          src="<%= wicked_pdf_asset_base64('logo.png') %>"
+          class="frequency-logo"
+        />
 
         <h1 class="turma-titulo">
           Lista de frequência para testes <%= exam_type %> - <%= @test_application.stage %> -
@@ -24,129 +29,120 @@
           </strong>
         </h1>
 
-        <div style="font-size: 13px; line-height: 1.6; text-align: left; margin-top: 8px;">
-         <div>
+        <div class="frequency-info">
+
+          <div>
             <strong>Data:</strong>
             <%= @test_application.application_date.strftime("%d/%m/%Y") %>
           </div>
 
-          <div style="margin-top: 4px; white-space: nowrap;">
-            <strong>Componentes curriculares:</strong>
+          <div class="info-item">
+            <strong>Componente curricular:</strong>
             <%= @test_application.subject_name.presence || "________________________" %>
-
           </div>
 
-          <div style="margin-top: 4px; white-space: nowrap;">
+          <div class="fiscal-item">
             <strong>Fiscal responsável:</strong>
+
             <% if @test_application.invigilator.present? %>
-              <span style="margin-left: 4px;"><%= @test_application.invigilator %></span>
-              <span style="display: inline-block; border-bottom: 1px solid #000; width: 72%; margin-left: 8px; margin-bottom: -2px;"></span>
+
+              <span class="fiscal-name">
+                <%= @test_application.invigilator %>
+              </span>
+
+              <span class="fiscal-blank"></span>
+
             <% else %>
-              <span style="display: inline-block; border-bottom: 1px solid #000; width: 75%; margin-left: 8px; margin-bottom: -2px;"></span>
+
+              <span class="fiscal-blank fiscal-blank--empty"></span>
+
             <% end %>
           </div>
+
         </div>
+
       </div>
 
-      <table class="frequency-table" style="table-layout: fixed; width: 100%; border-collapse: collapse;">
+      <!-- TABELA DE ALUNOS -->
+
+      <table class="frequency-table">
+
         <colgroup>
-          <col style="width: 26px;">
-          <col>
-          <col style="width: 40%;">
+          <col class="number-column">
+          <col class="student-column">
+          <col class="signature-column">
         </colgroup>
+
         <thead>
-          <tr style="height: 30px;">
-            <th style="width: 26px; text-align: center; padding: 2px 1px !important; line-height: 1.15 !important; font-size: 13px;">Nº</th>
-            <th style="text-align: center; padding: 2px 5px !important; line-height: 1.15 !important; font-size: 13px;">Aluno(a)</th>
-            <th style="width: 40%; text-align: center; padding: 2px 1px !important; line-height: 1.15 !important; font-size: 13px;">Assinatura</th>
+          <tr>
+            <th class="number-column">Nº</th>
+            <th class="student-column">Aluno(a)</th>
+            <th class="signature-column">Assinatura</th>
           </tr>
         </thead>
+
         <tbody>
-        <%
-        students = if @test_application.include_aee
-          school_class.students
-        else
-          school_class.students.where(aee: false)
-        end
-        %>
 
-  <% students.order(:name).each_with_index do |student, student_index| %>
-    <tr style="height: 17px;">
-      <td style="text-align: center; padding: 0 1px; font-size: 11px; line-height: 1;">
-        <%= student_index + 1 %>
-      </td>
+          <%
+            students = if @test_application.include_aee
+              school_class.students
+            else
+              school_class.students.where(aee: false)
+            end
+          %>
 
-      <td style="padding: 0 5px; font-size: 11px; line-height: 1;">
-        <%= student.name %>
-      </td>
+          <% students.order(:name).each_with_index do |student, student_index| %>
 
-      <td style="padding: 0 1px; font-size: 11px; line-height: 1;">
-      </td>
-    </tr>
-  <% end %>
-    </tbody>
-  </table>
+            <tr>
+              <td class="number-column">
+                <%= student_index + 1 %>
+              </td>
 
-  <div style="height: 24px;"></div>
+              <td class="student-column">
+                <%= student.name %>
+              </td>
 
-  <div style="margin-top: 4px;
-                  page-break-inside: avoid;">
+              <td class="signature-column"></td>
+            </tr>
 
-        <table style="width: 100%;
-                      border-collapse: collapse;">
+          <% end %>
 
-        
+        </tbody>
 
-          <!-- OBSERVAÇÕES -->
+      </table>
 
-          <tr>
+      <!-- OBSERVAÇÕES / CONSIDERAÇÕES -->
 
-            <th style="border: 1px solid #000;
-                       text-align: left;
-                       font-size: 10px;
-                       padding: 3px;">
+      <div class="frequency-spacer"></div>
 
-              OBSERVAÇÕES / CONSIDERAÇÕES
+      <div class="observations-wrapper">
 
-            </th>
+        <table class="observations-table">
 
-          </tr>
+          <thead>
+            <tr>
+              <th>OBSERVAÇÕES / CONSIDERAÇÕES</th>
+            </tr>
+          </thead>
 
-          <tr>
-
-            <td style="border: 1px solid #000;
-                       height: 25px;">
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td style="border: 1px solid #000;
-                       height: 25px;">
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td style="border: 1px solid #000;
-                       height: 25px;">
-            </td>
-
-          </tr>
+          <tbody>
+            <% 3.times do %>
+              <tr>
+                <td></td>
+              </tr>
+            <% end %>
+          </tbody>
 
         </table>
 
       </div>
-</div>
-</div>
 
     </div>
-    
+
     <% unless index == @test_application.school_classes.length - 1 %>
-      <div style="page-break-after: always;"></div>
+      <div class="frequency-page-break"></div>
     <% end %>
 
   <% end %>
+
 </div>

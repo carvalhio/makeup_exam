@@ -1,13 +1,18 @@
+
 @page {
   size: A4 portrait;
   margin: 8mm 10mm 8mm 10mm;
 }
 
-.frequency-pdf { 
-  background: #fff !important; 
+/* =========================================
+   CONFIGURAÇÃO GERAL
+========================================= */
+
+.frequency-pdf {
+  background: #fff !important;
   width: 100%;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
+  font-family: Calibri, sans-serif;
+  font-size: 20px;
   line-height: 1;
 }
 
@@ -16,152 +21,185 @@
   box-sizing: border-box;
 }
 
-/* CABEÇALHO */
+/* =========================================
+   CABEÇALHO
+========================================= */
+
 .frequency-header {
-  margin-bottom: 4px;
-}
-.frequency-header h1 {
-  font-size: 12px; /* mantido */
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+  position: relative;
   text-align: center;
-  margin: 0 0 4px 0;
+  border: none;
 }
-.frequency-info {
-  font-size: 18px !important; /* era 9px -> dobro */
-  line-height: 1.2;
-  margin-bottom: 1px;
+
+.frequency-logo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 90px;
+  height: auto;
 }
-.fiscal-line {
-  margin-bottom: 6px;
-  font-size: 18px !important; /* era 9px -> dobro */
+
+.turma-titulo {
+  font-family: Calibri, sans-serif;
+  font-size: 17px;
+  font-weight: normal;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.1;
+  margin: 0 0 10px 0;
+  padding: 5px 8px;
+}
+
+.turma-titulo strong {
+  font-size: inherit;
+  font-weight: bold;
 }
 
 .serie-s {
   text-transform: none;
 }
 
-/* TABELA - AQUI ESTÁ O SEGREDO DOS 45 */
-.frequency-table { 
-  width: 100%; 
-  border-collapse: collapse; 
+/* DATA, COMPONENTE CURRICULAR E FISCAL */
+
+.frequency-info {
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: left;
+  margin-top: 4px;
+}
+
+.frequency-info .info-item {
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.frequency-info .fiscal-item {
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.fiscal-name {
+  margin-left: 4px;
+}
+
+.fiscal-blank {
+  display: inline-block;
+  border-bottom: 1px solid #000;
+  width: 72%;
+  margin-left: 8px;
+  margin-bottom: -2px;
+}
+
+.fiscal-blank--empty {
+  width: 75%;
+}
+
+/* =========================================
+   TABELA DE ALUNOS
+========================================= */
+
+.frequency-table {
+  width: 100%;
+  border-collapse: collapse;
   table-layout: fixed;
   margin-top: 4px;
 }
 
-.frequency-table td { 
-  border: 1px solid #000;
-  padding: 0 5px !important;
-  line-height: 1.2 !important;
-  height: 22.55px !important;
-  font-size: 16.45px !important;
-}
-.frequency-table th { 
-  background: #fff !important; 
-  border: 1px solid #000 !important;
+/* LARGURA DAS COLUNAS */
+
+.frequency-table .number-column {
+  width: 26px;
   text-align: center;
-  font-size: 14.92px !important;
-  padding: 4.1px 0 !important;
 }
 
-.frequency-table tbody tr:nth-child(even) { 
-  background: #d2e5fd !important; 
+.frequency-table .student-column {
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.frequency-table .signature-column {
+  width: 50%;
+  text-align: center;
+}
+
+/* CABEÇALHO DA TABELA */
+
+.frequency-table thead th {
+  background: #fff !important;
+  border: 1px solid #000;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14.92px;
+  font-weight: bold;
+  padding: 2px 1px;
+  line-height: 1.15;
+  height: 30px;
+}
+
+/* LINHAS DOS ALUNOS */
+
+.frequency-table tbody td {
+  border: 1px solid #000;
+  padding: 0 5px;
+  line-height: 1.2;
+  height: 22.55px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.frequency-table tbody tr:nth-child(even) {
+  background: #d2e5fd !important;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 
-.turma-titulo {
-  font-size: 12px;
-  font-weight: normal;
-  text-transform: uppercase;
-  margin: 0 0 10px 0;
-  padding: 5px 8px;
+/* =========================================
+   ESPAÇO ENTRE A TABELA E AS OBSERVAÇÕES
+========================================= */
+
+.frequency-spacer {
+  height: 24px;
 }
 
-.turma-titulo strong {
-  font-size: 15px;
-  font-weight: bold;
+/* =========================================
+   OBSERVAÇÕES / CONSIDERAÇÕES
+========================================= */
+
+.observations-wrapper {
+  margin-top: 4px;
+  page-break-inside: avoid;
 }
 
-/* Colunas */
-.number-column {
-  width: 4%;
-  text-align: center;
-  padding: 0 !important;
-}
-.frequency-table th:nth-child(2),
-.frequency-table td:nth-child(2) {
-  width: 41%;
-  white-space: nowrap;
-  overflow: hidden;
-}
-.signature-column {
-  width: 55%;
-  padding: 0 !important;
-}
-
-/* OBSERVAÇÕES - AUMENTADO 1x */
-.frequency-observations {
-  margin-top: 6px;
-  font-size: 20px !important; /* era 10px -> dobro */
-}
 .observations-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 4px;
   table-layout: fixed;
 }
+
 .observations-table th {
   border: 1px solid #000;
-  text-align: center;
-  font-size: 20px !important; /* era 10px -> dobro */
-  padding: 2px 4px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px;
+  background: #fff !important;
 }
+
 .observations-table td {
   border: 1px solid #000;
+  height: 25px;
   padding: 0;
-}
-.fiscal-space { height: 14px; }
-.observations-space { height: 12px; }
-
-/* RODAPÉ */
-.frequency-footer {
-  margin-top: 4px;
-  text-align: center;
-  font-size: 12px;
+  background: #fff !important;
 }
 
-/* IGUAL A TABELA DE ALUNOS */
-.fiscal-title {
-  border: 1px dashed #0a0a0a !important;
-  padding: 0 5px !important;
-  text-align: center !important;
-  font-size: 14.92px !important; /* igual ao th dos alunos */
-  color: #777 !important;
-  background: #fff !important;
-  font-style: italic !important;
-  text-transform: uppercase !important;
-  height: 22.55px !important; /* mesma altura da linha de aluno */
-  line-height: 1.2 !important;
-}
-.fiscal-space {
-  border-left: 1px dashed #bbb !important;
-  border-right: 1px dashed #bbb !important;
-  border-top: 1px dashed #bbb !important;
-  border-bottom: 1px solid #000 !important;
-  height: 22.55px !important; /* igual ao td dos alunos */
-  background: #fff !important;
-}
-.obs-title {
-  text-align: left !important;
-  font-size: 14.92px !important; /* igual ao th dos alunos */
-  background: #fff !important;
-  border: 1px solid #000 !important;
-  padding: 0 5px !important;
-  height: 22.55px !important;
-  line-height: 1.2 !important;
-}
-.obs-space {
-  border: 1px solid #000 !important;
-  height: 22.55px !important; /* igual ao td dos alunos */
-  background: #fff !important;
-  font-size: 16.45px !important;
+/* =========================================
+   QUEBRA DE PÁGINA
+========================================= */
+
+.frequency-page-break {
+  page-break-after: always;
 }

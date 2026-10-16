@@ -2,9 +2,9 @@
 
 <style>
   .school-class-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+}
 
   .school-class-wrapper .table {
     font-size: 13px;
@@ -60,11 +60,8 @@
 
   <!-- TABELA DE ALUNOS -->
   <div class="card shadow-sm">
-
     <div class="card-body p-0">
-
       <table class="table table-hover table-sm align-middle mb-0 small">
-
         <thead class="table-dark">
           <tr>
             <th style="width: 20px;" class="text-center">
@@ -415,8 +412,8 @@
   aria-hidden="true"
 >
 
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-
+  <div class="modal-dialog modal-dialog-centered frequency-modal-dialog">
+    
     <div class="modal-content">
 
       <div class="modal-header">
@@ -452,7 +449,7 @@
 
             <strong>Turma:</strong>
 
-            <%= @school_class.grade %><span style="text-decoration: underline; vertical-align: super; font-size: 0.75em;">o</span>
+            <%= @school_class.grade %>
             <%= @school_class.identifier %>
             -
             <%= @school_class.shift %>
@@ -473,7 +470,7 @@
             <%= form.select :exam_type,
                 ["Parcial", "Global"],
                 { prompt: "Selecione..." },
-                class: "form-select",
+                class: "form-select form-select-sm",
                 required: true %>
 
           </div>
@@ -490,7 +487,7 @@
             <%= form.select :stage,
                 ["1ª etapa", "2ª etapa", "3ª etapa", "4ª etapa"],
                 { prompt: "Selecione..." },
-                class: "form-select",
+                class: "form-select form-select-sm",
                 required: true %>
 
           </div>
@@ -505,7 +502,7 @@
                 class: "form-label fw-bold" %>
 
             <%= form.date_field :application_date,
-                class: "form-control",
+                class: "form-control form-control-sm",
                 required: true %>
 
           </div>

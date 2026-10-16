@@ -1,0 +1,21 @@
+
+/* =========================================
+   MODAL DE GERAR FREQUÊNCIA
+========================================= */
+
+#frequencyModal .modal-dialog {
+  width: calc(100% - 24px);
+  max-width: 500px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* CAMPOS DO FORMULÁRIO */
+
+#frequencyModal .form-label {
+  margin-bottom: 2px;
+}
+
+#frequencyModal .mb-3 {
+  margin-bottom: 0.75rem !important;
+}
