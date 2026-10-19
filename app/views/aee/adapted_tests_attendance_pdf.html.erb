@@ -44,20 +44,16 @@
 
       <!-- CABEÇALHO -->
 
-      <div class="frequency-header"
-           style="padding-bottom: 8px;
-                  margin-bottom: 10px;
-                  width: 100%;
-                  position: relative;
-                  text-align: center;
-                  border: none;">
+      <div class="frequency-header">
 
-        <div style="position: absolute; top: 0; right: 0;">
-          <img src="<%= wicked_pdf_asset_base64('logo.png') %>"
-               style="width: 90px; height: auto;" />
+        <div class="frequency-logo">
+          <img
+            src="<%= wicked_pdf_asset_base64('logo.png') %>"
+            style="width: 100%; height: auto;"
+          />
         </div>
 
-       <%
+        <%
           exam_type = @test_application.exam_type == "Global" ? "globais" : "parciais"
         %>
 
@@ -67,52 +63,32 @@
           <%= shift %>
         </h1>
 
-        </h1>
+        <div class="frequency-info">
 
-        <div style="font-size: 13px;
-                    line-height: 1.6;
-                    text-align: left;
-                    margin-top: 8px;">
-
-          <div>
+          <div class="info-item">
             <strong>Data:</strong>
             <%= @test_application.application_date.strftime("%d/%m/%Y") %>
           </div>
 
-          <div style="margin-top: 4px; white-space: nowrap;">
-
+          <div class="info-item">
             <strong>Componentes curriculares:</strong>
-
-            <%= @test_application.subject_name.presence ||
-                "________________________" %>
-            
+            <%= @test_application.subject_name.presence || "________________________" %>
           </div>
 
-          <div style="margin-top: 4px; white-space: nowrap;">
-
+          <div class="fiscal-item">
             <strong>Fiscal responsável:</strong>
 
             <% if @test_application.invigilator.present? %>
 
-              <span style="margin-left: 4px;">
+              <span class="fiscal-name">
                 <%= @test_application.invigilator %>
               </span>
 
-              <span style="display: inline-block;
-                           border-bottom: 1px solid #000;
-                           width: 72%;
-                           margin-left: 8px;
-                           margin-bottom: -2px;">
-              </span>
+              <span class="fiscal-blank"></span>
 
             <% else %>
 
-              <span style="display: inline-block;
-                           border-bottom: 1px solid #000;
-                           width: 75%;
-                           margin-left: 8px;
-                           margin-bottom: -2px;">
-              </span>
+              <span class="fiscal-blank fiscal-blank--empty"></span>
 
             <% end %>
 
@@ -122,76 +98,38 @@
 
       </div>
 
+      <!-- TABELA DE ALUNOS -->
 
-      <!-- TABELA ÚNICA DO NÍVEL / TURNO -->
-
-      <table class="frequency-table"
-             style="width: 100%;
-                    border-collapse: collapse;">
-
+     <table class="frequency-table">
         <colgroup>
           <col style="width: 60px;">
-          <col>
-          <col style="width: 45%;">
+          <col class="student-column">
+          <col class="signature-column">
         </colgroup>
 
         <thead>
-
-          <tr style="height: 30px;">
-
-            <th style="border: 1px solid #000;
-                       text-align: center;
-                       vertical-align: middle;
-                       font-size: 11px;">
-              Turma
-            </th>
-
-            <th style="border: 1px solid #000;
-                       text-align: center;
-                       vertical-align: middle;
-                       font-size: 11px;">
-              Aluno(a)
-            </th>
-
-            <th style="border: 1px solid #000;
-                       text-align: center;
-                       vertical-align: middle;
-                       font-size: 11px;">
-              Assinatura
-            </th>
-
+          <tr>
+            <th class="number-column">Turma</th>
+            <th class="student-column">Aluno(a)</th>
+            <th class="signature-column">Assinatura</th>
           </tr>
-
         </thead>
 
         <tbody>
 
           <% students.each do |school_class, student| %>
 
-            <tr style="height: 17px;">
+            <tr>
 
-              <td style="border: 1px solid #000;
-                         text-align: center;
-                         vertical-align: middle;
-                         font-size: 10px;">
-
+              <td style="width: 60px; white-space: nowrap; text-align: center;">
                 <%= "#{school_class.grade} #{school_class.identifier}" %>
-
               </td>
 
-              <td style="border: 1px solid #000;
-                         padding-left: 5px;
-                         vertical-align: middle;
-                         font-size: 10px;
-                         overflow-wrap: break-word;">
-
+              <td class="student-column">
                 <%= student.name %>
-
               </td>
 
-              <td style="border: 1px solid #000;
-                         vertical-align: middle;">
-              </td>
+              <td class="signature-column"></td>
 
             </tr>
 
@@ -201,67 +139,25 @@
 
       </table>
 
+      <!-- ESPAÇO ENTRE A TABELA E AS OBSERVAÇÕES -->
 
-      <!-- ESPAÇO ENTRE A TABELA E OS FISCAIS -->
+      <div class="frequency-spacer"></div>
 
-      <div style="height: 24px;"></div>
+      <!-- OBSERVAÇÕES / CONSIDERAÇÕES -->
 
+      <div class="observations-wrapper">
 
-      <!-- ESPAÇO DOS FISCAIS / OBSERVAÇÕES -->
-
-      <div style="margin-top: 4px;
-                  page-break-inside: avoid;">
-
-        <table style="width: 100%;
-                      border-collapse: collapse;">
-
-      
-          </tr>
+        <table class="observations-table">
 
           <tr>
-
-            <th style="border: 1px solid #000;
-                       text-align: left;
-                       font-size: 10px;
-                       padding: 3px;">
-
-              OBSERVAÇÕES / CONSIDERAÇÕES
-
-            </th>
-
+            <th>OBSERVAÇÕES / CONSIDERAÇÕES</th>
           </tr>
 
-          <tr>
-
-            <td style="border: 1px solid #000;
-                       height: 25px;">
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td style="border: 1px solid #000;
-                       height: 25px;">
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td style="border: 1px solid #000;
-                       height: 25px;">
-            </td>
-
-          </tr>
-
-          <tr>
-
-            <td style="border: 1px solid #000;
-                       height: 25px;">
-            </td>
-
-          </tr>
+          <% 4.times do %>
+            <tr>
+              <td></td>
+            </tr>
+          <% end %>
 
         </table>
 
@@ -269,11 +165,10 @@
 
     </div>
 
-
-    <!-- PRÓXIMA COMBINAÇÃO = NOVA PÁGINA -->
+    <!-- QUEBRA DE PÁGINA -->
 
     <% unless page_index == pages.length - 1 %>
-      <div style="page-break-after: always;"></div>
+      <div class="frequency-page-break"></div>
     <% end %>
 
   <% end %>

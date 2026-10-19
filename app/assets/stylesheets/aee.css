@@ -29,7 +29,7 @@
 
 .aee-table {
   width: 100%;
-  font-size: 13px;
+  font-size: 15px;
   margin-bottom: 10px;
   table-layout: auto; /* deixa o navegador calcular pelo conteúdo */
 }

@@ -79,17 +79,38 @@
 
       </ul>
 
-      <!-- SEARCH -->
-      <form class="d-flex align-items-center m-0" role="search">
-        <input class="form-control form-control-sm me-2"
-               type="search"
-               placeholder="Buscar"
-               aria-label="Search" />
+      <!-- SEARCH DE ALUNOS -->
+      <div class="d-flex align-items-center m-0 position-relative"
+        data-controller="student-search"
+        data-action="click@document->student-search#closeOnOutsideClick keydown@document->student-search#closeOnEscape">
 
-        <button class="btn btn-outline-success btn-sm" type="submit">
-          Buscar
-        </button>
-      </form>
+        <form class="d-flex align-items-center m-0"
+              role="search"
+              onsubmit="return false;">
+
+          <input class="form-control form-control-sm me-2"
+                type="search"
+                placeholder="Buscar aluno"
+                aria-label="Buscar aluno"
+                autocomplete="off"
+                data-student-search-target="input"
+                data-action="input->student-search#search" />
+
+          <button class="btn btn-outline-success btn-sm"
+                  type="button"
+                  data-action="click->student-search#search">
+            Pesquisa
+          </button>
+
+        </form>
+
+        <div class="list-group position-absolute w-100 shadow-sm"
+            style="top: 100%; right: 0; z-index: 1050; max-height: 300px; overflow-y: auto;"
+            data-student-search-target="results"
+            hidden>
+        </div>
+
+      </div>
 
     </div>
   </div>
