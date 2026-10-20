@@ -111,5 +111,68 @@
     </section>
 
   <% end %>
+  
+<% ensino_medio = @print_map.select do |item|
+  ["1ª", "2ª"].include?(item[:grade].to_s.strip)
+end %>
+
+<% if ensino_medio.any? %>
+  <section class="print-map-tests-grade">
+
+    <table class="print-map-tests-table">
+      <thead>
+        <tr class="grade-row">
+          <th colspan="4">LÍNGUA ESTRANGEIRA — ENSINO MÉDIO</th>
+        </tr>
+        <tr>
+          <th>Série</th>
+          <th>Turno</th>
+          <th>Inglês</th>
+          <th>Espanhol</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% ensino_medio.each do |item| %>
+          <tr>
+            <td rowspan="2"><%= item[:grade] %></td>
+            <td>Manhã</td>
+            <td class="quantity"><%= item[:regular_ing_morning] %></td>
+            <td class="quantity"><%= item[:regular_esp_morning] %></td>
+          </tr>
+          <tr>
+            <td>Tarde</td>
+            <td class="quantity"><%= item[:regular_ing_afternoon] %></td>
+            <td class="quantity"><%= item[:regular_esp_afternoon] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <table class="print-map-tests-table">
+      <thead>
+        <tr class="grade-row">
+          <th colspan="3">AEE — ENSINO MÉDIO</th>
+        </tr>
+        <tr>
+          <th>Série</th>
+          <th>Inglês</th>
+          <th>Espanhol</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% ensino_medio.each do |item| %>
+          <tr>
+            <td><%= item[:grade] %></td>
+            <td class="quantity"><%= item[:aee_ing] %></td>
+            <td class="quantity"><%= item[:aee_esp] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </section>
+<% end %>
 
 </div>
