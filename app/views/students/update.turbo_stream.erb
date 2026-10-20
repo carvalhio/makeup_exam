@@ -1,18 +1,48 @@
 <%= turbo_stream.replace "student_row_#{@student.id}" do %>
-  <tr id="student_row_<%= @student.id %>" data-bs-toggle="modal" data-bs-target="#editStudentModal<%= @student.id %>" style="cursor: pointer;">
-    <td class="text-center"><%= @student_index %></td>
+  <tr
+    id="student_row_<%= @student.id %>"
+    data-bs-toggle="modal"
+    data-bs-target="#editStudentModal<%= @student.id %>"
+    style="cursor: pointer;"
+  >
+    <td class="text-center">
+      <%= @student_index %>
+    </td>
+
     <td>
       <%= @student.name %>
-      <% if @student.aee %><span class="badge bg-warning text-dark ms-1" style="font-size: 9px;">AEE</span><% end %>
+
+      <% if @student.aee %>
+        <span
+          class="badge bg-warning text-dark ms-1"
+          style="font-size: 9px;"
+        >
+          AEE
+        </span>
+      <% end %>
+
+      <% if @student.foreign_language == "ing" %>
+        <span
+          class="badge bg-primary ms-1"
+          style="font-size: 9px;"
+        >
+          ING
+        </span>
+      <% elsif @student.foreign_language == "esp" %>
+        <span
+          class="badge bg-danger ms-1"
+          style="font-size: 9px;"
+        >
+          ESP
+        </span>
+      <% end %>
     </td>
   </tr>
 <% end %>
 
-<%= turbo_stream.append "toasts" do %>
-  <div class="toast align-items-center text-bg-success border-0 show mb-2" role="alert">
-    <div class="d-flex">
-      <div class="toast-body">Aluno atualizado com sucesso!</div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-    </div>
+<%= turbo_stream.append "flash-messages" do %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    Aluno atualizado com sucesso.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
   </div>
 <% end %>

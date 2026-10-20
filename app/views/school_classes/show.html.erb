@@ -2,9 +2,9 @@
 
 <style>
   .school-class-wrapper {
-  max-width: 800px;
-  margin: 0 auto;
-}
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
   .school-class-wrapper .table {
     font-size: 13px;
@@ -34,18 +34,20 @@
     <div class="d-flex gap-2">
 
       <!-- ADICIONAR ALUNO -->
-      <button type="button"
-              class="btn btn-primary btn-sm"
-              data-bs-toggle="modal"
-              data-bs-target="#addStudentModal">
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        data-bs-toggle="modal"
+        data-bs-target="#addStudentModal">
         Adicionar aluno
       </button>
 
       <!-- GERAR FREQUÊNCIA -->
-      <button type="button"
-              class="btn btn-success btn-sm"
-              data-bs-toggle="modal"
-              data-bs-target="#frequencyModal">
+      <button
+        type="button"
+        class="btn btn-success btn-sm"
+        data-bs-toggle="modal"
+        data-bs-target="#frequencyModal">
         Gerar Frequência
       </button>
 
@@ -61,16 +63,15 @@
   <!-- TABELA DE ALUNOS -->
   <div class="card shadow-sm">
     <div class="card-body p-0">
+
       <table class="table table-hover table-sm align-middle mb-0 small">
+
         <thead class="table-dark">
           <tr>
             <th style="width: 20px;" class="text-center">
               Nº
             </th>
-
-            <th>
-              Aluno
-            </th>
+            <th>Aluno</th>
           </tr>
         </thead>
 
@@ -93,7 +94,7 @@
 
                 <td>
                   <%= student.name %>
-
+            
                   <% if student.aee %>
                     <span
                       class="badge bg-warning text-dark ms-1"
@@ -102,6 +103,23 @@
                       AEE
                     </span>
                   <% end %>
+
+                  <% if student.foreign_language == "ing" %>
+                    <span
+                      class="badge bg-primary ms-1"
+                      style="font-size: 9px;"
+                    >
+                      ING
+                    </span>
+                  <% elsif student.foreign_language == "esp" %>
+                    <span
+                      class="badge bg-danger ms-1"
+                      style="font-size: 9px;"
+                    >
+                      ESP
+                    </span>
+                  <% end %>
+                  
                 </td>
 
               </tr>
@@ -111,10 +129,7 @@
           <% else %>
 
             <tr>
-              <td
-                colspan="2"
-                class="text-center text-muted py-4"
-              >
+              <td colspan="2" class="text-center text-muted py-4">
                 Nenhum aluno cadastrado.
               </td>
             </tr>
@@ -122,7 +137,6 @@
           <% end %>
 
         </tbody>
-
       </table>
 
     </div>
@@ -156,8 +170,7 @@
 
           <h5
             class="modal-title"
-            id="editStudentModalLabel<%= student.id %>"
-          >
+            id="editStudentModalLabel<%= student.id %>">
             Editar aluno
           </h5>
 
@@ -165,17 +178,17 @@
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
-            aria-label="Fechar"
-          ></button>
+            aria-label="Fechar">
+          </button>
 
         </div>
-
 
         <div class="modal-body">
 
           <!-- FORMULÁRIO DE EDIÇÃO -->
           <%= form_with model: student do |form| %>
 
+            <!-- NOME -->
             <div class="mb-3">
 
               <%= form.label :name,
@@ -187,7 +200,7 @@
 
             </div>
 
-
+            <!-- TURMA -->
             <div class="mb-3">
 
               <%= form.label :school_class_id,
@@ -207,7 +220,25 @@
 
             </div>
 
+            <!-- IDIOMA ESTRANGEIRO -->
+            <div class="mb-3">
 
+              <%= form.label :foreign_language,
+                  "Idioma estrangeiro",
+                  class: "form-label fw-bold" %>
+
+              <%= form.select :foreign_language,
+                  [
+                    ["Nenhum", ""],
+                    ["ING - Inglês", "ing"],
+                    ["ESP - Espanhol", "esp"]
+                  ],
+                  {},
+                  class: "form-select form-select-sm" %>
+
+            </div>
+
+            <!-- AEE -->
             <div class="form-check mb-3">
 
               <%= form.check_box :aee,
@@ -226,15 +257,13 @@
 
             </div>
 
-
             <!-- BOTÕES DO FORMULÁRIO DE EDIÇÃO -->
             <div class="d-flex justify-content-end gap-2">
 
               <button
                 type="button"
                 class="btn btn-secondary btn-sm"
-                data-bs-dismiss="modal"
-              >
+                data-bs-dismiss="modal">
                 Cancelar
               </button>
 
@@ -245,12 +274,7 @@
 
           <% end %>
 
-
-          <!-- ================================================= -->
-          <!-- EXCLUSÃO DO ALUNO                                -->
-          <!-- FORA DO FORM_WITH DE EDIÇÃO                      -->
-          <!-- ================================================= -->
-
+          <!-- EXCLUSÃO DO ALUNO -->
           <div class="mt-3 pt-3 border-top">
 
             <%= button_to "Excluir aluno",
@@ -299,8 +323,7 @@
 
         <h5
           class="modal-title"
-          id="addStudentModalLabel"
-        >
+          id="addStudentModalLabel">
           Adicionar aluno
         </h5>
 
@@ -308,11 +331,10 @@
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
-          aria-label="Fechar"
-        ></button>
+          aria-label="Fechar">
+        </button>
 
       </div>
-
 
       <div class="modal-body">
 
@@ -320,7 +342,7 @@
                       url: students_path,
                       method: :post do |form| %>
 
-
+          <!-- NOME -->
           <div class="mb-3">
 
             <%= form.label :name,
@@ -333,7 +355,7 @@
 
           </div>
 
-
+          <!-- TURMA -->
           <div class="mb-3">
 
             <%= form.label :school_class_id,
@@ -353,7 +375,25 @@
 
           </div>
 
+          <!-- IDIOMA ESTRANGEIRO -->
+          <div class="mb-3">
 
+            <%= form.label :foreign_language,
+                "Idioma estrangeiro",
+                class: "form-label fw-bold" %>
+
+            <%= form.select :foreign_language,
+                [
+                  ["Nenhum", ""],
+                  ["ING - Inglês", "ing"],
+                  ["ESP - Espanhol", "esp"]
+                ],
+                {},
+                class: "form-select form-select-sm" %>
+
+          </div>
+
+          <!-- AEE -->
           <div class="form-check mb-3">
 
             <%= form.check_box :aee,
@@ -372,14 +412,13 @@
 
           </div>
 
-
+          <!-- BOTÕES -->
           <div class="d-flex justify-content-end gap-2">
 
             <button
               type="button"
               class="btn btn-secondary btn-sm"
-              data-bs-dismiss="modal"
-            >
+              data-bs-dismiss="modal">
               Cancelar
             </button>
 
@@ -387,7 +426,6 @@
                 class: "btn btn-primary btn-sm" %>
 
           </div>
-
 
         <% end %>
 
@@ -413,15 +451,14 @@
 >
 
   <div class="modal-dialog modal-dialog-centered frequency-modal-dialog">
-    
+
     <div class="modal-content">
 
       <div class="modal-header">
 
         <h5
           class="modal-title"
-          id="frequencyModalLabel"
-        >
+          id="frequencyModalLabel">
           Gerar lista de frequência
         </h5>
 
@@ -429,11 +466,10 @@
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
-          aria-label="Fechar"
-        ></button>
+          aria-label="Fechar">
+        </button>
 
       </div>
-
 
       <div class="modal-body">
 
@@ -441,9 +477,8 @@
               url: test_applications_path,
               method: :post,
               local: true,
-              data: { turbo: false }, 
+              data: { turbo: false },
               html: { target: "_blank" } do |form| %>
-
 
           <div class="alert alert-info py-2 mb-3">
 
@@ -456,60 +491,54 @@
 
           </div>
 
-
           <div class="row g-3 mb-3">
 
-  <!-- TIPO DE PROVA -->
+            <!-- TIPO DE PROVA -->
+            <div class="col-md-4">
 
-          <div class="col-md-4">
+              <%= form.label :exam_type,
+                  "Tipo de prova",
+                  class: "form-label fw-bold" %>
 
-            <%= form.label :exam_type,
-                "Tipo de prova",
-                class: "form-label fw-bold" %>
+              <%= form.select :exam_type,
+                  ["Parcial", "Global"],
+                  { prompt: "Selecione..." },
+                  class: "form-select form-select-sm",
+                  required: true %>
 
-            <%= form.select :exam_type,
-                ["Parcial", "Global"],
-                { prompt: "Selecione..." },
-                class: "form-select form-select-sm",
-                required: true %>
+            </div>
 
-          </div>
+            <!-- ETAPA -->
+            <div class="col-md-4">
 
+              <%= form.label :stage,
+                  "Etapa",
+                  class: "form-label fw-bold" %>
 
-          <!-- ETAPA -->
+              <%= form.select :stage,
+                  ["1ª etapa", "2ª etapa", "3ª etapa", "4ª etapa"],
+                  { prompt: "Selecione..." },
+                  class: "form-select form-select-sm",
+                  required: true %>
 
-          <div class="col-md-4">
+            </div>
 
-            <%= form.label :stage,
-                "Etapa",
-                class: "form-label fw-bold" %>
+            <!-- DATA -->
+            <div class="col-md-4">
 
-            <%= form.select :stage,
-                ["1ª etapa", "2ª etapa", "3ª etapa", "4ª etapa"],
-                { prompt: "Selecione..." },
-                class: "form-select form-select-sm",
-                required: true %>
+              <%= form.label :application_date,
+                  "Data",
+                  class: "form-label fw-bold" %>
 
-          </div>
+              <%= form.date_field :application_date,
+                  class: "form-control form-control-sm",
+                  required: true %>
 
-
-          <!-- DATA -->
-
-          <div class="col-md-4">
-
-            <%= form.label :application_date,
-                "Data",
-                class: "form-label fw-bold" %>
-
-            <%= form.date_field :application_date,
-                class: "form-control form-control-sm",
-                required: true %>
+            </div>
 
           </div>
 
-        </div>
-
-
+          <!-- COMPONENTE CURRICULAR -->
           <div class="mb-3">
 
             <label class="form-label fw-bold">
@@ -522,7 +551,7 @@
 
           </div>
 
-
+          <!-- FISCAL RESPONSÁVEL -->
           <div class="mb-3">
 
             <label class="form-label fw-bold">
@@ -535,26 +564,39 @@
 
           </div>
 
-
+          <!-- IDIOMA PARA A FREQUÊNCIA -->
           <div class="mb-3">
 
-            <div class="form-check">
+            <%= form.label :foreign_language,
+                "Idioma estrangeiro",
+                class: "form-label fw-bold" %>
 
-              <%= form.check_box :include_aee,
-                  class: "form-check-input" %>
-
-              <%= form.label :include_aee,
-                  "Incluir alunos AEE",
-                  class: "form-check-label fw-bold" %>
-
-            </div>
-
-            <small class="text-muted">
-              Desmarque para gerar a frequência sem os alunos marcados como AEE.
-            </small>
+            <%= form.select :foreign_language,
+                [
+                  ["Nenhum", ""],
+                  ["ING - Inglês", "ing"],
+                  ["ESP - Espanhol", "esp"]
+                ],
+                {},
+                class: "form-select form-select-sm" %>
 
           </div>
 
+          <!-- INCLUIR AEE -->
+          <div class="form-check">
+
+            <%= form.check_box :include_aee,
+                class: "form-check-input" %>
+
+            <%= form.label :include_aee,
+                "Incluir alunos AEE",
+                class: "form-check-label fw-bold" %>
+
+          </div>
+
+          <small class="text-muted">
+            Desmarque para gerar a frequência sem os alunos marcados como AEE.
+          </small>
 
           <input
             type="hidden"
@@ -568,26 +610,22 @@
             value="selected"
           >
 
-
-          <div class="d-flex justify-content-end gap-2">
+          <div class="d-flex justify-content-end gap-2 mt-3">
 
             <button
               type="button"
               class="btn btn-secondary btn-sm"
-              data-bs-dismiss="modal"
-            >
+              data-bs-dismiss="modal">
               Cancelar
             </button>
 
             <button
               type="submit"
-              class="btn btn-success btn-sm"
-            >
+              class="btn btn-success btn-sm">
               Gerar lista de frequência
             </button>
 
           </div>
-
 
         <% end %>
 
@@ -607,22 +645,17 @@
 <div
   id="toasts"
   class="toast-container position-fixed top-0 end-0 p-3"
-  style="z-index: 9999;"
-></div>
+  style="z-index: 9999;">
+</div>
 
 
 <script>
-
-  // Fecha qualquer modal aberto quando o formulário tiver sucesso
-
+  // Fecha qualquer modal aberto quando o formulário tiver sucesso.
   document.addEventListener("turbo:submit-end", (event) => {
-
     if (event.detail.success) {
-
       const modalEl = document.querySelector(".modal.show");
 
       if (modalEl) {
-
         const modal =
           bootstrap.Modal.getInstance(modalEl) ||
           bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -630,21 +663,14 @@
         modal.hide();
 
         setTimeout(() => {
-
           document
             .querySelectorAll(".modal-backdrop")
             .forEach(el => el.remove());
 
           document.body.classList.remove("modal-open");
           document.body.style = "";
-
         }, 200);
-
       }
-
     }
-
   });
-
 </script>
-

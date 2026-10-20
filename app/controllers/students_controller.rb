@@ -132,7 +132,8 @@ end
     params.require(:student).permit(
       :name,
       :school_class_id,
-      :aee
+      :aee,
+      :foreign_language
     )
   end
 end
