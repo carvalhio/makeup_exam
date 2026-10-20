@@ -46,7 +46,7 @@ export default class extends Controller {
       students.forEach(student => {
         const link = document.createElement("a")
 
-        link.href = `/students/${student.id}`
+        link.href = `/school_classes/${student.school_class_id}`
         link.textContent = student.name
         link.className = "dropdown-item"
 
