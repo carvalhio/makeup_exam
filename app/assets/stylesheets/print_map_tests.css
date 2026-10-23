@@ -96,9 +96,9 @@
 
 .print-map-tests-table .summary-title-row th {
   padding: 4px 8px;
-  text-align: left;
+  text-align: center;
   font-weight: bold;
-  text-transform: uppercase;
+  text-transform: lowercase;
   background: #f2f2f2;
 
   border-top: 2px solid #808080;

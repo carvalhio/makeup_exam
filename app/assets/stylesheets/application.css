@@ -223,3 +223,39 @@ h2 {
 .school-classes-table .class-group {
   padding: 5px 8px;
 }
+
+/*footer */
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > main {
+  flex: 1;
+}
+
+.site-footer {
+  width: 100%;
+  text-align: center;
+  padding: 12px 0 20px;
+  margin-top: auto;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* logo CARVALHIO */
+
+.navbar-logo {
+  height: 34px;
+  width: auto;
+  display: block;
+}
