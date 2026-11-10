@@ -1,13 +1,14 @@
 class Api::V1::StudentsController < Api::V1::BaseController
-  def index
-  students = Student.all
+def index
+  students = Student.includes(:school_class)
 
   if params[:name].present?
     students = students.where("name LIKE ?", "%#{params[:name]}%")
   end
 
-  render json: students
+  render json: students.map { |student| StudentSerializer.new(student).as_json }
 end
+
 
  def show
     student = Student.find(params[:id])
